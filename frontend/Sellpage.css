@@ -1,0 +1,99 @@
+
+:root{
+    --text-color: rgb(20, 236, 92);
+    --link-color: rgb(203, 222, 32);
+    --backround-color:yellow;
+    background-image: url('global_studies_ba.jpg');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+}
+
+html, body{
+    margin:0;
+    padding: 0;
+    height: 100%;
+}
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+
+}
+
+
+h1{
+    color: rgb(179, 179, 46);
+    font-style: var(--text-color);
+    font-family: 'Freeman', sans-serif;
+    font-size: 50px;
+}
+.items{
+    display: flex;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.option{
+    font-family: 'Freeman', sans-serif;
+    display: flex;
+    padding: 5px 10px;
+    width: 150px;
+    border-radius: 20%;
+    height: 150px;
+    border:2px solid var(--link-color);
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.23s ease, background-color 0.28s ease;
+
+
+}
+.items2{
+    display: flex;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+.option2{
+    font-family: 'Freeman', sans-serif;
+    display: flex;
+    padding: 5px 10px;
+    width: 150px;
+    border-radius: 20%;
+    height: 150px;
+    border:2px solid var(--link-color);
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.23s ease, background-color 0.28s ease;
+
+}
+
+.option:hover{
+    transform: scale(1.05);
+    background-color: rgba(121, 176, 38, 0.655);
+}
+.option2:hover{
+    transform: scale(1.05);
+    background-color:  rgba(121, 176, 38, 0.655);
+}
+.option i{
+    font-size: 24px;
+    margin-right: 8px;
+}
+.option2 i{
+    font-size: 24px;
+    margin-right: 8px;
+}
