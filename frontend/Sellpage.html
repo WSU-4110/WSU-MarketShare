@@ -12,26 +12,79 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta charset="utf-8" />
         <title>WSU Marketplace Sell page</title>
-        <div style = "text-align: center;">
-            <h1>Select an item to sell</h1>
-        </div>
-        
-        <div class = "items">
-            <div class = "option">
-            <i class="fa-solid fa-calculator" style="color: #000000;"></i>Calculators</div>
-            <div class = "option">
-            <i class="fa-solid fa-book" style="color: #000000;"></i>Textbooks</div>
-
-
-
-        </div>
-        <div class = "items2">
-            <div class = "option2">
-            <i class="fa-solid fa-tablet-screen-button" style="color: #000000;"></i>Tablet</div>
-            <div class = "option2">
-            <i class="fa-solid fa-laptop" style="color: #000000;"></i>Laptop</div>
-        </div>
        
     </head>
+    <body>
+        <div style = "text-align: center;">
+            <h1>Select an item to sell</h1>
+    
+        </div>
+            
+            <div class = "items">
+                <div class = "option">
+                <i class="fa-solid fa-calculator" style="color: #000000;"></i>Calculators</div>
+                <div class = "option">
+                <i class="fa-solid fa-book" style="color: #000000;"></i>Textbooks</div>
+    
+    
+    
+            </div>
+            <div class = "items2">
+                <div class = "option2">
+                <i class="fa-solid fa-tablet-screen-button" style="color: #000000;"></i>Tablet</div>
+                <div class = "option2">
+                <i class="fa-solid fa-laptop" style="color: #000000;"></i>Laptop</div>
+            </div>
+
+            <div id ="popup" class = "popup">
+                <div class = "popup-content">
+                    <span class = "closebutton">&times;</span>
+                    <h2>Enter details</h2>
+
+                    <label for = "Product images">images(up to 4):</label>
+                    <input type = "file" id="Product images" accept = "image/*" multiple max ="4">
+
+                    <label for = "productdetails">Product info: </label>
+                    <textarea id="productDetails" rows="4" placeholder="Enter product details..."></textarea>
+                    <button type="button" class="button">
+                        <span class="button__text">Add Item</span>
+                        <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
+                      </button>
+
+                    
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function()
+                {
+                    const popup = document.getElementById("popup");
+                    const closebutton = document.querySelector(".closebutton");
+                    const options = document.querySelectorAll(".option, .option2");
+
+
+                    options.forEach(option => {
+                        option.addEventListener("click", function(){
+                            popup.style.display = "flex";
+                        });
+                    });
+
+                    closebutton.addEventListener("click", function(){
+                        popup.style.display = "none";
+                    });
+                    
+
+                    window.addEventListener("click", function (e){
+                        if(e.target === popup){
+                            popup.style.display = "none";
+                        }
+                    });
+
+                });
+            </script>
+        
+
+       
+        </body>
 </html>
 
