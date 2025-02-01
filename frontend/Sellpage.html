@@ -42,8 +42,29 @@
                     <h2>Enter details</h2>
 
                     <label for = "Product images">images(up to 4):</label>
-                    <input type = "file" id="Product images" accept = "image/*" multiple max ="4">
+                    <div class = "image-boxes">
+                        <div class = "imgbx" onclick="uploadImg(0)">
+                            <i class = "fa-solid fa-plus"></i>
+                            <input type="file" accept="image/*" class="hidden-file-input" onchange ="previewImage(event, 0)">
 
+                        </div>
+                        <div class = "imgbx" onclick="uploadImg(1)">
+                            <i class = "fa-solid fa-plus"></i>
+                            <input type="file" accept="image/*" class = "hidden-file-input"onchange="previewImage(event, 1)">
+
+                        </div>
+                        <div class = "imgbx" onclick="uploadImg(2)">
+                            <i class = "fa-solid fa-plus"></i>
+                            <input type="file" accept="image/*" class = "hidden-file-input"onchange="previewImage(event, 2)">
+
+                        </div>
+                        <div class = "imgbx" onclick="uploadImg(3)">
+                            <i class = "fa-solid fa-plus"></i>
+                            <input type="file" accept="image/*" class = "hidden-file-input"onchange="previewImage(event, 3)">
+
+                        </div>
+
+                    </div>
                     <label for = "productdetails">Product info: </label>
                     <textarea id="productDetails" rows="4" placeholder="Enter product details..."></textarea>
                     <button type="button" class="button">
@@ -81,6 +102,27 @@
                     });
 
                 });
+
+
+            </script>
+            <script>
+                function uploadImg(index){
+                    document.querySelectorAll(".hidden-file-input")[index].click();
+
+                }
+
+                function previewImage(event, index){
+                    const file = event.target.files[0];
+                    if(file){
+                        const reader = new FileReader();
+                        reader.onload = function(e){
+                            const imgBox = document.querySelectorAll(".imgbx")[index];
+                            imgBox.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+                        };
+                        reader.readAsDataURL(file);
+                    };
+                }
+            
             </script>
         
 
