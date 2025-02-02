@@ -40,6 +40,7 @@
                 <div class = "popup-content">
                     <span class = "closebutton">&times;</span>
                     <h2>Enter details</h2>
+                    
 
                     <label for = "Product images">images(up to 4):</label>
                     <div class = "image-boxes">
@@ -65,12 +66,55 @@
                         </div>
 
                     </div>
-                    <label for = "productdetails">Product info: </label>
-                    <textarea id="productDetails" rows="4" placeholder="Enter product details..."></textarea>
+
+                    <div class ="info">
+                        <label for="name">Name:</label>
+                        <input placeholder="" id="username" name="username" type="text" />
+
+                    </div>
+                    <!-- From Uiverse.io by ozgeozkaraa01 --> 
+                    <label for="cond">Condition:</label>
+                     <div class="container">
+                        <div class="custom-radio">
+                            <input type="radio" id="radio-1" name="tabs" checked="">
+                            <label class="radio-label" for="radio-1">
+                                <div class="radio-circle"></div>
+                                <span class="radio-text">Excellent(No signs of use)</span>
+                            </label>
+                            <input type="radio" id="radio-2" name="tabs">
+                            <label class="radio-label" for="radio-2">
+                                <div class="radio-circle"></div>
+                                <span class="radio-text">Good(Minor signs of use)</span>
+                            </label>
+                            <input type="radio" id="radio-3" name="tabs">
+                            <label class="radio-label" for="radio-3">
+                                <div class="radio-circle"></div>
+                                <span class="radio-text">Fair(Major signs of use )</span>
+                            </label>
+                        </div>
+                    </div>
+  
+  
+
+
+  
+
+
+                    <div class = "info2">
+                        <label for="productPrice">Price ($):</label>
+                        <input type="number" id="productPrice" placeholder="Enter price..." min="0" step="0.01">
+
+                    </div>
+
+                    <div class = "info3">
+                        <label for = "productdetails">Description: </label>
+                        <textarea id="productDetails" rows="4" placeholder="Enter product details..."></textarea>
+                    </div>
+
                     <button type="button" class="button">
                         <span class="button__text">Add Item</span>
                         <span class="button__icon"><svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="0 0 24 24" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" stroke="currentColor" height="24" fill="none" class="svg"><line y2="19" y1="5" x2="12" x1="12"></line><line y2="12" y1="12" x2="19" x1="5"></line></svg></span>
-                      </button>
+                    </button>
 
                     
                 </div>

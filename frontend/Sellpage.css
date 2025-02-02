@@ -78,6 +78,39 @@ h1{
     transition: transform 0.23s ease, background-color 0.28s ease;
 
 }
+.info{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+
+.info2{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+.info3{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+.info3,
+textarea{
+  resize: none;
+  width: 300px;
+
+}
+
 
 .option:hover{
     transform: scale(1.05);
@@ -113,33 +146,43 @@ h1{
 
 }
 .popup-content{
-    background: gold;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
+  position: relative;
+    background: white;
+    padding: 12px;
+    border-radius: 30px;
+    width: 380px;
+    max-height: 250;
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
 
 
 
 }
 .popup-content input,
 .popup-content textarea{
-    width: 90%;
-    padding: 8px;
+    width: 85%;
+    height: 30px;
+    padding: 5px;
     border: 1px solid rgb(43, 38, 16);
     border-radius: 5px;
 
 
 }
+.popup-content textarea{
+  height: 50px;
+  resize: none;
+}
+.popup-content label{
+  font-size: 14px;
+}
 
 .closebutton{
     color:#000000;
     position: absolute;
-    right: 10px;
+    right: 40px;
     top: 10px;
     font-size: 24px;
     cursor: pointer;
@@ -343,7 +386,7 @@ h1{
   .submenu .submenu-link:hover {
     color: #ffffff;
   }
-/**
+
 .image-upload-container{
     display: flex;
     gap: 10px;
@@ -351,7 +394,7 @@ h1{
     flex-wrap: wrap;
 
 }
-**/
+
 .image-boxes{
     display: grid;
     grid-template-columns:repeat(2,1fr);
@@ -361,8 +404,8 @@ h1{
 }
 
 .imgbx{
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     border: 2px dashed #ccc;
     display: flex;
     align-items: center;
@@ -395,4 +438,64 @@ h1{
 }
 .hidden-file-input{
     display: none;
+}
+
+
+
+
+/* From Uiverse.io by ozgeozkaraa01 */ 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+}
+
+.custom-radio {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.custom-radio input[type="radio"] {
+  display: none;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000000;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.radio-text {
+  font-size: 1rem;
+  color: #333;
+  transition: color 0.3s ease-in-out;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-label {
+  background-color: #16c528ae;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-label .radio-circle {
+  border-color: #fff;
+  background-color: #000000;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-label .radio-text {
+  color: #64748b;
 }
