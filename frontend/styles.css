@@ -1,8 +1,4 @@
-
-
-
-
-.body {
+body {
     font-family: Arial, Helvetica, sans-serif;
     display: flex;
     background: url('testimagewayne.jpg') no-repeat center center/cover;
