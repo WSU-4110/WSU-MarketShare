@@ -19,13 +19,20 @@
 
   <body>
     <!-- From Uiverse.io by lenfear23 --> 
-     <button href = "Sellpage.html">Button</button>
-
-
+     <button id = "sell button">Button</button>
     <div class = "Container">
       <h1>Your current items: </h1>
       <div class = "items"></div>
     </div>
+
+
+    <script>
+
+      document.getElementById("sell button").addEventListener("click", function(){
+        window.location.href = "Sellpage.html";
+      });
+
+    </script>
  
   </body>
 </html>
