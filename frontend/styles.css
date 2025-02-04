@@ -1,0 +1,121 @@
+
+
+
+
+.body {
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    background: url('testimagewayne.jpg') no-repeat center center/cover;
+    justify-content: center;
+    align-items: center;
+
+    margin: 0;
+    height: 100vh;
+
+}
+
+.mainBox {
+    background: white;
+    padding: 40px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    width: 600px;
+    text-align: center;
+    border-radius: 15px;
+    
+}
+
+.text_in_bar{
+    display: flex;
+    align-items: left;
+    padding: 10px;
+    margin: 10px 0;
+    background: #f4f4f4;
+    border-radius: 5px;
+    margin-right: 10px;
+    width: 90%;
+
+ 
+
+}
+
+.text_in_bar input {
+
+    border: none;
+    outline: none;
+    background: transparent;
+    flex: 1;
+    padding: 8px;
+}
+
+.text_in_bar i {
+    margin-left: 10px;
+    color: #555;
+}
+
+.or {
+    margin: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+}
+
+button {
+   
+
+    background: green;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 25%;
+    margin-top: 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    
+}
+
+button:hover {
+    background-color: rgb(4, 84, 9);
+    
+}
+
+
+/* from UIverse website opensource code*/
+.checkbox-wrapper input[type="checkbox"] {
+    display: none;
+  }
+  
+  .checkbox-wrapper .terms-label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .checkbox-wrapper .terms-label .label-text {
+    margin-left: 10px;
+  }
+  
+  .checkbox-wrapper .checkbox-svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .checkbox-wrapper .checkbox-box {
+    fill: rgba(207, 205, 205, 0.425);
+    stroke: #077c14;
+    stroke-dasharray: 800;
+    stroke-dashoffset: 800;
+    transition: stroke-dashoffset 0.6s ease-in;
+  }
+  
+  .checkbox-wrapper .checkbox-tick {
+    stroke: #077c14;
+    stroke-dasharray: 172;
+    stroke-dashoffset: 172;
+    transition: stroke-dashoffset 0.6s ease-in;
+  }
+  
+  .checkbox-wrapper input[type="checkbox"]:checked + .terms-label .checkbox-box,
+    .checkbox-wrapper input[type="checkbox"]:checked + .terms-label .checkbox-tick {
+    stroke-dashoffset: 0;
+  }
+  
