@@ -1,0 +1,165 @@
+/** This is the css file where we have the css selector.
+the css selector determine how we select element that are 
+meant to be styled. W
+1)Reg: write elements name as selector and then have property and decalration
+2) Use class attribute. This can be applied to various elements
+3) Use id attribute. This can only be used by one element per html page 
+**/
+
+/** Spacing elements (below are shorthand properties, meaning you're going for left, right, all values rather than a specific value if you use shorthand property
+1) Padding: adds space within the element (
+2) Margin: adds space outside of the 
+3) Flex:
+**/
+
+/** We have four uses of the css selector navabr. It was specifically applied to the nav element. The other three uses target the nested elements within the nav element **/
+.navbar{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+
+}
+
+/** as you can see the nested elements may have the css slector as well, .navbar nestelement, whats nice is I don't have to type the class attrbute for these nested element as they're nested **/
+
+.navbar ul{ /** Example, applies the navbars declaration along with the navbar's declaration, targeting the ul elements**/
+    list-style-type: none;
+    background-color:rgb(13, 78, 13);
+    padding: 0px; /** space within the element **/
+    margin: 0px; /** space around or outside the element **/
+    overflow: hidden;
+   
+
+}
+
+.navbar a{
+    color: rgb(233, 231, 241);
+    text-decoration: none;
+    padding: 15px;
+    padding-top: 25px;
+    padding-bottom: 5%;
+    /**padding-left: 39px;**/
+    display: block;
+    text-align: center;
+    overflow: hidden
+}
+
+.navbar a:hover{
+    color: gold;
+}
+
+.navbar li{
+    float: left;
+}
+
+
+
+.navbar input{
+    position: absolute; /**by default the position is static, meaning top,etc properties cannot affect it so let's go with fixed**/
+    text-align: left;
+    width: 20%;
+    top: 16px;
+    left: 620px;
+    border-color: none;
+
+    
+}
+
+button{
+    position: absolute; /**by default the position is static, meaning top,etc properties cannot affect it so let's go with fixed**/
+    text-align: left;
+    width: 1%;
+    top: 16px;
+    left: 908px;
+    border-color: transparent;
+    cursor: pointer;
+    background-color: transparent;
+}
+
+
+
+#i1{
+    color: #ffffff;
+    position: relative;
+    top: 5px;
+    right: 440px;
+}
+
+#i2{
+    color: white;
+    position: relative;
+    top: 5px;
+    right: 387px;
+}
+
+#i3{
+    color: white;
+    position: relative;
+    top: 5px;
+    right: 320px;
+}
+
+#i4{
+    color: white;
+    position: relative;
+    top: 5px;
+    right: 262px;
+}
+
+#i5{
+    color: white;
+    position: relative;
+    top: 5px;
+    right: 210px;
+}
+
+#i6{
+    color: white;
+    position: relative;
+    top:5px;
+    right: 150px;
+}
+
+
+#warriors{
+    position: absolute; /** don't change this to relative otherwise icons on the left of the navbar change **/
+    top: 10px;
+    height: 46px;
+    width: 50px;
+    right: 4%;
+    left: 96%
+    
+}
+
+#text{
+    position: absolute;
+    color: white;
+    font-family: 'Times New Roman', Times, serif;
+    right: 40px;
+    width: 51%;
+    top: 3%;
+    background-color: transparent;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
+#WS{
+    Position: Absolute;
+    Color: gold;
+    right: 100px;
+    top: -4px;
+    
+}
+
+/** recognize the difference between relative and abosolute for position 
+
+1) Relative: 
+- A element can be moved via right, left, etc
+- If the element moves from its original position, 
+other elements still recognize the space even though
+there is no element there.
+- Will affect nearby elements if moved!!!!
+
+2) Absolute: <-- As of 2/1/2025 you should use abolsute 
+- A element can be moved via right, left, etc
+- does not apply to abolsute 
+- is free to move anywhere and will not affect nearby elements
+- Will position itself to the ancestor (relative, abolsute, etc)
+
