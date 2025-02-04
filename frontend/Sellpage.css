@@ -3,7 +3,7 @@
     --text-color: rgb(20, 236, 92);
     --link-color: rgb(203, 222, 32);
     --backround-color:yellow;
-    background-image: url('global_studies_ba.jpg');
+    background-image: url('papers.co-sm59-cool-pastel-blur-gradation-mint-green-40-wallpaper.jpg');
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
@@ -27,7 +27,7 @@ html{
 
 
 h1{
-    color: rgb(179, 179, 46);
+    color: rgba(184, 227, 11, 0.735);
     font-style: var(--text-color);
     font-family: 'Freeman', sans-serif;
     font-size: 50px;
@@ -114,11 +114,11 @@ textarea{
 
 .option:hover{
     transform: scale(1.05);
-    background-color: rgba(121, 176, 38, 0.655);
+    background-color: rgba(255, 215, 0, 0.655);
 }
 .option2:hover{
     transform: scale(1.05);
-    background-color:  rgba(121, 176, 38, 0.655);
+    background-color:  rgba(255, 215, 0, 0.655);
 }
 .option i{
     font-size: 24px;

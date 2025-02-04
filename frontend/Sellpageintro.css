@@ -1,3 +1,8 @@
+:root{
+  
+}
+
+
 body{
     font-family: "Freeman", sans-serif;
     margin: 0;
@@ -23,7 +28,7 @@ button {
     color: #606060;
     text-shadow: 0 1px #fff;
     position: absolute;
-    top: 20px;
+    top: 23px;
     right: 20px;
     
 
