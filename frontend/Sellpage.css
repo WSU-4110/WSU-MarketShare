@@ -1,7 +1,7 @@
 
 :root{
     --text-color: rgb(20, 236, 92);
-    --link-color: rgb(203, 222, 32);
+    --link-color: rgba(105, 156, 10, 0.735);
     --backround-color:yellow;
     background-image: url('DALL·E\ 2025-02-05\ 20.14.33\ -\ Aesthetic\ minty\ green\ background\ with\ a\ soft\ gradient\ and\ subtle\ abstract\ texture.\ The\ design\ should\ be\ modern\,\ clean\,\ and\ visually\ pleasing\,\ suitable.webp');
     background-size: cover;
@@ -27,7 +27,7 @@ html{
 
 
 h1{
-    color: rgba(184, 227, 11, 0.735);
+    color: rgba(105, 156, 10, 0.735);
     font-style: var(--text-color);
     font-family: 'Freeman', sans-serif;
     font-size: 50px;
@@ -114,11 +114,11 @@ textarea{
 
 .option:hover{
     transform: scale(1.05);
-    background-color: rgba(255, 215, 0, 0.655);
+    background-color: rgba(105, 156, 10, 0.735);
 }
 .option2:hover{
     transform: scale(1.05);
-    background-color:  rgba(255, 215, 0, 0.655);
+    background-color:  rgba(105, 156, 10, 0.735);
 }
 .option i{
     font-size: 24px;
@@ -498,4 +498,11 @@ textarea{
 
 .custom-radio input[type="radio"]:checked + .radio-label .radio-text {
   color: #64748b;
+}
+
+.home{
+  margin-top: -40px;
+  margin-left: 20px;
+  cursor: pointer;
+
 }

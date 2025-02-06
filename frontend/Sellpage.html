@@ -19,7 +19,18 @@
             <h1>Select an item to sell</h1>
     
         </div>
-            
+
+        <div class = "home">
+            <i class="fa-solid fa-house"></i>
+        </div>
+
+        <script>
+            document.getElementsByClassName("home")[0].addEventListener("click", function(){
+                window.location.href = "FrontPage.html";
+            });
+        </script>
+
+        
             <div class = "items">
                 <div class = "option">
                 <i class="fa-solid fa-calculator" style="color: #000000;"></i>Calculators</div>
@@ -93,12 +104,7 @@
                             </label>
                         </div>
                     </div>
-  
-  
-
-
-  
-
+    
 
                     <div class = "info2">
                         <label for="productPrice">Price ($):</label>
