@@ -1,5 +1,5 @@
 :root{
-  background: mediumseagreen;
+
   
 }
 
@@ -69,7 +69,7 @@ border-radius: 5px;
 }
 
 
-.listings h2{
+.listings h3{
 
   margin: 10px 0 5px;
 
@@ -80,6 +80,84 @@ border-radius: 5px;
   margin: 5px 0;
 }
 
+#itemContainer{
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 20px;
+}
 
+.item{
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
   
+.item-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+
+}
+
+.price{
+  font-size: 1.5rem;
+  color: #2ecc71;
+  font-weight: bold;
+
+
+}
+
+.condition{
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+
+}
+
+.description{
+  color: #7f8c8d;
+  margin-bottom: 1.5rem;
+}
+.image-gallery{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 10px;
+
+
+}
+.image-container img{
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+  left: 1000px;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+.item-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#sell_button {
+  margin: 20px;
+  padding: 10px 20px;
+}
+
   

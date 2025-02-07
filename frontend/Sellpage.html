@@ -220,15 +220,15 @@
         let details = document.getElementById("productDetails").value;
         let condition = document.querySelector('input[name="tabs"]:checked').nextElementSibling.innerText;
 
-        let image = [];
+        let images = [];
         document.querySelectorAll(".imgbx img").forEach((img) => {
           images.push(img.src);
         });
 
-        let item = { name, price, details, condition, images };
+        let item = { id: Date.now()+Math.random().toString().slice(2,8), name, price, details, condition, images };
 
-        let listing = JSON.parse(localStorage.getItem("listings")) || [];
-        listing.push(item);
+        let listings = JSON.parse(localStorage.getItem("listings")) || [];
+        listings.push(item);
         localStorage.setItem("listings", JSON.stringify(listings));
 
         window.location.href = "Sellpageintro.html";
