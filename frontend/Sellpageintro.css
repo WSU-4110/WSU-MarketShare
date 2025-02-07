@@ -1,4 +1,5 @@
 :root{
+  background: mediumseagreen;
   
 }
 
@@ -47,13 +48,38 @@ button {
   }
 
 
-  /**
-  .home1{
-    margin-top: -40px;
-    margin-left: 20px;
-    cursor: pointer;
-  
-  }
-    */
+
+.listings{
+  bottom: 1px solid white;
+  padding: 10px;
+  margin: 10px 0;
+  background:whitesmoke ;
+  border-radius: 10px;
+  text-align: center;
+}
+
+
+.listings img{
+width: 100px;
+height: 100px;
+object-fit: cover;
+border-radius: 5px;
+
+
+}
+
+
+.listings h2{
+
+  margin: 10px 0 5px;
+
+}
+
+
+.listings p{
+  margin: 5px 0;
+}
+
+
   
   

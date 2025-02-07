@@ -119,7 +119,7 @@
             <input type="radio" id="radio-3" name="tabs" />
             <label class="radio-label" for="radio-3">
               <div class="radio-circle"></div>
-              <span class="radio-text">Fair(Major signs of use )</span>
+              <span class="radio-text">Fair(Major signs of use)</span>
             </label>
           </div>
         </div>
@@ -218,19 +218,18 @@
         let name = document.getElementById("productname").value;
         let price = document.getElementById("productPrice").value;
         let details = document.getElementById("productDetails").value;
-        let condition = document.getElementById('input[name="tabs"]:checked')
-          .nextElementSibling.innerText;
+        let condition = document.querySelector('input[name="tabs"]:checked').nextElementSibling.innerText;
 
         let image = [];
-        document.querySelectorAll("imgbx img").forEach((img) => {
-          images, push(img.src);
+        document.querySelectorAll(".imgbx img").forEach((img) => {
+          images.push(img.src);
         });
 
         let item = { name, price, details, condition, images };
 
         let listing = JSON.parse(localStorage.getItem("listings")) || [];
         listing.push(item);
-        localStorage.setItem("listings", JSON, stringify(listings));
+        localStorage.setItem("listings", JSON.stringify(listings));
 
         window.location.href = "Sellpageintro.html";
       });

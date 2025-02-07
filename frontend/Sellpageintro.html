@@ -21,23 +21,48 @@
 </div>
 
 <script>
-    document.getElementsByClassName("home")[0].addEventListener("click", function(){
+    document.getElementsByClassName("home1")[0].addEventListener("click", function(){
         window.location.href = "FrontPage.html";
     });
 </script>
 
   <body>
     <!-- From Uiverse.io by lenfear23 --> 
-     <button id = "sell button">New</button>
+     <button id = "sell_button">New</button>
     <div class = "Container">
       <h1>Your current items: </h1>
       <div class = "items"></div>
     </div>
 
+    <!-- Deals with posting the product to this page--> 
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+        let listings = JSON.parse(localStorage.getItem("listings"))||[];
+        let itemcont = document.querySelector(".items");
 
+
+        if(listings.length === 0){
+          itemcont.innerHTML = "<p>No items</p>";
+        }
+        else{
+          let htmlContent = listings.map(item =>`
+            <div class = "listings"> ${item.images.length> 0 ?`<img src = "${item.images[0]}" alt = "Product Image">`:""}
+              <h2>${item.name}</h2>
+              <p><strong>Price:</strong> $${item.price}</p>
+              <p><strong>Condition:</strong> ${item.condition}</p>
+              <p><strong>Description:</strong> ${item.details}</p>
+            </div>
+          `).join("");
+          itemcont.innerHTML = htmlContent;
+
+        }
+      });
+    </script>
+
+    <!-- Basically a button which takes you to the sellpage --> 
     <script>
 
-      document.getElementById("sell button").addEventListener("click", function(){
+      document.getElementById("sell_button").addEventListener("click", function(){
         window.location.href = "Sellpage.html";
       });
 
