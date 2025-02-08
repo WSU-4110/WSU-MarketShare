@@ -57,26 +57,25 @@
             .map(
               (img) => `
           <div class="image-container">
-          <img src="${img}" alt="Product Image">
-          </div>
-      
-          `).join("");
+            <img src="${img}" alt="Product Image">
+          </div>` 
+          )
+          .join("");
           itemElement.innerHTML = `
         <div class="item-header">
           <h3>${item.name}</h3>
           <span class="price">$${item.price}</span>
-          <button class="delete-btn" data-id="${item.id}">
-            <i class="fa-solid fa-trash"></i> Delete
-          </button>
         </div>
+          <button class="delete-btn" data-id="${item.id}">
+            <i class="fa-solid fa-xmark"></i> 
+          </button>
+        
         <p class="condition">${item.condition}</p>
         <p class="description">${item.details}</p>
         <div class="image-gallery">${imagesHTML}</div>
         `;
 
             
-
-
           itemsContainer.appendChild(itemElement);
         });
         document.querySelectorAll('.delete-btn').forEach(button =>{
