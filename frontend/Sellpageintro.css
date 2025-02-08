@@ -1,14 +1,13 @@
-:root{
-
-  
-}
-
 
 body{
-    font-family: "Freeman", sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
+  background-image: url("istockphoto-1397028825-612x612.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  font-family: "Freeman", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
 }
 /* From Uiverse.io by lenfear23 */ 
 button {
@@ -158,6 +157,9 @@ border-radius: 5px;
 #sell_button {
   margin: 20px;
   padding: 10px 20px;
+}
+.home1{
+  cursor: pointer;
 }
 
   
