@@ -25,3 +25,13 @@ window.RecaptchaVerifier = new RecaptchaVerifier('sendCodeBtn', { 'size': 'invis
     console.log("reCAPTCHA resolved", response);
 }
 }, auth);
+
+//sends code to phone
+function sendVerificationCode(phoneNumber){
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+    .then((confirmationResults) => {
+        const code = promt('Enter the code sent to your phone number');
+        return confirmationResults.confirm(code);
+    })
+}
