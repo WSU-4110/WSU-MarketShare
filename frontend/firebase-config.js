@@ -6,7 +6,7 @@
 import { initializeApp } from "firebase/app";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDSVrwBNAsbsOfAGbF_4cwdj843YUQnQmM",
@@ -19,3 +19,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+window.RecaptchaVerifier = new RecaptchaVerifier('sendCodeBtn', { 'size': 'invisible', 'callback': (response) => {
+    console.log("reCAPTCHA resolved", response);
+}
+}, auth);
