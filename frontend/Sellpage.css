@@ -1,0 +1,508 @@
+
+:root{
+    --text-color: rgb(20, 236, 92);
+    --link-color: rgba(105, 156, 10, 0.735);
+    --backround-color:yellow;
+    background-image: url('DALL·E\ 2025-02-05\ 20.14.33\ -\ Aesthetic\ minty\ green\ background\ with\ a\ soft\ gradient\ and\ subtle\ abstract\ texture.\ The\ design\ should\ be\ modern\,\ clean\,\ and\ visually\ pleasing\,\ suitable.webp');
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+
+}
+
+html, body{
+    margin:0;
+    padding: 0;
+    height: 100%;
+}
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+
+}
+
+
+h1{
+    color: rgba(105, 156, 10, 0.735);
+    font-style: var(--text-color);
+    font-family: 'Freeman', sans-serif;
+    font-size: 50px;
+}
+.items{
+    display: flex;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+.option{
+    font-family: 'Freeman', sans-serif;
+    display: flex;
+    padding: 5px 10px;
+    width: 150px;
+    border-radius: 20%;
+    height: 150px;
+    border:2px solid var(--link-color);
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.23s ease, background-color 0.28s ease;
+
+
+}
+.items2{
+    display: flex;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+.option2{
+    font-family: 'Freeman', sans-serif;
+    display: flex;
+    padding: 5px 10px;
+    width: 150px;
+    border-radius: 20%;
+    height: 150px;
+    border:2px solid var(--link-color);
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+    transition: transform 0.23s ease, background-color 0.28s ease;
+
+}
+.info{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+
+
+.info2{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+.info3{
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+}
+.info3,
+textarea{
+  resize: none;
+  width: 300px;
+
+}
+
+
+.option:hover{
+    transform: scale(1.05);
+    background-color: rgba(105, 156, 10, 0.735);
+}
+.option2:hover{
+    transform: scale(1.05);
+    background-color:  rgba(105, 156, 10, 0.735);
+}
+.option i{
+    font-size: 24px;
+    margin-right: 8px;
+}
+.option2 i{
+    font-size: 24px;
+    margin-right: 8px;
+}
+
+.popup{
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.closebutton{
+    margin-top: 10px;
+
+}
+.popup-content{
+  position: relative;
+    background: white;
+    padding: 12px;
+    border-radius: 30px;
+    width: 380px;
+    max-height: 250;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+
+
+
+}
+.popup-content input,
+.popup-content textarea{
+    width: 85%;
+    height: 30px;
+    padding: 5px;
+    border: 1px solid rgb(43, 38, 16);
+    border-radius: 5px;
+
+
+}
+.popup-content textarea{
+  height: 50px;
+  resize: none;
+}
+.popup-content label{
+  font-size: 14px;
+}
+
+.closebutton{
+    color:#000000;
+    position: absolute;
+    right: 40px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* From Uiverse.io by andrew-demchenk0 */ 
+.button {
+    position: relative;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border: 1px solid #34974d;
+    background-color: #3aa856;
+  }
+  
+  .button, .button__icon, .button__text {
+    transition: all 0.3s;
+  }
+  
+  .button .button__text {
+    transform: translateX(30px);
+    color: #fff;
+    font-weight: 600;
+  }
+  
+  .button .button__icon {
+    position: absolute;
+    transform: translateX(109px);
+    height: 100%;
+    width: 39px;
+    background-color: #34974d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .button .svg {
+    width: 30px;
+    stroke: #fff;
+  }
+  
+  .button:hover {
+    background: #34974d;
+  }
+  
+  .button:hover .button__text {
+    color: transparent;
+  }
+  
+  .button:hover .button__icon {
+    width: 148px;
+    transform: translateX(0);
+  }
+  
+  .button:active .button__icon {
+    background-color: #2e8644;
+  }
+  
+  .button:active {
+    border: 1px solid #2e8644;
+  }
+
+  /* From Uiverse.io by gharsh11032000 */ 
+.menu {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #000000;
+    width: fit-content;
+    display: flex;
+    list-style: none;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  
+  .menu .link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 36px;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .menu .link::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #0a3cff;
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .menu .link svg {
+    width: 14px;
+    height: 14px;
+    fill: #000000;
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .menu .item {
+    position: relative;
+  }
+  
+  .menu .item .submenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 100%;
+    border-radius: 0 0 16px 16px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #cccccc;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-12px);
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+    z-index: 1;
+    pointer-events: none;
+    list-style: none;
+  }
+  
+  .menu .item:hover .submenu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+    border-top: transparent;
+    border-color: #0a3cff;
+  }
+  
+  .menu .item:hover .link {
+    color: #ffffff;
+    border-radius: 16px 16px 0 0;
+  }
+  
+  .menu .item:hover .link::after {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  
+  .menu .item:hover .link svg {
+    fill: #ffffff;
+    transform: rotate(-180deg);
+  }
+  
+  .submenu .submenu-item {
+    width: 100%;
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .submenu .submenu-link {
+    display: block;
+    padding: 12px 24px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+    transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .submenu .submenu-item:last-child .submenu-link {
+    border-bottom: none;
+  }
+  
+  .submenu .submenu-link::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: scaleX(0);
+    width: 100%;
+    height: 100%;
+    background-color: #0a3cff;
+    z-index: -1;
+    transform-origin: left;
+    transition: transform 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  
+  .submenu .submenu-link:hover:before {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  
+  .submenu .submenu-link:hover {
+    color: #ffffff;
+  }
+
+.image-upload-container{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.image-boxes{
+    display: grid;
+    grid-template-columns:repeat(2,1fr);
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.imgbx{
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 10px;
+
+   
+
+
+}
+
+.imgbx i{
+    font-size: 24px;
+    color:rgb(43, 38, 16);
+    z-index: 1;
+
+}
+.imgbx img{
+    width: 100%;
+    top: 0;
+    left: 0;
+    height:100%;
+    object-fit: cover;
+    position: absolute;
+    border-radius: 10px;
+
+}
+.hidden-file-input{
+    display: none;
+}
+
+
+
+
+/* From Uiverse.io by ozgeozkaraa01 */ 
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f2f2f2;
+}
+
+.custom-radio {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.custom-radio input[type="radio"] {
+  display: none;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.radio-circle {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #000000;
+  border-radius: 50%;
+  margin-right: 10px;
+  transition: border-color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.radio-text {
+  font-size: 1rem;
+  color: #333;
+  transition: color 0.3s ease-in-out;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-label {
+  background-color: #16c528ae;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-label .radio-circle {
+  border-color: #fff;
+  background-color: #000000;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-label .radio-text {
+  color: #64748b;
+}
+
+.home{
+  margin-top: -40px;
+  margin-left: 20px;
+  cursor: pointer;
+
+}
