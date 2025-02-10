@@ -34,4 +34,12 @@ function sendVerificationCode(phoneNumber){
         const code = promt('Enter the code sent to your phone number');
         return confirmationResults.confirm(code);
     })
+    .then((result) => {
+        alert("Account Verified Successfully!");
+        console.log("User Sign-In Successful", result.user);
+    })
+    .catch((error) => {
+        console.error("Error during 2-step verification", error);
+        alert("Error during 2-step verification: " + error.message);
+    });
 }
