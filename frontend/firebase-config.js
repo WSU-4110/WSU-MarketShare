@@ -21,7 +21,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-window.RecaptchaVerifier = new RecaptchaVerifier('sendCodeBtn', { 'size': 'invisible', 'callback': (response) => {
+window.recaptchaVerifier = new RecaptchaVerifier('sendCodeBtn', { 'size': 'invisible', 'callback': (response) => {
     console.log("reCAPTCHA resolved", response);
 }
 }, auth);
@@ -31,7 +31,7 @@ function sendVerificationCode(phoneNumber){
     const appVerifier = window.recaptchaVerifier;
     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
     .then((confirmationResults) => {
-        const code = promt('Enter the code sent to your phone number');
+        const code = prompt('Enter the code sent to your phone number');
         return confirmationResults.confirm(code);
     })
     .then((result) => {
