@@ -21,7 +21,7 @@
                 <p>How would you like to verify yourself?</p>
 
                 <div class="text_in_bar">
-                    <input type="tel" placeholder="Enter your phone number">
+                    <input type="tel" id="phoneNumber" placeholder="Enter your phone number">
                     <i class="fas fa-phone"></i>
                 </div>
 
@@ -53,7 +53,7 @@
 
 
 
-                <button>Send Code</button>
+                <button id="sendCodeBtn">Send Code</button>
 
 
                 
@@ -66,6 +66,18 @@
 
 
         </div>
+
+        <script>
+          document.getElementById("sendCodeBtn").addEventListener("click", function(){
+            const phoneNumber = document.getElementById("phoneNumber").value;
+            if (phoneNumber) {
+              sendVerificationCode(phoneNumber);
+            }
+            else{
+              alert("Enter a Phone number.");
+            }
+          });
+        </script>
 
 
 
