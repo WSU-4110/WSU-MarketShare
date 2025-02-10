@@ -3,34 +3,86 @@
 <html> <!--This tag is used for all HTML elements for your webpage-->
 <head>
     <script src="https://kit.fontawesome.com/5999306913.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>FrontPage</title>
     <link rel = "stylesheet" href = "Ribbon.css">
-    <style>
-    </style>
+    <link rel = "stylesheet" href = "ProductThumbnail.css">
+    <!--Imported bootstrap. A popular css library that has pre-created css properties and values that you can use. Essenitally makes applying css to elements easier-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src = "../backend/ProductGUI.js"></script>
+    
     
 </head><!--The head tag takes metadata tags that are related to the document. You can insert .css exteranl files-->
 
 <body>
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important;">
+        <div class="container-fluid">
+          <a herf = "#">
+          <button id = "MainButton"><img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></button>
+          </a>
+          <i class="fa-solid fa-user" id = "ProfileIcon"></i>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Profile</a>
+              </li>
+              <i class="fa-solid fa-bell"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Sell</a>
+              </li>
+              <i class="fa-solid fa-cart-shopping" id = "i4"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Cart</a>
+              </li>
+              <i class="fa-solid fa-gear" id = "i5"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+              </li>
+              <i class="fa-solid fa-envelope" id = "i3"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Messages</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" id = "RightButton" type="submit"><img src = "images/lightning.png" id = "lightningImage"></button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    
+     
+      
+      <h3 id = "NavText">Wayne State University</h3>
+     
+   
+    <button onclick = "CreateWindow()" class = "buttonDIV">
+        <div class = "divPT">
+           <img src="images/Ipad4.webp">
+           <hr>
+           <p class = "ProductName fw-semibold ">Ipad 10th gen 150gb black edition - $599.00</p>
+           <span class = "ProductUserPFP"></span>
+           <p class = "ProductAcessID">Access ID: TA1234</p>
+           <p class = "ProductUserName">Joe doe</p>
+           <div>
+            <span class="fa fa-star checked rating"></span>
+            <span class="fa fa-star checked rating"></span>
+            <span class="fa fa-star checked rating"></span>
+           </div>
+           
+        </div>
+    </button>
 
-    <nav class = "navbar ul"> <!--Navigation element (to create links on a pa)-->
-        <uL> <!--unordered list element-->
-            <li><a href = "">Home</li></a><i class="fa-solid fa-house" id = "i1"></i> <!--the items in a list are dot, the a tag is used for links, href is the attribute and the value is the link-->
-            <li><a href = "">Profile</li></a><i class="fa-solid fa-user" id = "i2"></i>
-            <li><a href = "">Messages</li></a><i class="fa-solid fa-envelope" id = "i3"></i>
-            <li><a href = "">Cart</li></a><i class="fa-solid fa-cart-shopping" id = "i4"></i>
-            <li><a href = "">Settings</li></a><i class="fa-solid fa-gear" id = "i5"></i>
-            <li><a href = "">Footer</li></a><i class="fa-solid fa-shoe-prints" id = "i6"></i>
-            <input type = "text" placeholder = "Search...">
-            <button type = "submit"><i class="fa-solid fa-magnifying-glass"></i></button>
-            <img src = "images/Warriors.png" id = "warriors">
-            <P id = "text">WSU-MarketShare</P>
-            <h1 id = "WS">WAYNE STATE UNIVERSITY</h1>
-        </uL>
-    </nav>
+   
+    
     
 
     
-    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
 </body>
 
 </html>

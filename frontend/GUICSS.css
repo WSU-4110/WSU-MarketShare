@@ -1,0 +1,96 @@
+
+/** button to close **/
+
+.closebutton{
+    position: relative;
+    border-radius: 50%; /** this property is what allows us to create the circle icon**/
+    border: 1px solid gold;
+    left: 550px;
+    top: 10px;
+    
+}
+.closebutton:hover{
+    color: gold;
+    background-color: gold;
+
+}
+
+/** x image to close **/
+
+.ximg{
+    position: inherit;
+    width:30px;
+    height:30px;
+}
+
+/** the gold lines on the GUI **/
+
+.goldline{
+    position: relative;
+    border: 2px solid gold;
+    opacity: 1;
+}
+
+/** The image blown up on the GUI **/
+.productimg{
+    position: relative;
+    width: 270px;
+    height: 270px;
+    right: -160px;
+}
+
+.spacing{
+    position: relative;
+    padding-left: 5px;
+   
+}
+/** search bar for the GUI to message user **/
+.searchbar{
+    position: relative;
+    top: -10px;
+    width: 300px;
+    border-radius: 25px;
+}
+
+/** The GUI icons for hit msg, cart, favorite etc */
+.GUIicons{
+    position: relative;
+    border: 5px solid black;
+    border-radius: 15px;
+    width: 10px;
+    height: 10px;
+
+}
+
+
+/** PFP icon, specifically the circle icon with the gold border **/
+
+.ProductUserPFP2{ /** this will be applied via the span element (similar to div but for single elements**/
+    position: inherit;
+    height: 40px;
+    width: 40px;
+    background-color: rgb(5, 145, 5);
+    display: inline-block;
+    border-radius: 50%; /** this property is what allows us to create the circle icon**/
+    border: 3.5px solid gold;
+    top: 5px;
+    left: 5px;
+
+
+
+}
+
+/** Users access ID and IRL name **/
+
+.ProductAcessID2{
+    position: inherit;
+    left: 50px;
+    top: 20px;
+    
+}
+
+.ProductUserName2{
+    position: inherit;
+    left: 52px;
+    top: 0px;
+}
