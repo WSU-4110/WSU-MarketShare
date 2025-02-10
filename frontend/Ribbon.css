@@ -1,0 +1,78 @@
+/**Make sure to understand how the css class selectors here 
+work with the child elements. Specifically, that child elements
+in the html document do not write class and the css class. Rfer to navabr and navabr i**/
+
+.navbar{
+    position: absolute;
+}
+
+.navbar a{
+    color: white !important;
+    text-decoration: none;
+    display: inline-block;
+    /** Margin adds space outside of it and and other elements**/
+    padding: 10px;
+    margin-right: 20px;
+
+}
+
+.navbar i{
+    position: relative;
+    bottom: -15px;
+}
+
+#ProfileIcon{
+    bottom: 0px;
+}
+
+.navbar a:hover{
+    color: gold !important;
+}
+
+.navbar button{
+    background-color: white !important;
+
+}
+
+.navbar i{
+    color: white;
+}
+
+#MainButton{
+    color: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    
+    
+}
+
+#NavText{
+    position: relative;
+    color: gold;
+    text-align: center;
+    width: 100%;
+    top: -50px;
+    left: 6px;
+}
+
+#RightButton{
+    width: 40px !important;
+    height: 40px !important;
+}
+
+#RightButton:hover{
+    background-color: gold !important;
+    color: gold;
+}
+
+#lightningImage{
+    position: absolute;
+    height: 40px;
+    width: 40px;
+    top: 10px;
+    left: 1485px;
+    color: green !important;
+    background-color: transparent;
+}
