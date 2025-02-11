@@ -1,3 +1,5 @@
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
     authDomain: "wayne-state-marketshare.firebaseapp.com",
@@ -41,7 +43,7 @@ function loginUser(){
 
 auth.onAuthStateChanged((user) => {
   if (user) {
-      console.log("User is logged in:", user.email);
+      console.log("User is logged in:", user.AccessID);
   } else {
       console.log("No user is logged in.");
   }
@@ -49,7 +51,7 @@ auth.onAuthStateChanged((user) => {
 
 function SaveUser(userID, AccessID){
   db.ref('users/' + userID).set({
-    email: email, 
+    AccessID: AccessID, 
     createdAt: new Date().toISOString()
   });
 }
