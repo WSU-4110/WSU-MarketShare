@@ -1,5 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
-
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
     authDomain: "wayne-state-marketshare.firebaseapp.com",
@@ -8,51 +10,60 @@ const firebaseConfig = {
     messagingSenderId: "11946478991",
     appId: "1:11946478991:web:a2382361767bb0a5e54ffa",
     measurementId: "G-FCRMC500EK"
-  };
+};
 
-const app = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = firebase.database();
-const auth = firebase.auth();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-function togglePasswordVisibility(){
-  const passwordField = document.getElementById("password");
-  const toggleButton = document.getElementById(".toggle-password");
+// Toggle password visibility function
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById("password");
+    const toggleButton = document.querySelector(".toggle-password");
 
-  if(passwordField.type == "password"){
-    passwordField.type = "text";
-    toggleButton.textContent = "Hide";
-  }else{
-    passwordField.type = "password";
-    toggleButton.textContent = "Show";
-  }
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleButton.textContent = "Hide";
+    } else {
+        passwordField.type = "password";
+        toggleButton.textContent = "Show";
+    }
 }
 
-function loginUser(){
-  const AccessID = document.getElementById("email").value;
-  const Password = document.getElementById("password").value;
-  auth.signInWithAccessIDandPassword(AccessID,Password)
-  .then((userCredential) => {
-    window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
-  })
-  .catch((error) => {
-    alert("Error, login not successful" + error.message);
-  })
+// Login function
+function loginUser() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            console.log("Login successful. Redirecting...");
+            window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
+        })
+        .catch((error) => {
+            console.error("Login failed:", error);
+            alert("Error: Login not successful. " + error.message);
+        });
 }
 
-
-auth.onAuthStateChanged((user) => {
-  if (user) {
-      console.log("User is logged in:", user.AccessID);
-  } else {
-      console.log("No user is logged in.");
-  }
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is logged in:", user.email);
+    } else {
+        console.log("No user is logged in.");
+    }
 });
 
-function SaveUser(userID, AccessID){
-  db.ref('users/' + userID).set({
-    AccessID: AccessID, 
-    createdAt: new Date().toISOString()
-  });
+
+function saveUser(userID, email) {
+    const db = firebase.database();
+    db.ref('users/' + userID).set({
+        email: email,
+        createdAt: new Date().toISOString()
+    });
 }
 
+// Attach functions to the global window object
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.loginUser = loginUser;
