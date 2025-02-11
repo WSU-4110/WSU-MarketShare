@@ -31,7 +31,7 @@ function loginUser(){
   const Password = document.getElementById("password").value;
   auth.signInWithAccessIDandPassword(AccessID,Password)
   .then((userCredential) => {
-    window.location.href = "FrontPage.html";
+    window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
   })
   .catch((error) => {
     alert("Error, login not successful" + error.message);
