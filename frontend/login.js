@@ -67,3 +67,4 @@ function saveUser(userID, email) {
 // Attach functions to the global window object
 window.togglePasswordVisibility = togglePasswordVisibility;
 window.loginUser = loginUser;
+window.saveUser = saveUser;
