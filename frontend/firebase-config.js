@@ -14,13 +14,7 @@ const firebaseConfig = {
     measurementId: "G-FCRMC500EK"
 };
 
-document.addEventListener("DOMContentLoaded", function(){
-    const sendCodeBtn = document.getElementById("sendCodeBtn");
-    const verificationBox = document.getElementById("VerificationBox");
-    sendCodeBtn.addEventListener("click", function() {
-        verificationBox.style.display = "flex";
-    });
-    });
+
 
 
 
