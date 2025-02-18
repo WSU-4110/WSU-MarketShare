@@ -14,11 +14,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "../backend/ProductGUI.js"></script>
 
+
+    
     <style>
-	a:hover{
-		text-decoration: none !important;
-	}
     /** The inline style sheet for the search filter **/
+    a:hover{
+        text-decoration: none !important;
+    }
+
         .product {
 			border: 3px solid darkgreen;
             border-radius: 25px;
@@ -192,9 +195,14 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
 <body>
     <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important;">
         <div class="container-fluid">
-          <a herf = "#">
+          <div class = "button-container">
+          <a herf = "FrontPage.html">
           <button id = "MainButton"><img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></button>
+          <div class = "hover-message">Home
+          <i class="fa-solid fa-house" id = "HomeIcon"></i>
+          </div>
           </a>
+          </div>
           <i class="fa-solid fa-user" id = "ProfileIcon"></i>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -206,7 +214,9 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
               </li>
               <i class="fa-solid fa-bell"></i>
               <li class="nav-item">
+
                 <a class="nav-link" href="Sellpageintro.html">Sell</a>
+
               </li>
               <i class="fa-solid fa-cart-shopping" id = "i4"></i>
               <li class="nav-item">
@@ -223,7 +233,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
             </ul>
             <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" id = "RightButton" type="submit"><img src = "images/lightning.png" id = "lightningImage"></button>
+              <button class="btn btn-outline-success" id = "RightButton" type="submit"><i class="fa-solid fa-magnifying-glass" id = "searchicon"></i></button>
             </form>
           </div>
         </div>
@@ -232,8 +242,8 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
      
       
       <h3 id = "NavText">Wayne State University</h3>
-     
-   
+      
+    <!-- Product cards and code for product GUI-->
     <button onclick = "CreateWindow()" class = "buttonDIV">
         <div class = "divPT">
            <img src="images/Ipad4.webp">
@@ -264,12 +274,15 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
    		<option value="Electronics">Electronics</option>
     		<option value="Clothing">Clothing</option>
 	</select>
+
 	<button onclick="applyFilter()">Filter</button>
+
 
     <!--footer-->
     <footer>
         <div class="footer-section">
-          <img src="images/Wayne_State_Warriors_primary_logo.svg.png" height="85" alt=""
+          <img src="images/Warriors.png
+          " height="85" alt=""
                loading="lazy" />
         <p >WSU MarketShare</p>
       </div>

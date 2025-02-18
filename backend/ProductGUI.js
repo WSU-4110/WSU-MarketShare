@@ -6,6 +6,16 @@ function addCSS(){
     link.href = "../frontend/GUICSS.css"; //href attribute 
     document.head.appendChild(link);
 
+    let FA = document.createElement("script");
+    FA.src = "https://kit.fontawesome.com/5999306913.js";
+    FA.crossOrigin = "anonymous";
+    document.head.appendChild(FA);
+
+
+
+
+
+
   
 
 
@@ -45,9 +55,11 @@ function CreateWindow(){
     
 
     "<button onclick = CloseWindow() class = closebutton><img src = ../frontend/images/x.png class = ximg></button>"+
+    "<script src=https://kit.fontawesome.com/5999306913.js crossorigin=anonymous></script>"+
     "<span class = ProductUserPFP2></span>"+
     "<p class = ProductAcessID2>Access ID: TA1234</p>"+
     "<p class = ProductUserName2>Joe doe</p>"+
+    "<i class=fa-solid fa-house></i>"+
     "<hr class = goldline>"+
     "<img class = productimg src = ../frontend/images/Ipad4.webp>"+
     "<hr class = goldline>"+

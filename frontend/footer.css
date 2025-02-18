@@ -3,7 +3,7 @@ footer {
   position: absolute;
   left: 0;
   width: 100%;
-  background-color: #0C5449;
+  background-color: rgb(8, 98, 8);
   color: white;
   text-align: left;
   flex-direction: row;
@@ -19,12 +19,13 @@ footer {
 .footer-section:last-child {
             border-right: none;
 }
+
 a {
-    color: white; /* Default link color */
-    text-decoration: none; /* Removes underline */
+    color: white !important; /* Default link color */
+    text-decoration: none !important; /* Removes underline */
 }
 
  a:hover {
-    color: #FFCC33; /* Color when hovered */
-    text-decoration: underline; /* Adds underline on hover */
+    color: #FFCC33 !important; /* Color when hovered */
+    text-decoration: none !important; /* Adds underline on hover */
 }
