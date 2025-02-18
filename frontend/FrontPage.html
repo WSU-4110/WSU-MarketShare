@@ -14,12 +14,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "../backend/ProductGUI.js"></script>
 
+
     
     <style>
     /** The inline style sheet for the search filter **/
     a:hover{
         text-decoration: none !important;
     }
+
         .product {
 			border: 3px solid darkgreen;
             border-radius: 25px;
@@ -212,7 +214,9 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
               </li>
               <i class="fa-solid fa-bell"></i>
               <li class="nav-item">
-                <a class="nav-link" href="SellPage.html">Sell</a>
+
+                <a class="nav-link" href="Sellpageintro.html">Sell</a>
+
               </li>
               <i class="fa-solid fa-cart-shopping" id = "i4"></i>
               <li class="nav-item">
@@ -271,6 +275,9 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
     		<option value="Clothing">Clothing</option>
 	</select>
 
+	<button onclick="applyFilter()">Filter</button>
+
+
     <!--footer-->
     <footer>
         <div class="footer-section">
@@ -296,7 +303,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
           <li>
             <a href="#!">Home</a></li>
        <li>
-            <a href="#!">Sell Page</a></li>
+            <a href="Sellpageintro.html">Sell Page</a></li>
       <li>
             <a href="#!">Account</a></li>				
           </li>
