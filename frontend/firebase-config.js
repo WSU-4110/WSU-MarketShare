@@ -14,8 +14,22 @@ const firebaseConfig = {
     measurementId: "G-FCRMC500EK"
 };
 
+document.addEventListener("DOMContentLoaded", function(){
+    const sendCodeBtn = document.getElementById("sendCodeBtn");
+    const verificationBox = document.getElementById("VerificationBox");
+    sendCodeBtn.addEventListener("click", function() {
+        verificationBox.style.display = "flex";
+    });
+    });
+
+
+
+
+
+//commented this out for now since i am sweitching to email only
+
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+/** const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', { 'size': 'invisible', 'callback': (response) => {
@@ -49,5 +63,5 @@ function sendVerificationCode(phoneNumber){
     .catch((error) => {
         console.error("Error during 2-step verification", error);
         alert("Error during 2-step verification: " + error.message);
-    });
-}
+    });   
+} */
