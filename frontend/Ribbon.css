@@ -68,11 +68,16 @@ in the html document do not write class and the css class. Rfer to navabr and na
 }
 
 #lightningImage{
-    position: absolute;
+    position: relative;
     height: 40px;
     width: 40px;
     top: 10px;
     left: 1470px;
     color: green !important;
     background-color: transparent;
+}
+
+.navbar .form-control{
+    z-index: 1000; /*Place search bar on top*/
+    position: relative;
 }

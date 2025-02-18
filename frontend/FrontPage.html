@@ -96,10 +96,6 @@
         // Function to fetch and display products
 async function fetchAndDisplayProducts() {
     try {
-        // ❌ Old syntax (incorrect for Firebase v9+)
-        // const querySnapshot = await db.collection('Products').get();
-
-        // ✅ Correct syntax for Firebase v9+
         const querySnapshot = await getDocs(collection(db, "Products"));
 
         // Clear the product list
@@ -110,12 +106,20 @@ async function fetchAndDisplayProducts() {
 
             // Create a product card
             const productElement = document.createElement('div');
-            productElement.className = 'product';
+            productElement.className = 'divPT';
             productElement.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <p><strong>Price:</strong> $${product.price}</p>
-                <p><strong>Category:</strong> ${product.category}</p>
+				<img src="${product.imageUrl}" alt="${product.name}">
+                <hr>
+                <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                <span class="ProductUserPFP"></span>
+                <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                <p class="ProductUserName">${product.sellerName}</p>
+                <div>
+                    <span class="fa fa-star checked rating"></span>
+                    <span class="fa fa-star checked rating"></span>
+                    <span class="fa fa-star checked rating"></span>
+                </div>
+				
             `;
 
             // Append the product card to the product list
@@ -129,51 +133,59 @@ async function fetchAndDisplayProducts() {
         // Fetch and display products when the page loads
         fetchAndDisplayProducts();
 window.applyFilter = async function () {
-  let category = document.getElementById("categoryFilter").value;
-    let productList = document.getElementById("productList"); // Main product list div
-    productList.innerHTML = "<p>Loading...</p>"; // Show loading message
+    let category = document.getElementById("categoryFilter").value;
+    let productList = document.getElementById("productList"); // Ensure this element exists
+    productList.innerHTML = "<p>Loading...</p>"; // Show loading state
 
     try {
         let q = collection(db, "Products");
 
         if (category) {
-            q = query(q,  where("category", "==", category));
+            q = query(q, where("category", "==", category));
         }
 
         const snapshot = await getDocs(q);
-        productList.innerHTML = ""; // Clear previous products
+        productList.innerHTML = ""; // Clear previous results
 
         if (snapshot.empty) {
             productList.innerHTML = "<p>No products found.</p>";
-        } else {
-            snapshot.forEach((doc) => {
-                let product = doc.data();
-
-                // Create a product card with the same styles
-                let productElement = document.createElement("div");
-                productElement.classList.add("product"); // Ensure it keeps the styling
-                productElement.innerHTML = `
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p><strong>Price:</strong> $${product.price}</p>
-                    <p><strong>Category:</strong> ${product.category}</p>
-                `;
-
-                // Append product to the productList
-                productList.appendChild(productElement);
-            });
+            return; // Exit early
         }
-    } catch (error) {
+
+        snapshot.forEach((doc) => {
+            let product = doc.data();
+            console.log("Product:", product); // Debugging output
+
+            let productElement = document.createElement("div");
+            productElement.classList.add("divPT");
+            productElement.innerHTML = `
+                <img src="${product.imageUrl}" alt="${product.name}">
+                <hr>
+                <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                <span class="ProductUserPFP"></span>
+                <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                <p class="ProductUserName">${product.sellerName}</p>
+                <div>
+                    <span class="fa fa-star checked rating"></span>
+                    <span class="fa fa-star checked rating"></span>
+                    <span class="fa fa-star checked rating"></span>
+                </div>
+            `;
+
+            productList.appendChild(productElement);
+        });
+
+    } catch (error) {  // ✅ Make sure this exists
         console.error("❌ Error fetching documents:", error);
         productList.innerHTML = "<p>Error loading data.</p>";
     }
 };
 function handleSearch(event) {
     let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
-    let productElements = document.querySelectorAll('.product'); // Get all product cards
+    let productElements = document.querySelectorAll('.divPT'); // Get all product cards
 
     productElements.forEach((productElement) => {
-        let productName = productElement.querySelector('h3').textContent.toLowerCase(); // Get product name
+        let productName = productElement.querySelector('.ProductName').textContent.toLowerCase(); // Get product name
         if (productName.includes(searchQuery)) {
             productElement.style.display = 'block'; // Show the product if it matches the search
         } else {
@@ -184,6 +196,8 @@ function handleSearch(event) {
 
 // Event listener for search input
 document.getElementById('searchInput').addEventListener('keyup', handleSearch);
+document.getElementById("categoryFilter").addEventListener("change", applyFilter);
+
 </script>
     
     
@@ -221,9 +235,11 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
                 <a class="nav-link" href="#">Messages</a>
               </li>
             </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" id = "RightButton" type="submit"><img src = "images/lightning.png" id = "lightningImage"></button>
+
+            <form class="d-flex d-lg-block" role="search">
+              <input class="form-control me-2" type="search" id="searchInput" placeholder="Search products..." aria-label="Search">
+              <button class="btn btn-outline-success" id = "RightButton" type="submit">
+			  <img src = "images/lightning.png" id = "lightningImage"></button>
             </form>
           </div>
         </div>
@@ -251,9 +267,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
         </div>
     </button>
 
-    <!-- search filter -->
-    <input type="text" id="searchInput" placeholder="Search products...">
-    	<h1>Products</h1>
+    
 	<div id="productList">
 	<!-- Products to be inserted here -->
 	</div>
