@@ -33,7 +33,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
 .navbar input{
     position: relative !important;
     width: 410px;
-    left: 39px;
+    left: 20px;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
 }
@@ -141,7 +141,7 @@ Opacity controls the transparency of an element (values 0-1)
     border-bottom-right-radius: 5px  !important;
     background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
     cursor: pointer;
-    right: 10px;
+    right: -4px;
 }
 
 #RightButton:hover{
