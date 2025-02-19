@@ -2,10 +2,13 @@
 work with the child elements. Specifically, that child elements
 in the html document do not write class and the css class. Rfer to navabr and navabr i**/
 
+/* set the positioning of the navabr*/
 .navbar{
     position: absolute;
+    
 }
 
+/* apply css elements to the a tag (hyperlinks) */
 .navbar a{
     color: white !important;
     text-decoration: none;
@@ -16,26 +19,49 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 }
 
+.navbar a:hover{
+    color: gold;
+}
+
+/* Apply css to the font awsome elements, remember they come in tags of i */
 .navbar i{
     position: relative;
     bottom: -15px;
 }
 
+/* apply css to search bar */
+.navbar input{
+    position: relative !important;
+    width: 410px;
+    left: 39px;
+    
+}
+
+/** This css is for the profile icon from font awsome **/
 #ProfileIcon{
     bottom: 0px;
 }
 
-.navbar a:hover{
-    color: gold !important;
-}
+/* apply css when hovering over a element */ 
+
 
 .navbar button{
-    background-color: white !important;
+    background-color: white;
 
+}
+.nav-link{
+    cursor: pointer;
 }
 
 .navbar i{
     color: white;
+}
+
+/** The following css is for the W button and a message appearing when hovering over it **/
+
+.button-container{
+    position: relative;
+    display: inline-block;
 }
 
 #MainButton{
@@ -44,9 +70,57 @@ in the html document do not write class and the css class. Rfer to navabr and na
     border: none !important;
     outline: none !important;
     box-shadow: none !important;
+}
+
+#MainButton:hover{
+ /** let this be empty **/
+}
+
+.hover-message{
+    opacity: 0; /** affect the transpaerncy or the clarity of the element**/
+    visibility: hidden;
+    background-color: rgb(8, 98, 8);
+    color: white;
+    padding: 10px 20px;
+    position: absolute;
+    top: 100%;
+    left: 30px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0S; 
+    border-radius: 5px;
+    cursor: pointer;
+    width: 70px;
     
+
+   
     
 }
+
+.button-container:hover .hover-message{
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+}
+
+#HomeIcon{
+    position: absolute;
+    left: 2px;
+    top: 15px;
+    font-size: 13px;
+    
+
+}
+
+
+/** Under stand the difference between opacity and visibility
+They both revolve around how an element appears
+Opacity controls the transparency of an element (values 0-1)
+
+**/
+
+
+/** WSU text in the middle of the nav bar **/
 
 #NavText{
     position: relative;
@@ -57,26 +131,31 @@ in the html document do not write class and the css class. Rfer to navabr and na
     left: 6px;
 }
 
+/** The css below is for the search icon on the right */
 #RightButton{
-    width: 40px !important;
-    height: 40px !important;
+    position: relative  !important;
+    border: 12px solid transparent !important; /** the thickness of the border **/
+    border-radius: 0px !important; /** the corners of the border **/
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px  !important;
+    background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
+    cursor: pointer;
+    right: -6px;
 }
 
 #RightButton:hover{
-    background-color: gold !important;
-    color: gold;
+    background-color: goldenrod !important;
+    color: white;
 }
 
-#lightningImage{
-    position: relative;
-    height: 40px;
-    width: 40px;
-    top: 10px;
-    left: 1470px;
-    color: green !important;
-    background-color: transparent;
+#searchicon{
+    position: absolute;
+    bottom: -3px;
+    right: 2px;
+    font-size: 19px;
+    color: green
+    
 }
-
 .navbar .form-control{
     z-index: 1000; /*Place search bar on top*/
     position: relative;

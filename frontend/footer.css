@@ -1,19 +1,20 @@
 
 footer {
-    position: relative;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #0C5449;
-    color: white;
-    text-align: left;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: auto;
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgb(8, 98, 8);
+  color: white;
+  text-align: left;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: auto;
 }
+
 .footer-section {
     flex: 1;
     padding: 15px;
@@ -24,6 +25,7 @@ footer {
 .footer-section:last-child {
     border-right: none;
 }
+
 a {
     color: white !important; /* Default link color */
     text-decoration: none !important; /* Removes underline */
@@ -33,6 +35,7 @@ a {
 a:hover {
     color: #FFCC33 !important; /* Color when hovered */
     text-decoration: underline !important; /* Adds underline on hover */
+
 }
 
  html, body{
