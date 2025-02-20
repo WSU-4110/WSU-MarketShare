@@ -10,12 +10,15 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 /* apply css elements to the a tag (hyperlinks) */
 .navbar a{
+    position: relative; /** as of 2/18 **/
     color: white !important;
     text-decoration: none;
     display: inline-block;
     /** Margin adds space outside of it and and other elements**/
     padding: 10px;
     margin-right: 20px;
+    cursor: pointer;
+    z-index: 10; /** as of 2/18 **/
 
 }
 
@@ -92,15 +95,17 @@ in the html document do not write class and the css class. Rfer to navabr and na
     cursor: pointer;
     width: 70px;
     
+}
 
-   
-    
+.hover-message:hover{
+    color:gold; /** as of 2/19 **/
 }
 
 .button-container:hover .hover-message{
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+
 }
 
 #HomeIcon{
@@ -133,7 +138,7 @@ Opacity controls the transparency of an element (values 0-1)
 
 /** The css below is for the search icon on the right */
 #RightButton{
-    position: relative  !important;
+    position: relative  !important; 
     border: 12px solid transparent !important; /** the thickness of the border **/
     border-radius: 0px !important; /** the corners of the border **/
     border-top-right-radius: 5px !important;
@@ -141,6 +146,7 @@ Opacity controls the transparency of an element (values 0-1)
     background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
     cursor: pointer;
     right: -6px;
+    z-index: 10;
 }
 
 #RightButton:hover{
