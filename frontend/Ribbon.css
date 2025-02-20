@@ -10,12 +10,14 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 /* apply css elements to the a tag (hyperlinks) */
 .navbar a{
+    position: relative;
     color: white !important;
     text-decoration: none;
     display: inline-block;
     /** Margin adds space outside of it and and other elements**/
     padding: 10px;
     margin-right: 20px;
+    z-index: 10;
 
 }
 
@@ -93,11 +95,11 @@ in the html document do not write class and the css class. Rfer to navabr and na
     cursor: pointer;
     width: 70px;
     
-
-   
-    
 }
 
+.hover-message:hover{
+    color:gold;
+}
 .button-container:hover .hover-message{
     opacity: 1;
     visibility: visible;
