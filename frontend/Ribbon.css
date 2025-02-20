@@ -17,6 +17,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
     /** Margin adds space outside of it and and other elements**/
     padding: 10px;
     margin-right: 20px;
+    cursor: pointer;
     z-index: 10;
 
 }
