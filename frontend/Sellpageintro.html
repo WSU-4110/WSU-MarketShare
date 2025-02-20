@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Freeman&display=swap"
+  rel="stylesheet"
+/>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="Sellpageintro.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>Sell page</title>
+  </head>
+  <div class="home1">
+    <i class="fa-solid fa-house"></i>
+  </div>
+
+
+
+
+  <script>
+    document
+      .getElementsByClassName("home1")[0]
+      .addEventListener("click", function () {
+        window.location.href = "FrontPage.html";
+      });
+  </script>
+
+  <body>
+    <!-- From Uiverse.io by lenfear23 -->
+    <button id="sell_button">New</button>
+
+
+    <div class="Container">
+      <h1>Your current items:</h1>
+      <div id="itemsContainer"></div>
+    </div>
+
+    <!-- Deals with posting the product to this page/delete button-->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let listings = JSON.parse(localStorage.getItem("listings")) || [];
+        let itemsContainer = document.getElementById("itemsContainer");
+
+        itemsContainer.innerHTML = "";
+
+        listings.forEach((item) => {
+          let itemElement = document.createElement("div");
+          itemElement.classList.add("item");
+
+          let imagesHTML = item.images
+            .map(
+              (img) => `
+          <div class="image-container">
+            <img src="${img}" alt="Product Image">
+          </div>` 
+          )
+          .join("");
+          itemElement.innerHTML = `
+        <div class="item-header">
+          <h3>${item.name}</h3>
+          <span class="price">$${item.price}</span>
+        </div>
+          <button class="delete-btn" data-id="${item.id}">
+            <i class="fa-solid fa-xmark"></i> 
+          </button>
+        
+        <p class="condition">${item.condition}</p>
+        <p class="description">${item.details}</p>
+        <div class="image-gallery">${imagesHTML}</div>
+        `;
+
+            
+          itemsContainer.appendChild(itemElement);
+        });
+        document.querySelectorAll('.delete-btn').forEach(button =>{
+          button.addEventListener('click', function(){
+            const itemId = this.dataset.id;
+            deleteItem(itemId);
+          });
+        }); 
+      
+       
+      });
+      function deleteItem(id) {
+        
+        if (confirm("Confirm to remove listing?")) {
+          let listings = JSON.parse(localStorage.getItem("listings")) || [];
+          listings = listings.filter(item => item.id !== id);
+          localStorage.setItem("listings", JSON.stringify(listings));
+          location.reload(); 
+        }
+      }
+
+
+
+    </script>
+
+
+
+    <!-- Basically a button which takes you to the sellpage -->
+    <script>
+      document
+        .getElementById("sell_button")
+        .addEventListener("click", function () {
+          window.location.href = "Sellpage.html";
+        });
+    </script>
+  </body>
+</html>
