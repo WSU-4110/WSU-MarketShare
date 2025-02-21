@@ -1,5 +1,7 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
-
+// Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
     authDomain: "wayne-state-marketshare.firebaseapp.com",
@@ -8,51 +10,85 @@ const firebaseConfig = {
     messagingSenderId: "11946478991",
     appId: "1:11946478991:web:a2382361767bb0a5e54ffa",
     measurementId: "G-FCRMC500EK"
-  };
+};
 
-const app = firebase.initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const db = firebase.database();
-const auth = firebase.auth();
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
-function togglePasswordVisibility(){
-  const passwordField = document.getElementById("password");
-  const toggleButton = document.getElementById(".toggle-password");
 
-  if(passwordField.type == "password"){
-    passwordField.type = "text";
-    toggleButton.textContent = "Hide";
-  }else{
-    passwordField.type = "password";
-    toggleButton.textContent = "Show";
-  }
-}
+function togglePasswordVisibility() {
+    const passwordField = document.getElementById("password");
+    const toggleButton = document.querySelector(".toggle-password");
 
-function loginUser(){
-  const AccessID = document.getElementById("email").value;
-  const Password = document.getElementById("password").value;
-  auth.signInWithAccessIDandPassword(AccessID,Password)
-  .then((userCredential) => {
-    window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
-  })
-  .catch((error) => {
-    alert("Error, login not successful" + error.message);
-  })
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleButton.textContent = "Hide";
+    } else {
+        passwordField.type = "password";
+        toggleButton.textContent = "Show";
+    }
 }
 
 
-auth.onAuthStateChanged((user) => {
-  if (user) {
-      console.log("User is logged in:", user.AccessID);
-  } else {
-      console.log("No user is logged in.");
-  }
+function loginUser() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+
+    if(!email.endsWith("@wayne.edu")){
+        messageBox.innerHTML = "❌ Please Enter a valid Wayne State Email";
+        messageBox.style.box = "red"; 
+        return;
+    }
+
+    signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            console.log("Login successful. Redirecting...");
+            messageBox.innerHTML = "Welcome! we'll be redirecting you right now!!!"
+            messageBox.style.box = "green";
+            setTimeout(() =>{
+                window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
+                }, 1500);
+            })
+            
+        
+        .catch((error) => {
+            console.error("Login failed:", error);
+            //handling specific firebase authentication errors
+            if(error.code === "auth/wrong-password"){
+                messageBox.innerHTML = "❌ Incorrect password. Please try again. ";
+            }else if(error.code === "auth/user-not-found"){
+                messageBox.innerHTML = "❌ User not found. Please try again.";
+            }else if(error.code === "auth/too-many-attempts"){
+                messageBox.innerHTML = "❌ Too many attempts. Please try again later";
+            }else{
+                messageBox.innerHTML = "❌ Login failed: " + error.message;
+            }
+            messageBox.style.box = "red";
+        });
+
+    }
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is logged in:", user.email);
+    } else {
+        console.log("No user is logged in.");
+    }
 });
 
-function SaveUser(userID, AccessID){
-  db.ref('users/' + userID).set({
-    AccessID: AccessID, 
-    createdAt: new Date().toISOString()
-  });
+
+function saveUser(userID, email) {
+    const db = firebase.database();
+    db.ref('users/' + userID).set({
+        email: email,
+        createdAt: new Date().toISOString()
+    });
 }
+
+
+window.togglePasswordVisibility = togglePasswordVisibility;
+window.loginUser = loginUser;
+window.saveUser = saveUser;
 
