@@ -9,8 +9,11 @@ body{
   padding: 0;
   background-attachment: fixed;
 }
+
+
+
 /* From Uiverse.io by lenfear23 */ 
-button {
+.button {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,12 +22,12 @@ button {
     width: 150px;
     height: 50px;
     background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
-    border-radius: 30px;
+    border-radius: 25px;
     border: 1px solid #8F9092;
     transition: all 0.2s ease;
     font-family: "Source Sans Pro", sans-serif;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 20;
     color: #000000;
     text-shadow: 0 1px #fff;
     position: absolute;
@@ -33,16 +36,23 @@ button {
     
 
   }
+  .Container h1{
+    margin-top: 30px;
+    font-weight: bold;
+  }
+  .input-group {
+    max-width: 400px;
+  }
   
-  button:hover {
+  .button:hover {
     box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
   }
   
-  button:active {
+  .button:active {
     box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
   }
   
-  button:focus {
+  .button:focus {
     box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
   }
 
@@ -79,7 +89,7 @@ border-radius: 5px;
   margin: 5px 0;
 }
 
-#itemContainer{
+#itemsContainer{
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   flex-direction: column;
@@ -94,6 +104,7 @@ border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   position: relative;
   margin-bottom: 20px;
+  margin-top: 40px;
   min-width: 350px;
 
 }
@@ -101,7 +112,7 @@ border-radius: 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
   
 .item-header h3{
@@ -152,14 +163,16 @@ border-radius: 5px;
 
 .delete-btn {
 position: absolute;
-top: 10px;
-right: 350px;
+top: -5px;
+right: 330px;
 width: 25px;
 height: 25px;
 font-size: 12px;
+border-radius: 20px;
 }
 .Container{
   max-width: 1200px;
+  margin-top: 80px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -173,7 +186,7 @@ font-size: 12px;
 }
 
 #sell_button {
-  --font-color: #000000;
+  --font-color: #ffffff;
   --main-color: #13770187;
   width: 120px;
   height: 40px;
@@ -185,6 +198,11 @@ font-size: 12px;
   font-weight: 600;
   color: var(--font-color);
   cursor: pointer;
+  position: fixed;
+  top: 100px; 
+  right: 20px;
+  z-index: 1000;
+  transition: transform 0.2s ease-in-out;
 }
 
 #sell_button:active {
@@ -207,4 +225,173 @@ font-size: 12px;
 
 }
 
+
+
+/**Make sure to understand how the css class selectors here 
+work with the child elements. Specifically, that child elements
+in the html document do not write class and the css class. Rfer to navabr and navabr i**/
+
+/* set the positioning of the navabr*/
+.navbar{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
   
+}
+
+/* apply css elements to the a tag (hyperlinks) */
+.navbar a{
+  position: relative;
+  color: white !important;
+  text-decoration: none;
+  display: inline-block;
+  /** Margin adds space outside of it and and other elements**/
+  padding: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+  z-index: 10;
+
+}
+
+.navbar a:hover{
+  color: gold;
+}
+
+/* Apply css to the font awsome elements, remember they come in tags of i */
+.navbar i{
+  position: relative;
+  bottom: -15px;
+}
+
+/* apply css to search bar */
+.navbar input{
+  position: relative !important;
+  width: 100%;
+  max-width: 410px;
+  left: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+/** This css is for the profile icon from font awsome **/
+#ProfileIcon{
+  bottom: 0px;
+}
+
+/* apply css when hovering over a element */ 
+
+
+.navbar button{
+  background-color: white;
+
+}
+.nav-link{
+  cursor: pointer;
+}
+
+.navbar i{
+  color: white;
+}
+
+/** The following css is for the W button and a message appearing when hovering over it **/
+
+.button-Container{
+  position: relative;
+  display: inline-block;
+}
+
+#MainButton{
+  color: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+
+.hover-message{
+  opacity: 0; /** affect the transpaerncy or the clarity of the element**/
+  visibility: hidden;
+  background-color: rgb(8, 98, 8);
+  color: white;
+  padding: 10px 20px;
+  position: absolute;
+  top: 100%;
+  left: 30px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0S; 
+  border-radius: 5px;
+  cursor: pointer;
+  width: 70px;
+  
+}
+
+.hover-message:hover{
+  color:gold;
+}
+.button-container:hover .hover-message{
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+}
+
+#HomeIcon{
+  position: absolute;
+  left: 2px;
+  top: 15px;
+  font-size: 13px;
+  
+
+}
+
+
+/** Under stand the difference between opacity and visibility
+They both revolve around how an element appears
+Opacity controls the transparency of an element (values 0-1)
+
+**/
+
+
+/** WSU text in the middle of the nav bar **/
+
+#NavText{
+  position: relative;
+  color: gold;
+  text-align: center;
+  width: 100%;
+  top: -50px;
+  left: 6px;
+}
+
+/** The css below is for the search icon on the right */
+#RightButton{
+  position: relative  !important;
+  border: 12px solid transparent !important; /** the thickness of the border **/
+  border-radius: 0px !important; /** the corners of the border **/
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px  !important;
+  background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
+  cursor: pointer;
+  right: -4px;
+}
+
+#RightButton:hover{
+  background-color: goldenrod !important;
+  color: white;
+}
+
+#searchicon{
+  position: absolute;
+  bottom: -3px;
+  right: -1px;
+  font-size: 19px;
+  color: green
+  
+}
+.navbar .form-control{
+  z-index: 1000; /*Place search bar on top*/
+  position: relative;
+}
