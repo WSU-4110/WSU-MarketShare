@@ -8,71 +8,16 @@
     <link rel = "stylesheet" href = "Ribbon.css">
     <link rel = "stylesheet" href = "ProductThumbnail.css">
     <link rel = "stylesheet" href = "footer.css">
+	<link rel = "stylesheet" href = "search_filter-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <!--Imported bootstrap. A popular css library that has pre-created css properties and values that you can use. Essenitally makes applying css to elements easier-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "../backend/ProductGUI.js"></script>
 
-
-    
-    <style>
-    /** The inline style sheet for the search filter **/
-    a:hover{
-        text-decoration: none !important;
-    }
-
-        .product {
-			border: 3px solid darkgreen;
-            border-radius: 25px;
-			padding: 10px;
-			margin: 10px;
-			width: 200px;
-			display: inline-block;
-		}
-	.container {
-            max-width: 600px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-	#filterInput {
-            margin-bottom: 20px;
-            padding: 10px;
-            width: calc(100% - 20px);
-            font-size: 16px;
-            border: 1px solid green;
-            border-radius: 5px;
-        }
-
-        #list {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .listItem {
-            padding: 10px;
-            margin: 5px 0;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .listItem:hover {
-            background-color: #e9e9e9;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
-
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
         <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-	<script type = "module">
+	<script type = "module" defer>
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
  	 	import { getFirestore, collection, query, where, getDocs,  } from 					"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 	const firebaseConfig = {
@@ -108,21 +53,24 @@ async function fetchAndDisplayProducts() {
             const product = doc.data();
 
             // Create a product card
-            const productElement = document.createElement('div');
-            productElement.className = 'divPT';
+              let productElement = document.createElement("button");
+            productElement.className = "buttonDIV";
+            productElement.onclick = () => CreateWindow(product);
+
             productElement.innerHTML = `
-				<img src="${product.imageUrl}" alt="${product.name}">
-                <hr>
-                <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
-                <span class="ProductUserPFP"></span>
-                <p class="ProductAcessID">Access ID: ${product.accessId}</p>
-                <p class="ProductUserName">${product.sellerName}</p>
-                <div>
-                    <span class="fa fa-star checked rating"></span>
-                    <span class="fa fa-star checked rating"></span>
-                    <span class="fa fa-star checked rating"></span>
+                <div class="divPT">
+                    <img src="${product.imageURL}" alt="${product.name}">
+                    <hr>
+                    <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                    <span class="ProductUserPFP"></span>
+                    <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                    <p class="ProductUserName">${product.sellerName}</p>
+                    <div>
+                        <span class="fa fa-star checked rating"></span>
+                        <span class="fa fa-star checked rating"></span>
+                        <span class="fa fa-star checked rating"></span>
+                    </div>
                 </div>
-				
             `;
 
             // Append the product card to the product list
@@ -135,54 +83,115 @@ async function fetchAndDisplayProducts() {
 }
         // Fetch and display products when the page loads
         fetchAndDisplayProducts();
-window.applyFilter = async function () {
-    let category = document.getElementById("categoryFilter").value;
-    let productList = document.getElementById("productList"); // Ensure this element exists
-    productList.innerHTML = "<p>Loading...</p>"; // Show loading state
+
+// Updated applyFilter function
+window.applyFilter = async function() {
+    // Get selected categories from checkboxes
+    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
+        .map(cb => cb.value); // Get selected categories
+    
+    // Get the max price from the slider
+    const maxPrice = document.getElementById('priceRange').value; 
+
+    let q = collection(db, "Products");
+
+    // Filter by categories if selected
+    if (selectedCategories.length > 0) {
+        q = query(q, where("category", "in", selectedCategories));
+    }
+
+    // Filter by price range
+    q = query(q, where("price", "<=", maxPrice));
 
     try {
-        let q = collection(db, "Products");
-
-        if (category) {
-            q = query(q, where("category", "==", category));
-        }
-
         const snapshot = await getDocs(q);
-        productList.innerHTML = ""; // Clear previous results
+        const productList = document.getElementById('productList');
+        productList.innerHTML = ''; // Clear previous products
 
         if (snapshot.empty) {
             productList.innerHTML = "<p>No products found.</p>";
-            return; // Exit early
+            return;
         }
 
         snapshot.forEach((doc) => {
             let product = doc.data();
-            console.log("Product:", product); // Debugging output
 
-            let productElement = document.createElement("div");
-            productElement.classList.add("divPT");
+            // Create product element
+            let productElement = document.createElement("button");
+            productElement.className = "buttonDIV";
+            productElement.onclick = () => CreateWindow(product);
+
             productElement.innerHTML = `
-                <img src="${product.imageUrl}" alt="${product.name}">
-                <hr>
-                <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
-                <span class="ProductUserPFP"></span>
-                <p class="ProductAcessID">Access ID: ${product.accessId}</p>
-                <p class="ProductUserName">${product.sellerName}</p>
-                <div>
-                    <span class="fa fa-star checked rating"></span>
-                    <span class="fa fa-star checked rating"></span>
-                    <span class="fa fa-star checked rating"></span>
+                <div class="divPT">
+                    <img src="${product.imageURL}" alt="${product.name}">
+                    <hr>
+                    <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                    <span class="ProductUserPFP"></span>
+                    <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                    <p class="ProductUserName">${product.sellerName}</p>
+                    <div>
+                        <span class="fa fa-star checked rating"></span>
+                        <span class="fa fa-star checked rating"></span>
+                        <span class="fa fa-star checked rating"></span>
+                    </div>
                 </div>
             `;
 
             productList.appendChild(productElement);
         });
 
-    } catch (error) {  // ✅ Make sure this exists
+    } catch (error) {
         console.error("❌ Error fetching documents:", error);
         productList.innerHTML = "<p>Error loading data.</p>";
     }
-};
+}
+
+// Update the displayed value of the price range
+document.getElementById('priceRange').addEventListener('input', function () {
+    document.getElementById('priceValue').innerText = `$${this.value}`;
+});
+// Function to update the displayed price value
+document.getElementById('priceRange').addEventListener('input', function() {
+    var price = parseFloat(this.value);
+    document.getElementById('priceValue').innerText = price;
+    applyFilter(price); // Apply filter every time the slider is adjusted
+});
+
+// Function to apply the price filter
+function applyFilter(maxPrice) {
+    // Reference to Firestore collection
+    const productsRef = db.collection('products'); // Replace 'products' with your Firestore collection
+
+    // Create Firestore query with maxPrice filter
+    let q = productsRef.where('price', '<=', maxPrice);
+
+    // Get products based on the query
+    q.get().then(snapshot => {
+        // Clear current product list
+        const productList = document.getElementById('productList');
+        productList.innerHTML = '';
+
+        snapshot.forEach(doc => {
+            const product = doc.data();
+            // Create and append product element to the list
+            const productElement = document.createElement('div');
+            productElement.classList.add('product');
+            productElement.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>Price: $${product.price.toFixed(2)}</p>
+            `;
+            productList.appendChild(productElement);
+        });
+    }).catch(error => {
+        console.error("Error fetching products: ", error);
+    });
+}
+
+// Initial filter application when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    var initialPrice = parseFloat(document.getElementById('priceRange').value);
+    applyFilter(initialPrice); // Apply initial filter
+});
 function handleSearch(event) {
     let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
     let productElements = document.querySelectorAll('.divPT'); // Get all product cards
@@ -196,11 +205,13 @@ function handleSearch(event) {
         }
     });
 }
+document.getElementById('priceRange').addEventListener('input', function () {
+    document.getElementById('priceValue').innerText = `$${this.value}`;
+});
+
 
 // Event listener for search input
 document.getElementById('searchInput').addEventListener('keyup', handleSearch);
-document.getElementById("categoryFilter").addEventListener("change", applyFilter);
-
 </script>
     
     
@@ -281,15 +292,38 @@ document.getElementById("categoryFilter").addEventListener("change", applyFilter
 	<!-- Products to be inserted here -->
 	</div>
 
-
+<!--
 		<select id="categoryFilter" >
     		<option value="">All</option>
    		<option value="Electronics">Electronics</option>
     		<option value="Clothing">Clothing</option>
 	</select>
 
-	<button onclick="applyFilter()">Filter</button>
+	<button id="filterButton" onclick="applyFilter()">Filter</button>-->
+	
+	
+	
+	<div class="filter-container">
+		<h3>Filters</h3>
+		
+		<!-- Category Filter -->
+		<div class="filter-section">
+			<h4>Categories</h4>
+			<label><input type="checkbox" name="category" value="electronics"> Electronics</label>
+			<label><input type="checkbox" name="category" value="clothing"> Clothing</label>
+			<label><input type="checkbox" name="category" value="home"> Home</label>
+		</div>
 
+		<!-- Price Range Filter -->
+		<div class="filter-section">
+			<h4>Price Range</h4>
+			<input type="range" id="priceRange" min="0" max="1000" step="10" value="500">
+			<span id="priceValue">$500</span>
+		</div>
+
+		<button id="filterButton" onclick="applyFilter()">Apply Filters</button>
+	</div>
+	
 
     <!--footer-->
     <footer>
