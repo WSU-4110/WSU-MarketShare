@@ -16,7 +16,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// Toggle password visibility function
+
+
 function togglePasswordVisibility() {
     const passwordField = document.getElementById("password");
     const toggleButton = document.querySelector(".toggle-password");
@@ -30,21 +31,45 @@ function togglePasswordVisibility() {
     }
 }
 
-// Login function
+
 function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const message = document.getElementById("message");
+
+    if(!email.endsWith("@wayne.edu")){
+        messageBox.innerHTML = "❌ Please Enter a valid Wayne State Email";
+        messageBox.style.box = "red"; 
+        return;
+    }
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
             console.log("Login successful. Redirecting...");
-            window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
-        })
+            messageBox.innerHTML = "Welcome! we'll be redirecting you right now!!!"
+            messageBox.style.box = "green";
+            setTimeout(() =>{
+                window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
+                }, 1500);
+            })
+            
+        
         .catch((error) => {
             console.error("Login failed:", error);
-            alert("Error: Login not successful. " + error.message);
+            //handling specific firebase authentication errors
+            if(error.code === "auth/wrong-password"){
+                messageBox.innerHTML = "❌ Incorrect password. Please try again. ";
+            }else if(error.code === "auth/user-not-found"){
+                messageBox.innerHTML = "❌ User not found. Please try again.";
+            }else if(error.code === "auth/too-many-attempts"){
+                messageBox.innerHTML = "❌ Too many attempts. Please try again later";
+            }else{
+                messageBox.innerHTML = "❌ Login failed: " + error.message;
+            }
+            messageBox.style.box = "red";
         });
-}
+
+    }
 
 // Listen for authentication state changes
 onAuthStateChanged(auth, (user) => {
@@ -56,6 +81,8 @@ onAuthStateChanged(auth, (user) => {
 });
 
 
+
+
 function saveUser(userID, email) {
     const db = firebase.database();
     db.ref('users/' + userID).set({
@@ -64,7 +91,10 @@ function saveUser(userID, email) {
     });
 }
 
-// Attach functions to the global window object
+
+
 window.togglePasswordVisibility = togglePasswordVisibility;
 window.loginUser = loginUser;
 window.saveUser = saveUser;
+
+
