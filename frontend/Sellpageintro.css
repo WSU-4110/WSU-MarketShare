@@ -254,8 +254,8 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 }
 
-.navbar a:hover{
-  color: gold;
+.navbar .nav-link:hover{
+  color: gold !important;
 }
 
 /* Apply css to the font awsome elements, remember they come in tags of i */
