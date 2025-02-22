@@ -17,6 +17,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 
+
 function togglePasswordVisibility() {
     const passwordField = document.getElementById("password");
     const toggleButton = document.querySelector(".toggle-password");
@@ -70,6 +71,14 @@ function loginUser() {
 
     }
 
+// Listen for authentication state changes
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        console.log("User is logged in:", user.email);
+    } else {
+        console.log("No user is logged in.");
+    }
+});
 
 
 
@@ -87,6 +96,5 @@ function saveUser(userID, email) {
 window.togglePasswordVisibility = togglePasswordVisibility;
 window.loginUser = loginUser;
 window.saveUser = saveUser;
-
 
 

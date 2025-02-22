@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Freeman&display=swap"
+  rel="stylesheet"
+/>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="Sellpage.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>WSU Marketplace Sell page</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h1>Select an item to sell</h1>
+    </div>
+
+    <div class="home">
+      <i class="fa-solid fa-arrow-left"></i>
+    </div>
+
+    <script>
+      document
+        .getElementsByClassName("home")[0]
+        .addEventListener("click", function () {
+          window.location.href = "Sellpageintro.html";
+        });
+    </script>
+
+    <div class="items">
+      <div class="option">
+        <i class="fa-solid fa-calculator" style="color: #000000"></i>Calculators
+      </div>
+      <div class="option">
+        <i class="fa-solid fa-book" style="color: #000000"></i>Textbooks
+      </div>
+    </div>
+    <div class="items2">
+      <div class="option2">
+        <i class="fa-solid fa-tablet-screen-button" style="color: #000000"></i
+        >Tablet
+      </div>
+      <div class="option2">
+        <i class="fa-solid fa-laptop" style="color: #000000"></i>Laptop
+      </div>
+    </div>
+
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span class="closebutton">&times;</span>
+        <h2>Enter details</h2>
+
+        <label for="Product images">images(up to 4):</label>
+        <div class="image-boxes">
+          <div class="imgbx" onclick="uploadImg(0)">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              onchange="previewImage(event, 0)"
+            />
+          </div>
+          <div class="imgbx" onclick="uploadImg(1)">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              onchange="previewImage(event, 1)"
+            />
+          </div>
+          <div class="imgbx" onclick="uploadImg(2)">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              onchange="previewImage(event, 2)"
+            />
+          </div>
+          <div class="imgbx" onclick="uploadImg(3)">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              onchange="previewImage(event, 3)"
+            />
+          </div>
+        </div>
+
+        <div class="info">
+          <label for="name">Name:</label>
+          <input placeholder="" id="productname" name="productname" type="text" />
+        </div>
+
+        
+        <!-- From Uiverse.io by ozgeozkaraa01 -->
+        <label for="cond">Condition:</label>
+        <div class="container">
+          <div class="custom-radio">
+            <input type="radio" id="radio-1" name="tabs" checked="" />
+            <label class="radio-label" for="radio-1">
+              <div class="radio-circle"></div>
+              <span class="radio-text">Excellent(No signs of use)</span>
+            </label>
+            <input type="radio" id="radio-2" name="tabs" />
+            <label class="radio-label" for="radio-2">
+              <div class="radio-circle"></div>
+              <span class="radio-text">Good(Minor signs of use)</span>
+            </label>
+            <input type="radio" id="radio-3" name="tabs" />
+            <label class="radio-label" for="radio-3">
+              <div class="radio-circle"></div>
+              <span class="radio-text">Fair(Major signs of use)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="info2">
+          <label for="productPrice">Price ($):</label>
+          <input
+            type="number"
+            id="productPrice"
+            placeholder="Enter price..."
+            min="0"
+            step="0.01"
+          />
+        </div>
+
+        <div class="info3">
+          <label for="productdetails">Description: </label>
+          <textarea
+            id="productDetails"
+            rows="3"
+            placeholder="Enter product details..."
+          ></textarea>
+        </div>
+
+        <button type="button" class="button" id="addItem">
+          <span class="button__text">Add Item</span>
+          <span class="button__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke="currentColor"
+              height="24"
+              fill="none"
+              class="svg"
+            >
+              <line y2="19" y1="5" x2="12" x1="12"></line>
+              <line y2="12" y1="12" x2="19" x1="5"></line>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    
+   <!-- Gui/popup basically after clicking a product you want to sell it shows a pop-up -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const popup = document.getElementById("popup");
+        const closebutton = document.querySelector(".closebutton");
+        const options = document.querySelectorAll(".option, .option2");
+
+        options.forEach((option) => {
+          option.addEventListener("click", function () {
+            popup.style.display = "flex";
+          });
+        });
+
+        closebutton.addEventListener("click", function () {
+          popup.style.display = "none";
+        });
+
+        window.addEventListener("click", function (e) {
+          if (e.target === popup) {
+            popup.style.display = "none";
+          }
+        });
+      });
+    </script>
+
+    <!--Upload images via files -->
+    <script>
+      function uploadImg(index) {
+        document.querySelectorAll(".hidden-file-input")[index].click();
+      }
+
+      function previewImage(event, index) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const imgBox = document.querySelectorAll(".imgbx")[index];
+            imgBox.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+
+    <!--This part deals with putting the item into Sellpageintro-->
+    <script>
+      document.getElementById("addItem").addEventListener("click", function () {
+        let name = document.getElementById("productname").value;
+        let price = document.getElementById("productPrice").value;
+        let details = document.getElementById("productDetails").value;
+        let condition = document.querySelector('input[name="tabs"]:checked').nextElementSibling.innerText;
+
+        let images = [];
+        document.querySelectorAll(".imgbx img").forEach((img) => {
+          images.push(img.src);
+        });
+
+        let item = { id: Date.now()+Math.random().toString().slice(2,8), name, price, details, condition, images };
+
+        let listings = JSON.parse(localStorage.getItem("listings")) || [];
+        listings.push(item);
+        localStorage.setItem("listings", JSON.stringify(listings));
+
+        window.location.href = "Sellpageintro.html";
+      });
+    </script>
+  </body>
+</html>
