@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
 // Firebase configuration
 const firebaseConfig = {
@@ -12,31 +12,37 @@ const firebaseConfig = {
     measurementId: "G-FCRMC500EK"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-function resetPassword(){
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
 
-    if(!email.endsWith("@wayne.edu")){
-        messageBox.innerHTML = "❌ Please Enter a valid Wayne State Email";
-        messageBox.style.box = "red"; 
-        return; 
+function resetPassword() {
+    const email = document.getElementById("email").value;
+    const messageBox = document.getElementById("message"); 
+
+    if (!email.endsWith("@wayne.edu")) {
+        messageBox.innerHTML = "❌ Please enter a valid Wayne State email address.";
+        messageBox.style.color = "red";
+        return;
     }
+
     sendPasswordResetEmail(auth, email)
-        .then(() =>{
-            messageBox.innerHTML = "✅ Reset Password Link has been sent! Check your Wayne State Email!!!!!!";
-            messageBox.style.box = "green";
+        .then(() => {
+            console.log("Password reset link sent to:", email);
+            messageBox.innerHTML = "✅ A password reset link has been sent to your Wayne State email.";
+            messageBox.style.color = "green";
         })
         .catch((error) => {
-            console.error("Error Sending email: ", error);
-            messageBox.innerHTML = "❌ Error: " + error.message;
-            messageBox.style.box = "red";
+            console.error("Error sending reset email:", error);
+            
+            if (error.code === "auth/user-not-found") {
+                messageBox.innerHTML = "❌ No account found with this email.";
+            } else {
+                messageBox.innerHTML = "❌ Error: " + error.message;
+            }
+            messageBox.style.color = "red";
         });
-}   
+}
+
 
 window.resetPassword = resetPassword;
-
-
