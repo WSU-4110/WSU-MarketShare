@@ -167,31 +167,39 @@
       </div>
     </div>
 
-    <!--helloooooo-->
+  <!--Start of Homework 4 modification Pattern used: FACTORY METHOD DESIGN PATTERN -->
    <!-- Gui/popup basically after clicking a product you want to sell it shows a pop-up -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        const popup = document.getElementById("popup");
-        const closebutton = document.querySelector(".closebutton");
-        const options = document.querySelectorAll(".option, .option2");
 
-        options.forEach((option) => {
-          option.addEventListener("click", function () {
-            popup.style.display = "flex";
-          });
-        });
+        const itemsContainer = document.querySelector(".items");
+        const itemsContainer2 = document.querySelector(".items2");
 
-        closebutton.addEventListener("click", function () {
-          popup.style.display = "none";
-        });
+        function createOptionsProducts(name, iconClass){
+          const div = document.createElement("div");
+          div.innerHTML = `<i class = "${iconClass}" style = #000000"></i>${name}`;
+          return div;
+        }
+        const products = [
+        {name: "Calculators", icon:"fa-solid fa-calculator" },
+        {name: "Textbooks", icon:"fa-solid fa-book" },
+        ];
+        const products2 = [
+        {name: "Tablet", icon:"fa-solid fa-tablet-screen-button" },
+        {name: "Laptop", icon:"fa-solid fa-laptop" },
+        ];
 
-        window.addEventListener("click", function (e) {
-          if (e.target === popup) {
-            popup.style.display = "none";
-          }
-        });
+
+        products.forEach((product) => itemsContainer.appendChild(createProductOption(product.name, product.icon)));
+        products2.forEach((product) => itemsContainer2.appendChild(createProductOption(product.name, product.icon)));
+
+
       });
+      
+
+
     </script>
+  <!--END OF Homework 4 modification-->
 
     <!--Upload images via files -->
     <script>
