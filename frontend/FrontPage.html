@@ -15,98 +15,88 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "../backend/ProductGUI.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-	<script type = "module" defer>
-		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
- 	 	import { getFirestore, collection, query, where, getDocs,  } from 					"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-	const firebaseConfig = {
-  		apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
-  		authDomain: "wsu-market-share.firebaseapp.com",
-  		databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
-  		projectId: "wsu-market-share",
-  		storageBucket: "wsu-market-share.firebasestorage.app",
-  		messagingSenderId: "176228593560",
-  		appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
-  		measurementId: "G-HZ3VRX4MK1"
-	};
+    
+	<script type="module" defer>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
-	const db = getFirestore(app);
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
+            authDomain: "wsu-market-share.firebaseapp.com",
+            databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
+            projectId: "wsu-market-share",
+            storageBucket: "wsu-market-share.firebasestorage.app",
+            messagingSenderId: "176228593560",
+            appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
+            measurementId: "G-HZ3VRX4MK1"
+        };
 
-	console.log("Firebase initialized.");
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
 
-	// Fetch and display products
+        console.log("Firebase initialized.");
+
         const productList = document.getElementById('productList');
         const searchInput = document.getElementById('searchInput');
+		
 
-        // Function to fetch and display products
-async function fetchAndDisplayProducts() {
-    try {
-        const querySnapshot = await getDocs(collection(db, "Products"));
+        async function fetchAndDisplayProducts(searchQuery = '') {
+            try {
+                let q = collection(db, "Products");
+                if (searchQuery) {
+					q = query(q, where("name", ">=", searchQuery), where("name", "<=", searchQuery + '\uf8ff'));
+                }
 
-        // Clear the product list
-        productList.innerHTML = '';
+                const querySnapshot = await getDocs(q);
+                productList.innerHTML = '';
 
-        querySnapshot.forEach((doc) => {
-            const product = doc.data();
+                querySnapshot.forEach((doc) => {
+                    const product = doc.data();
+                    const productElement = document.createElement("div");
+                    productElement.className = "buttonDIV";
+                    productElement.onclick = () => CreateWindow(product);
 
-            // Create a product card
-              let productElement = document.createElement("button");
-            productElement.className = "buttonDIV";
-            productElement.onclick = () => CreateWindow(product);
+                    productElement.innerHTML = `
+                        <div class="divPT">
+                            <img src="${product.imageURL}" alt="${product.name}">
+                            <hr>
+                            <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                            <span class="ProductUserPFP"></span>
+                            <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                            <p class="ProductUserName">${product.sellerName}</p>
+                            <div>
+                                <span class="fa fa-star checked rating"></span>
+                                <span class="fa fa-star checked rating"></span>
+                                <span class="fa fa-star checked rating"></span>
+                            </div>
+                        </div>
+                    `;
 
-            productElement.innerHTML = `
-                <div class="divPT">
-                    <img src="${product.imageURL}" alt="${product.name}">
-                    <hr>
-                    <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
-                    <span class="ProductUserPFP"></span>
-                    <p class="ProductAcessID">Access ID: ${product.accessId}</p>
-                    <p class="ProductUserName">${product.sellerName}</p>
-                    <div>
-                        <span class="fa fa-star checked rating"></span>
-                        <span class="fa fa-star checked rating"></span>
-                        <span class="fa fa-star checked rating"></span>
-                    </div>
-                </div>
-            `;
+                    productList.appendChild(productElement);
+                });
 
-            // Append the product card to the product list
-            productList.appendChild(productElement);
-        });
+            } catch (error) {
+                console.error("Error fetching products: ", error);
+            }
+        }
 
-    } catch (error) {
-        console.error("Error fetching products: ", error);
-    }
-}
-        // Fetch and display products when the page loads
-        fetchAndDisplayProducts();
-
-// Updated applyFilter function
-window.applyFilter = async function() {
-    // Get selected categories from checkboxes
-    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked'))
-        .map(cb => cb.value); // Get selected categories
-    
-    // Get the max price from the slider
-    const maxPrice = document.getElementById('priceRange').value; 
-
+        window.applyFilter = async function() {
+    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
+    const maxPrice = parseFloat(document.getElementById('priceRange').value);
+	console.log("Selected Categories: ", selectedCategories);
     let q = collection(db, "Products");
 
-    // Filter by categories if selected
     if (selectedCategories.length > 0) {
         q = query(q, where("category", "in", selectedCategories));
     }
 
-    // Filter by price range
     q = query(q, where("price", "<=", maxPrice));
 
     try {
         const snapshot = await getDocs(q);
-        const productList = document.getElementById('productList');
-        productList.innerHTML = ''; // Clear previous products
+        console.log("Query Snapshot Size:", snapshot.size);
+
+        productList.innerHTML = '';
 
         if (snapshot.empty) {
             productList.innerHTML = "<p>No products found.</p>";
@@ -114,16 +104,15 @@ window.applyFilter = async function() {
         }
 
         snapshot.forEach((doc) => {
-            let product = doc.data();
+            const product = doc.data();
+            console.log("Product:", product);
 
-            // Create product element
-            let productElement = document.createElement("button");
+            const productElement = document.createElement("div");
             productElement.className = "buttonDIV";
             productElement.onclick = () => CreateWindow(product);
 
             productElement.innerHTML = `
                 <div class="divPT">
-                    <img src="${product.imageURL}" alt="${product.name}">
                     <hr>
                     <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
                     <span class="ProductUserPFP"></span>
@@ -144,75 +133,37 @@ window.applyFilter = async function() {
         console.error("❌ Error fetching documents:", error);
         productList.innerHTML = "<p>Error loading data.</p>";
     }
-}
+};
+	function handleSearch(event) {
+		let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
+		let productElements = document.querySelectorAll('.divPT'); // Get all product cards
 
-// Update the displayed value of the price range
-document.getElementById('priceRange').addEventListener('input', function () {
-    document.getElementById('priceValue').innerText = `$${this.value}`;
-});
-// Function to update the displayed price value
-document.getElementById('priceRange').addEventListener('input', function() {
-    var price = parseFloat(this.value);
-    document.getElementById('priceValue').innerText = price;
-    applyFilter(price); // Apply filter every time the slider is adjusted
-});
+		productElements.forEach((productElement) => {
+			let productName = productElement.querySelector('.ProductName').textContent.toLowerCase(); // Get product name
+			if (productName.includes(searchQuery)) {
+				productElement.style.display = 'block'; // Show the product if it matches the search
+			} else {
+				productElement.style.display = 'none'; // Hide the product if it doesn't match
+			}
+		});
+	}
 
-// Function to apply the price filter
-function applyFilter(maxPrice) {
-    // Reference to Firestore collection
-    const productsRef = db.collection('products'); // Replace 'products' with your Firestore collection
-
-    // Create Firestore query with maxPrice filter
-    let q = productsRef.where('price', '<=', maxPrice);
-
-    // Get products based on the query
-    q.get().then(snapshot => {
-        // Clear current product list
-        const productList = document.getElementById('productList');
-        productList.innerHTML = '';
-
-        snapshot.forEach(doc => {
-            const product = doc.data();
-            // Create and append product element to the list
-            const productElement = document.createElement('div');
-            productElement.classList.add('product');
-            productElement.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>Price: $${product.price.toFixed(2)}</p>
-            `;
-            productList.appendChild(productElement);
+        document.getElementById('priceRange').addEventListener('input', function () {
+            document.getElementById('priceValue').innerText = `$${this.value}`;
+            applyFilter();
         });
-    }).catch(error => {
-        console.error("Error fetching products: ", error);
-    });
-}
 
-// Initial filter application when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    var initialPrice = parseFloat(document.getElementById('priceRange').value);
-    applyFilter(initialPrice); // Apply initial filter
-});
-function handleSearch(event) {
-    let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
-    let productElements = document.querySelectorAll('.divPT'); // Get all product cards
+        document.getElementById('searchInput').addEventListener('keyup', function(event) {
+            const searchQuery = event.target.value.toLowerCase();
+            fetchAndDisplayProducts(searchQuery);
+        });
 
-    productElements.forEach((productElement) => {
-        let productName = productElement.querySelector('.ProductName').textContent.toLowerCase(); // Get product name
-        if (productName.includes(searchQuery)) {
-            productElement.style.display = 'block'; // Show the product if it matches the search
-        } else {
-            productElement.style.display = 'none'; // Hide the product if it doesn't match
-        }
-    });
-}
-document.getElementById('priceRange').addEventListener('input', function () {
-    document.getElementById('priceValue').innerText = `$${this.value}`;
-});
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAndDisplayProducts();
+        });
+		document.getElementById('searchInput').addEventListener('keyup', handleSearch);
 
-
-// Event listener for search input
-document.getElementById('searchInput').addEventListener('keyup', handleSearch);
-</script>
+    </script>
     
     
 </head><!--The head tag takes metadata tags that are related to the document. You can insert .css exteranl files-->
@@ -268,7 +219,6 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
      
       
       <h3 id = "NavText">Wayne State University</h3>
-      
     <!-- Product cards and code for product GUI-->
     <button onclick = "CreateWindow()" class = "buttonDIV">
         <div class = "divPT">
@@ -288,30 +238,24 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
     </button>
 
     
-	<div id="productList">
+	<div id="productList"> 
 	<!-- Products to be inserted here -->
 	</div>
 
-<!--
-		<select id="categoryFilter" >
-    		<option value="">All</option>
-   		<option value="Electronics">Electronics</option>
-    		<option value="Clothing">Clothing</option>
-	</select>
 
-	<button id="filterButton" onclick="applyFilter()">Filter</button>-->
+
 	
 	
 	
-	<div class="filter-container">
+<div class="filter-container">
 		<h3>Filters</h3>
 		
 		<!-- Category Filter -->
 		<div class="filter-section">
 			<h4>Categories</h4>
-			<label><input type="checkbox" name="category" value="electronics"> Electronics</label>
-			<label><input type="checkbox" name="category" value="clothing"> Clothing</label>
-			<label><input type="checkbox" name="category" value="home"> Home</label>
+			<label><input type="checkbox" name="category"  value="Electronics"> Electronics</label>
+			<label><input type="checkbox" name="category"  value="Clothing"> Clothing</label>
+			<label><input type="checkbox" name="category"  value="Books"> Books</label>
 		</div>
 
 		<!-- Price Range Filter -->
