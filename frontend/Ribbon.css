@@ -79,7 +79,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
  /** let this be empty **/
 }
 
-.hover-message{
+.hover-message{ /** create the css box model for the content within the box to apppear **/
     opacity: 0; /** affect the transpaerncy or the clarity of the element**/
     visibility: hidden;
     background-color: rgb(8, 98, 8);
@@ -101,7 +101,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
     color:gold; /** as of 2/19 **/
 }
 
-.button-container:hover .hover-message{
+.button-container:hover .hover-message{ /**Now have the hover-message occur by connecting it to :hover and give it a css property avnd value to make it cooler**/
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;

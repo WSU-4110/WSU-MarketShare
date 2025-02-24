@@ -10,12 +10,6 @@ function addCSS(){
     FA.src = "https://kit.fontawesome.com/5999306913.js";
     FA.crossOrigin = "anonymous";
     document.head.appendChild(FA);
-
-
-
-
-
-
   
 
 
@@ -41,6 +35,7 @@ function CreateWindow(){
     GUI.style.width = "40%";
     GUI.style.height = "80%";
     GUI.style.transform = "translate(-50%, -50%)";
+    GUI.style.overflowY = "auto"; // Enables vertical scrolling
 
     //Background color and other properties 
     GUI.style.background = "white";
@@ -55,17 +50,32 @@ function CreateWindow(){
     
 
     "<button onclick = CloseWindow() class = closebutton><img src = ../frontend/images/x.png class = ximg></button>"+
-    "<script src=https://kit.fontawesome.com/5999306913.js crossorigin=anonymous></script>"+
     "<span class = ProductUserPFP2></span>"+
     "<p class = ProductAcessID2>Access ID: TA1234</p>"+
     "<p class = ProductUserName2>Joe doe</p>"+
-    "<i class=fa-solid fa-house></i>"+
     "<hr class = goldline>"+
     "<img class = productimg src = ../frontend/images/Ipad4.webp>"+
     "<hr class = goldline>"+
+    
+
     "<div class = spacing>"+
-        "<input type=text placeholder= Hello! name=search class = searchbar>"+
-        "<h6><b>Description:</b></h6>"+
+    "<input type=text placeholder= Hello! name=search class = searchbar>"+
+    "<h6><b>Description:</b></h6>"+
+    
+    "<i style = 'left: 310px;' class='fa-solid fa-cart-plus icon'></i>"+
+    "<button class = iconmodel> +Cart</button>"+
+
+    "<i style = 'right: 170px;' class='fa-solid fa-share icon'></i>"+
+    "<button class = iconmodel style = left:384px;> Share </button>"+
+
+    "<i style = 'right: 70px; font-size: 13px !important; padding-left: -40px !important;' class='fa-solid fa-flag icon'></i>"+
+    "<button class = iconmodel style = left:486px;> Report </button>"+
+
+
+
+
+  
+    
 
     "</div>";
     

@@ -4,15 +4,16 @@
 <head>
     <script src="https://kit.fontawesome.com/5999306913.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>FrontPage</title>
+    <title>ReportPage</title>
     <link rel = "stylesheet" href = "Ribbon.css">
     <link rel = "stylesheet" href = "ProductThumbnail.css">
     <link rel = "stylesheet" href = "footer.css">
+    <link rel = "stylesheet" href = "ReportPageCSS.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
     <!--Imported bootstrap. A popular css library that has pre-created css properties and values that you can use. Essenitally makes applying css to elements easier-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src = "../backend/ProductGUI.js"></script>
+    
 
 
     
@@ -66,7 +67,7 @@
         }
 
         .hidden {
-            display: none;
+            display: none; /** Prevents the element from being seen **/
         }
     </style>
 
@@ -196,7 +197,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
     <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important;">
         <div class="container-fluid">
           <div class = "button-container">
-          <a href = "#top">
+          <a href = "FrontPage.html">
           <button id = "MainButton"><img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></button>
           <div class = "hover-message">Home
           <i class="fa-solid fa-house" id = "HomeIcon"></i>
@@ -242,43 +243,151 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
      
       
       <h3 id = "NavText">Wayne State University</h3>
+
+
+      <div class = box1>
+        <i class="fa-solid fa-user-secret"></i>
+        <h3>Report Malicious Activity</h3>
+
+        <h6>Fill out the appropriate details below. You will bre emailed a Report of your submission along with a case number. Keep this as a record as you see fit!</h6>
+
+        <form> <!-- The form element houses all elements related to as form. Drop down menus, buttons, etc-->
+            
+            <!-- drop down menu-->
+            <label for = "Subject">Who is at Fault?</label>
+            <select id = "Subject">
+                <option value = "">Select An Option</option>
+                <option value = "User">User</option>
+                <option value = "Advisor">Advisor</option>
+                <option value = "System">System</option>
+            </select>
+
+            <div id = "UserSelect" class = "hidden">
+                <label for = "User">What did the User do?</label>
+                <select id = "User">
+                    <option value = "Choose an option">Choose an option</option>
+                    <option value = "Inappropriate Photo">Inappropriate Photo</option>
+                    <option value = "Spam">Spam</option>
+                    <option value = "Scam Likely">Scam Likely</option>
+                    <option value = "Hacked Account">Hacked Account</option>
+                    <option value = "Other">Other</option>
+                    <option value = "Phising">Ina</option>
+                </select>
+            </div>
+
+            <div id = "AdvisorSelect" class = "hidden">
+                <label for = "Advisor">What did the Advisor do?</label>
+                <select id = "Advisor">
+                    <option value = "Choose an option">Choose an option</option>
+                    <option value = "Inappropriate Response">Inappropriate Photo</option>
+                    <option value = "Spam">Spam</option>
+                    <option value = "Scam Likely">Scam Likely</option>
+                    <option value = "Hacked Account">Hacked Account</option>
+                    <option value = "Phising">Other</option>
+                    <option value = "Other">Inappropriate Photo</option>
+                </select>
+            </div>
+
+            
+            <div id = "SystemSelect" class = "hidden">
+                <label for = "System">What did the System do?</label>
+                <select id = "System">
+                    <option value = "Choose an option">Choose an option</option>
+                    <option value = "Hyperlink not working">Hyperlink not working</option>
+                    <option value = "Button does not work">Button does not work</option>
+                    <option value = "Product card glitchy">Product card glitchy</option>
+                    <option value = "Profile editing issue">Profile editing issue</option>
+                    <option value = "Security Risk">Secuirty Risk</option>
+                    <option value = "Other">Other</option>
+                </select>
+            </div>
+
+            <div id = "IssueTF" class = "hidden">
+                <label for = "Issue">Describe your issue:</label>
+                <textarea id = "Issue" maxlength="200" placeholder="Max 200 chars"></textarea>            
+            </div>
+
+            <div id = "PhotoUpload" class = "hidden">
+                <label for = "Photo">Upload a max of 4 Photos</label>
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+            </div>
+
+            <div id = "ButtonUpload" class = "hidden">
+                <button ></button>
+
+            </div>
+
+        </form>
+        
+      </div>
+
       
-    <!-- Product card code-->
-    <button onclick = "CreateWindow()" class = "buttonDIV"> <!-- code for Product GUI/go to the js file-->
-        <div class = "divPT">
-           <img src="images/Ipad4.webp">
-           <hr>
-           <p class = "ProductName fw-semibold ">Ipad 10th gen 150gb black edition - $599.00</p>
-           <span class = "ProductUserPFP"></span>
-           <p class = "ProductAcessID">Access ID: TA1234</p>
-           <p class = "ProductUserName">Joe doe</p>
-           <div>
-            <span class="fa fa-star checked rating"></span>
-            <span class="fa fa-star checked rating"></span>
-            <span class="fa fa-star checked rating"></span>
-           </div>
-           
-        </div>
-    </button>
+      <!-- The script element allows us to add js syntax -->
+      <script>
+        //The 2nd, 3rd, and 4th script element will only appear based on the value of what the user chooses for the 1st select element
 
+        //store the 'select' element's ID in a variable via the div
+        const Subject = document.getElementById('Subject');
+
+        //Get the corresponding  select elemt's and their DIV ID and store it in a variable
+        //We use the div ID because the div ID has the class css selector hidden, the select element doesn't
+        const UserSelect = document.getElementById('UserSelect')
+        const AdvisorSelect = document.getElementById('AdvisorSelect')
+        const SystemSelect = document.getElementById('SystemSelect');
+
+        //Textarea element
+        const IssueTF = document.getElementById('IssueTF');
+
+        //input file type element
+        const PhotoUpload = document.getElementById('PhotoUpload');
+
+        //button element
+        const ButtonUpload = document.getElementById('ButtonUpload');
+        
+
+        //Even Listener function to "hear" what the user chooses from Subject Select
+        Subject.addEventListener('change', function(){
+            //Hide the 2nd, 3rd, and 4th select!
+            UserSelect.classList.add('hidden');
+            AdvisorSelect.classList.add('hidden');
+            SystemSelect.classList.add('hidden');
+
+            IssueTF.classList.add('hidden');
+
+            PhotoUpload.classList.add('hidden');
+
+
+            //Using the conditional statements below, determine which coresponding select/dropdown menu appears
+            //we use the corresponding select element ID in the conditional statement
+            if(Subject.value === 'User'){
+                UserSelect.classList.remove('hidden');
+                IssueTF.classList.remove('hidden');
+                PhotoUpload.classList.remove('hidden');
+            }
+            else if(Subject.value === 'Advisor'){
+                AdvisorSelect.classList.remove('hidden');
+                IssueTF.classList.remove('hidden');
+                PhotoUpload.classList.remove('hidden');
+
+            }
+            else if(Subject.value === 'System'){
+                SystemSelect.classList.remove('hidden');
+                IssueTF.classList.remove('hidden');
+                PhotoUpload.classList.remove('hidden');
+
+            }
+        });
+
+      </script>
+
+     
+
+
+      
     
-
-    <!-- search filter -->
-    <input type="text" id="searchInput" placeholder="Search products...">
-    	<h1>Products</h1>
-	<div id="productList">
-	<!-- Products to be inserted here -->
-	</div>
-
-
-		<select id="categoryFilter" >
-    		<option value="">All</option>
-   		<option value="Electronics">Electronics</option>
-    		<option value="Clothing">Clothing</option>
-	</select>
-
-	<button onclick="applyFilter()">Filter</button>
-
 
     <!--footer-->
     <footer>

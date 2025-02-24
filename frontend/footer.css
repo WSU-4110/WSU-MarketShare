@@ -1,6 +1,6 @@
 
 footer {
-  position: absolute;
+  position: relative;
   left: 0;
   width: 100%;
   background-color: rgb(8, 98, 8);
@@ -9,12 +9,14 @@ footer {
   flex-direction: row;
   padding: 20px;
   display: flex;
+  bottom: 0px;
 }
 .footer-section {
             padding: 15px;
             border-right: 2px solid #FFCC33;
             width: 100%; /* Ensures it takes the full width */
             box-sizing: border-box;
+            
 }
 .footer-section:last-child {
             border-right: none;
