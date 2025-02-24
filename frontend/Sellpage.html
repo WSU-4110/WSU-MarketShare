@@ -33,23 +33,25 @@
         });
     </script>
 
+
     <div class="items">
-      <div class="option">
-        <i class="fa-solid fa-calculator" style="color: #000000"></i>Calculators
+      <div class="option" data-category="Calculators">
+        <i class="fa-solid fa-calculator"></i>Calculators
       </div>
-      <div class="option">
-        <i class="fa-solid fa-book" style="color: #000000"></i>Textbooks
+      <div class="option" data-category="Textbooks">
+        <i class="fa-solid fa-book"></i>Textbooks
       </div>
     </div>
     <div class="items2">
-      <div class="option2">
-        <i class="fa-solid fa-tablet-screen-button" style="color: #000000"></i
-        >Tablet
+      <div class="option2" data-category="Tablets">
+        <i class="fa-solid fa-tablet-screen-button"></i>Tablet
       </div>
-      <div class="option2">
-        <i class="fa-solid fa-laptop" style="color: #000000"></i>Laptop
+      <div class="option2" data-category="Laptops">
+        <i class="fa-solid fa-laptop"></i>Laptop
       </div>
     </div>
+
+
 
     <div id="popup" class="popup">
       <div class="popup-content">
@@ -214,25 +216,39 @@
 
     <!--This part deals with putting the item into Sellpageintro-->
     <script>
-      document.getElementById("addItem").addEventListener("click", function () {
-        let name = document.getElementById("productname").value;
-        let price = document.getElementById("productPrice").value;
-        let details = document.getElementById("productDetails").value;
-        let condition = document.querySelector('input[name="tabs"]:checked').nextElementSibling.innerText;
-
-        let images = [];
-        document.querySelectorAll(".imgbx img").forEach((img) => {
-          images.push(img.src);
+      // Modified script to handle category selection
+      let selectedCategory = '';
+      
+      document.addEventListener("DOMContentLoaded", function () {
+        const options = document.querySelectorAll(".option, .option2");
+        
+        options.forEach((option) => {
+          option.addEventListener("click", function() {
+            selectedCategory = this.dataset.category;
+            document.getElementById("popup").style.display = "flex";
+          });
         });
+      });
 
-        let item = { id: Date.now()+Math.random().toString().slice(2,8), name, price, details, condition, images };
+      // Modified addItem event listener to include category
+      document.getElementById("addItem").addEventListener("click", function () {
+        const item = {
+          id: Date.now() + Math.random().toString().slice(2,8),
+          name: document.getElementById("productname").value,
+          price: document.getElementById("productPrice").value,
+          details: document.getElementById("productDetails").value,
+          condition: document.querySelector('input[name="tabs"]:checked').nextElementSibling.innerText,
+          images: Array.from(document.querySelectorAll(".imgbx img")).map(img => img.src),
+          category: selectedCategory
+        };
 
-        let listings = JSON.parse(localStorage.getItem("listings")) || [];
+        const listings = JSON.parse(localStorage.getItem("listings")) || [];
         listings.push(item);
         localStorage.setItem("listings", JSON.stringify(listings));
-
+        
         window.location.href = "Sellpageintro.html";
       });
     </script>
+
   </body>
 </html>
