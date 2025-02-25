@@ -79,6 +79,51 @@ margin-bottom: 8px;
     font-size: 1.1em;
 }
 
+.quantity-controls{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+
+}
+
+.quantity-btn{
+    width: 35px;
+    height: 35px;
+    border: 2px solid var(--link-color);
+    background: none;
+    cursor: pointer;
+    font-size: 1.1em;
+    border-radius: 50%;
+    color: var(--link-color);
+    transition: all 0.3s ease;
+}
 
 
+.quantity-btn:hover{
+    background-color: var(--link-color);
+    color: white;
+}
+
+.quantity-input{
+    width: 60px;
+    padding: 8px;
+    font-size: 1em;
+    border: 2px solid var(--link-color);
+    text-align: center;
+
+}
+
+.remove-btn{
+    color: red;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2em;
+    transition: transform 0.2s ease;
+
+}
+.remove-btn:hover{
+    transform: scale(1.1);
+}
 
