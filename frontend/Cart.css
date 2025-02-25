@@ -1,0 +1,84 @@
+:root{
+    --text-color: rgb(20, 236, 92);
+    --link-color: rgba(105, 156, 10, 0.735); /* so i don't have to memorize or keep going back to this*/
+    --background-color: yellow;
+    --box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+body{
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    display: block;
+    padding: 20px;
+    font-family: sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.cart-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: var(--box-shadow);
+}
+
+.cart-items{
+    margin-bottom: 30px;
+
+}
+
+.cart-header{
+    font-size: 2.5em;
+    color: var(--link-color);
+    display: flex;
+    margin-bottom: 30px;
+    align-items: center;
+    gap: 15px;
+}
+.cart-item{
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    gap: 20px;
+    box-shadow: var(--box-shadow);
+    background: white;
+}
+
+.item-image{
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid var(--link-color);
+}
+.item-details{
+    flex-grow: 1;
+}
+
+.item-name{
+color: var(--link-color);
+font-size: 1.2em;
+margin-bottom: 8px;
+}
+
+.item-price{
+    color: black;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+
+
+
