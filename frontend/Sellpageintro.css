@@ -255,6 +255,15 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 }
 
+.NA-list{
+  margin-left: 500px;
+  font-weight: bold;
+  margin-top: 50%;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+
 .navbar .nav-link:hover{
   color: gold !important;
 }
