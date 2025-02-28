@@ -83,14 +83,35 @@
         </div>
 
         <script>
-        document.addEventListener("DOMContentLoaded", function(){
+          document.addEventListener("DOMContentLoaded", function(){
+            class UIFactory {
+              createInputField() {}
+              createButton() {}
+            }
+            class StandardUIFactory extends UIFactory {
+              createInputField(type, placeholder, iconClass){
+                const div = document.createElement("div");
+                div.classList.add("text_in_bar");
 
-          const sendCodeBtn = document.getElementById("sendCodeBtn");
-          const VerificationBox = document.getElementById("VerificationBox");
-          sendCodeBtn.addEventListener("click", function() {
-              VerificationBox.style.display = "flex";
-          });
-          }); 
+                const input = document.createElement("input");
+                input.type = type;
+                input.placeholder = placeholder;
+
+                const icon = document.createElement("i");
+                icon.className = iconClass;
+                div.appendChild(input);
+                div.appendChild(icon);
+                return div;
+              }
+              createButton(text, id){
+                const button = document.createElement("button");
+                button.id = id;
+                button.textContent = text;
+                return button;
+              }
+            }
+            
+          })
           </script>
 
         
