@@ -189,6 +189,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+
     <!--This script basically deals with loading the listing into the FrontPage-->
 
     <script>
@@ -196,6 +197,7 @@
         const productList = document.getElementById("productList");
         const searchInput = document.getElementById("searchInput");
         const categoryFilter = document.getElementById("categoryFilter");
+
 
         let listings = JSON.parse(localStorage.getItem("listings")) || [];
 
@@ -222,9 +224,11 @@
               )}</p>
               <p><strong>Condition:</strong> ${item.condition}</p>
               <p><strong>Category:</strong> ${item.category}</p>
+
             `;
             productElement.onclick = () => CreateWindow(item);
             productList.appendChild(productElement);
+
           });
         }
 
@@ -251,6 +255,7 @@
             : listings;
           displayProducts(filtered);
         }
+
 
         document
           .querySelector(".btn-success")

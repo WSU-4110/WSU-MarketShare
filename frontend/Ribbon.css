@@ -14,7 +14,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 /* apply css elements to the a tag (hyperlinks) */
 .navbar a{
-    position: relative; /** as of 2/18 **/
+    position: relative;
     color: white !important;
     text-decoration: none !important;
     display: inline-block;
@@ -23,7 +23,6 @@ in the html document do not write class and the css class. Rfer to navabr and na
     margin-right: 20px;
     cursor: pointer;
     z-index: 100; /** as of 2/18 **/
-
 }
 
 .navbar a:hover{
@@ -41,7 +40,6 @@ in the html document do not write class and the css class. Rfer to navabr and na
     position: relative !important;
     width: 410px;
     left: 39px;
-    
 }
 
 /** This css is for the profile icon from font awsome **/
@@ -92,17 +90,16 @@ in the html document do not write class and the css class. Rfer to navabr and na
     left: 30px;
     transform: translateX(-50%);
     white-space: nowrap;
-    transition: opacity 0.3s ease-in-out, visibility 0s linear 0S; 
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s; 
     border-radius: 5px;
     cursor: pointer;
     width: 70px;
-    
-}
+}  
+
 
 .hover-message:hover{
-    color:gold; /** as of 2/19 **/
+    color:gold;
 }
-
 .button-container:hover .hover-message{
     opacity: 1;
     visibility: visible;
@@ -114,8 +111,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
     position: absolute;
     left: 2px;
     top: 15px;
-    font-size: 13px;
-    
+    font-size: 13px;  
 
 }
 
@@ -152,6 +148,7 @@ Opacity controls the transparency of an element (values 0-1)
     z-index: 100 !important;
     height: 40px;
     bottom: -17px;
+
 }
 
 #RightButton:hover{
@@ -166,11 +163,9 @@ Opacity controls the transparency of an element (values 0-1)
     bottom: -3px;
     right: 2px;
     font-size: 19px;
-    color: green
-
-
-    
+    color: green;
 }
+
 
 
 
@@ -189,12 +184,11 @@ Opacity controls the transparency of an element (values 0-1)
     border-radius: 10px!important; 
     left: 220px;
     text-indent: 10px;
-    z-index:100; /*Place search bar on top*/
-
-    
+    z-index:100; /*Place search bar on top*/  
 
 }
 
 
  
  
+
