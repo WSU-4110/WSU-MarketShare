@@ -110,8 +110,20 @@
                 return button;
               }
             }
-            
-          })
+            const factory = new StandardUIFactory();
+            const mainBox = document.getElementById("mainBox");
+            const emailFeild = factory.createInputField("email", "Enter your Email", "fa-regular fa-envelope");
+            const passwordField = factory.createInputField("password", "Enter your Password", "fa-solid, fa-lock");
+            mainBox.appendChild(emailFeild);
+            mainBox.appendChild(passwordField);
+
+            const sendCodeBtn = document.getElementById("sendCodeBtn");
+            const VerificationBox = document.getElementById("VerificationBox");
+            sendCodeBtn.addEventListener("click", function(){
+              VerificationBox.style.display = "flex";
+            });
+
+          });
           </script>
 
         
