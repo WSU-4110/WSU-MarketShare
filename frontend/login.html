@@ -12,20 +12,43 @@
         <div class="login-container">
             <img src="WSU.png" alt="Wayne State Logo">
             <h2>Wayne State MarketShare Welcome! :)</h2>
+
+
+            <!-- Email input -->
             <label for="email">🎓 Your Wayne State Access ID</label>
             <input type="email" id="email" class="input-field" placeholder="AccessID">
+
+            <!-- Password input with toggle button -->
+
+
             <label for="password">🔒 Your password</label>
             <div class="password-container">
                 <input type="password" id="password" class="input-field" placeholder="Password">
                 <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">Show</button>
             </div>
+
+            <p id="message"></p>
+
+            <!-- Login button -->
             <button class="login-btn" onclick="loginUser()">Login</button>
-            <a href="#" class="forgot-password">Forgot Password?</a>
+
+
+            <!-- Forgot password link -->
+            <a href="ForgottenPassword.html" class="forgot-password">Forgot Password?</a>
+
+            
+
         </div>
+
+        <!-- Illustration -->
         <div class="person">
             <img src="Login.png" alt="Person Illustration">
         </div>
     </div>
+
+
+    <!-- Include the updated login.js script -->
+
     <script type="module" src="login.js"></script>
 </body>
 </html>

@@ -3,8 +3,12 @@ work with the child elements. Specifically, that child elements
 in the html document do not write class and the css class. Rfer to navabr and navabr i**/
 
 /* set the positioning of the navabr*/
+
 .navbar{
-    position: absolute;
+    position: static; /* Position must static for links to work*/
+    width: 100%;
+    z-index: 10;
+  
     
 }
 
@@ -12,14 +16,13 @@ in the html document do not write class and the css class. Rfer to navabr and na
 .navbar a{
     position: relative;
     color: white !important;
-    text-decoration: none;
+    text-decoration: none !important;
     display: inline-block;
     /** Margin adds space outside of it and and other elements**/
     padding: 10px;
     margin-right: 20px;
     cursor: pointer;
-    z-index: 10;
-
+    z-index: 100; /** as of 2/18 **/
 }
 
 .navbar a:hover{
@@ -36,9 +39,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
 .navbar input{
     position: relative !important;
     width: 410px;
-    left: 20px;
-    border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;
+    left: 39px;
 }
 
 /** This css is for the profile icon from font awsome **/
@@ -76,9 +77,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
     box-shadow: none !important;
 }
 
-#MainButton:hover{
- /** let this be empty **/
-}
+
 
 .hover-message{
     opacity: 0; /** affect the transpaerncy or the clarity of the element**/
@@ -91,12 +90,12 @@ in the html document do not write class and the css class. Rfer to navabr and na
     left: 30px;
     transform: translateX(-50%);
     white-space: nowrap;
-    transition: opacity 0.3s ease-in-out, visibility 0s linear 0S; 
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s; 
     border-radius: 5px;
     cursor: pointer;
     width: 70px;
-    
-}
+}  
+
 
 .hover-message:hover{
     color:gold;
@@ -105,14 +104,14 @@ in the html document do not write class and the css class. Rfer to navabr and na
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+
 }
 
 #HomeIcon{
     position: absolute;
     left: 2px;
     top: 15px;
-    font-size: 13px;
-    
+    font-size: 13px;  
 
 }
 
@@ -126,41 +125,70 @@ Opacity controls the transparency of an element (values 0-1)
 
 /** WSU text in the middle of the nav bar **/
 
-#NavText{
+#NavText {
     position: relative;
-    color: gold;
+    top: -50px; 
+    left: 0;
     text-align: center;
-    width: 100%;
-    top: -50px;
-    left: 6px;
+    color: gold;
+    margin: 15px 0;
+    z-index: 10;
+  
 }
-
 /** The css below is for the search icon on the right */
 #RightButton{
-    position: relative  !important;
-    border: 12px solid transparent !important; /** the thickness of the border **/
+    position: relative  !important; 
+    border: 11px solid transparent !important; /** the thickness of the border **/
     border-radius: 0px !important; /** the corners of the border **/
     border-top-right-radius: 5px !important;
     border-bottom-right-radius: 5px  !important;
     background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
     cursor: pointer;
-    right: -4px;
+    right: -185px;
+    z-index: 100 !important;
+    height: 40px;
+    bottom: -17px;
+
 }
 
 #RightButton:hover{
     background-color: goldenrod !important;
     color: white;
+    cursor: pointer;
+    z-index: 10;
 }
 
 #searchicon{
     position: absolute;
     bottom: -3px;
-    right: -1px;
+    right: 2px;
     font-size: 19px;
-    color: green
-    
+    color: green;
 }
-.navbar .form-control{
-    z-index: 1000; /*Place search bar on top*/
+
+
+
+
+
+#NavText{
     position: relative;
+    top: -75px;
+    left: 50px;
+    text-align: center;
+    padding: 15px 0;
+    margin: 0; 
 }
+
+#searchInput {
+    width: 400px!important; 
+    border-radius: 10px!important; 
+    left: 220px;
+    text-indent: 10px;
+    z-index:100; /*Place search bar on top*/  
+
+}
+
+
+ 
+ 
+

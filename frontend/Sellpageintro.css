@@ -38,6 +38,7 @@ body{
   }
   .Container h1{
     margin-top: 30px;
+    margin-left: -100px;
     font-weight: bold;
   }
   .input-group {
@@ -199,7 +200,7 @@ border-radius: 20px;
   color: var(--font-color);
   cursor: pointer;
   position: fixed;
-  top: 100px; 
+  top: 90px; 
   right: 20px;
   z-index: 1000;
   transition: transform 0.2s ease-in-out;
@@ -254,8 +255,17 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 }
 
-.navbar a:hover{
-  color: gold;
+.NA-list{
+  margin-left: 500px;
+  font-weight: bold;
+  margin-top: 50%;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+
+.navbar .nav-link:hover{
+  color: gold !important;
 }
 
 /* Apply css to the font awsome elements, remember they come in tags of i */

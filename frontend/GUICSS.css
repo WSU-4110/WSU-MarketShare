@@ -1,96 +1,61 @@
-
-/** button to close **/
-
-.closebutton{
-    position: relative;
-    border-radius: 50%; /** this property is what allows us to create the circle icon**/
-    border: 1px solid gold;
-    left: 550px;
-    top: 10px;
-    
-}
-.closebutton:hover{
-    color: gold;
-    background-color: gold;
-
-}
-
-/** x image to close **/
-
-.ximg{
-    position: inherit;
-    width:30px;
-    height:30px;
-}
-
-/** the gold lines on the GUI **/
-
-.goldline{
-    position: relative;
-    border: 2px solid gold;
-    opacity: 1;
-}
-
-/** The image blown up on the GUI **/
-.productimg{
-    position: relative;
-    width: 270px;
-    height: 270px;
-    right: -160px;
-}
-
-.spacing{
-    position: relative;
-    padding-left: 5px;
-   
-}
-/** search bar for the GUI to message user **/
-.searchbar{
-    position: relative;
-    top: -10px;
-    width: 300px;
-    border-radius: 25px;
-}
-
-/** The GUI icons for hit msg, cart, favorite etc */
-.GUIicons{
-    position: relative;
-    border: 5px solid black;
-    border-radius: 15px;
-    width: 10px;
-    height: 10px;
-
-}
+.closebutton {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+  }
+  
+  .ximg {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .product-details {
+    margin-top: 30px;
+    padding: 20px;
+  }
 
 
-/** PFP icon, specifically the circle icon with the gold border **/
-
-.ProductUserPFP2{ /** this will be applied via the span element (similar to div but for single elements**/
-    position: inherit;
-    height: 40px;
-    width: 40px;
-    background-color: rgb(5, 145, 5);
-    display: inline-block;
-    border-radius: 50%; /** this property is what allows us to create the circle icon**/
-    border: 3.5px solid gold;
-    top: 5px;
-    left: 5px;
+ 
 
 
+  .product-details h2 {
+    color: darkgreen;
+    margin-bottom: 20px;
+  }
+  
+  .product-details p {
+    margin: 10px 0;
+    font-size: 16px;
+  }
+  
+  .image-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  
+  .product-img {
+    border: 2px solid #ddd;
+    padding: 5px;
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 128, 0, 0.2);
+    border-color: #004d00;
+  }
+  
 
-}
+  
+  .product:hover img {
+    opacity: 0.9;
+  }
+  
 
-/** Users access ID and IRL name **/
-
-.ProductAcessID2{
-    position: inherit;
-    left: 50px;
-    top: 20px;
-    
-}
-
-.ProductUserName2{
-    position: inherit;
-    left: 52px;
-    top: 0px;
-}

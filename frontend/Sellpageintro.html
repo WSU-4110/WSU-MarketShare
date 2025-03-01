@@ -86,6 +86,17 @@
         let itemsContainer = document.getElementById("itemsContainer");
 
         itemsContainer.innerHTML = "";
+        
+
+      if(listings.length === 0){
+          itemsContainer.innerHTML = "<p class = 'NA-list'>Empty</p>";
+
+        }
+        
+          
+        
+      else{
+
 
         listings.forEach((item) => {
           let itemElement = document.createElement("div");
@@ -116,7 +127,8 @@
             
           itemsContainer.appendChild(itemElement);
         });
-        document.querySelectorAll('.delete-btn').forEach(button =>{
+      }
+      document.querySelectorAll('.delete-btn').forEach(button =>{
           button.addEventListener('click', function(){
             const itemId = this.dataset.id;
             deleteItem(itemId);
@@ -125,6 +137,7 @@
       
        
       });
+          
       function deleteItem(id) {
         
         if (confirm("Confirm to remove listing?")) {

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<!--This tage ensures were running HTML5 verison-->
+<html> <!--This tag is used for all HTML elements for your webpage-->
+<head>
+    <script src="https://kit.fontawesome.com/5999306913.js" crossorigin="anonymous"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ReportPage</title>
+    <link rel = "stylesheet" href = "Ribbon.css">
+    <link rel = "stylesheet" href = "ProductThumbnail.css">
+    <link rel = "stylesheet" href = "footer.css">
+    <link rel = "stylesheet" href = "ReportPageCSS.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <!--Imported bootstrap. A popular css library that has pre-created css properties and values that you can use. Essenitally makes applying css to elements easier-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src = "FactoryMethod.js" defer></script>
+    
+
+
+    
+    <style>
+    /** The inline style sheet for the search filter **/
+    a:hover{
+        text-decoration: none !important;
+    }
+
+        .product {
+			border: 3px solid darkgreen;
+            border-radius: 25px;
+			padding: 10px;
+			margin: 10px;
+			width: 200px;
+			display: inline-block;
+		}
+	.container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+	#filterInput {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            font-size: 16px;
+            border: 1px solid green;
+            border-radius: 5px;
+        }
+
+        #list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .listItem {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .listItem:hover {
+            background-color: #e9e9e9;
+        }
+
+        .hidden {
+            display: none; /** Prevents the element from being seen **/
+        }
+    </style>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+	<script type = "module">
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+ 	 	import { getFirestore, collection, query, where, getDocs,  } from 					"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+	const firebaseConfig = {
+  		apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
+  		authDomain: "wsu-market-share.firebaseapp.com",
+  		databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
+  		projectId: "wsu-market-share",
+  		storageBucket: "wsu-market-share.firebasestorage.app",
+  		messagingSenderId: "176228593560",
+  		appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
+  		measurementId: "G-HZ3VRX4MK1"
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const db = getFirestore(app);
+
+	console.log("Firebase initialized.");
+
+	// Fetch and display products
+        const productList = document.getElementById('productList');
+        const searchInput = document.getElementById('searchInput');
+
+        // Function to fetch and display products
+async function fetchAndDisplayProducts() {
+    try {
+        // ❌ Old syntax (incorrect for Firebase v9+)
+        // const querySnapshot = await db.collection('Products').get();
+
+        // ✅ Correct syntax for Firebase v9+
+        const querySnapshot = await getDocs(collection(db, "Products"));
+
+        // Clear the product list
+        productList.innerHTML = '';
+
+        querySnapshot.forEach((doc) => {
+            const product = doc.data();
+
+            // Create a product card
+            const productElement = document.createElement('div');
+            productElement.className = 'product';
+            productElement.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <p><strong>Price:</strong> $${product.price}</p>
+                <p><strong>Category:</strong> ${product.category}</p>
+            `;
+
+            // Append the product card to the product list
+            productList.appendChild(productElement);
+        });
+
+    } catch (error) {
+        console.error("Error fetching products: ", error);
+    }
+}
+        // Fetch and display products when the page loads
+        fetchAndDisplayProducts();
+window.applyFilter = async function () {
+  let category = document.getElementById("categoryFilter").value;
+    let productList = document.getElementById("productList"); // Main product list div
+    productList.innerHTML = "<p>Loading...</p>"; // Show loading message
+
+    try {
+        let q = collection(db, "Products");
+
+        if (category) {
+            q = query(q,  where("category", "==", category));
+        }
+
+        const snapshot = await getDocs(q);
+        productList.innerHTML = ""; // Clear previous products
+
+        if (snapshot.empty) {
+            productList.innerHTML = "<p>No products found.</p>";
+        } else {
+            snapshot.forEach((doc) => {
+                let product = doc.data();
+
+                // Create a product card with the same styles
+                let productElement = document.createElement("div");
+                productElement.classList.add("product"); // Ensure it keeps the styling
+                productElement.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>Price:</strong> $${product.price}</p>
+                    <p><strong>Category:</strong> ${product.category}</p>
+                `;
+
+                // Append product to the productList
+                productList.appendChild(productElement);
+            });
+        }
+    } catch (error) {
+        console.error("❌ Error fetching documents:", error);
+        productList.innerHTML = "<p>Error loading data.</p>";
+    }
+};
+function handleSearch(event) {
+    let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
+    let productElements = document.querySelectorAll('.product'); // Get all product cards
+
+    productElements.forEach((productElement) => {
+        let productName = productElement.querySelector('h3').textContent.toLowerCase(); // Get product name
+        if (productName.includes(searchQuery)) {
+            productElement.style.display = 'block'; // Show the product if it matches the search
+        } else {
+            productElement.style.display = 'none'; // Hide the product if it doesn't match
+        }
+    });
+}
+
+// Event listener for search input
+document.getElementById('searchInput').addEventListener('keyup', handleSearch);
+</script>
+    
+    
+</head><!--The head tag takes metadata tags that are related to the document. You can insert .css exteranl files-->
+
+<body>
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important;">
+        <div class="container-fluid">
+          <div class = "button-container">
+          <a href = "FrontPage.html">
+          <button id = "MainButton"><img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></button>
+          <div class = "hover-message">Home
+          <i class="fa-solid fa-house" id = "HomeIcon"></i>
+          </div>
+          </a>
+          </div>
+          <i class="fa-solid fa-user" id = "ProfileIcon"></i>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Profile</a>
+              </li>
+              <i class="fa-solid fa-bell"></i>
+              <li class="nav-item">
+
+                <a class="nav-link" href="Sellpageintro.html">Sell</a>
+
+              </li>
+              <i class="fa-solid fa-cart-shopping" id = "i4"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Cart</a>
+              </li>
+              <i class="fa-solid fa-gear" id = "i5"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Settings</a>
+              </li>
+              <i class="fa-solid fa-envelope" id = "i3"></i>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Messages</a>
+              </li>
+            </ul>
+            <form class="d-flex" role="search">
+              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" id = "RightButton" type="submit"><i class="fa-solid fa-magnifying-glass" id = "searchicon"></i></button>
+            </form>
+          </div>
+        </div>
+      </nav>
+    
+     
+      
+      <h3 id = "NavText">Wayne State University</h3>
+
+
+      <div class = box1>
+        <i class="fa-solid fa-user-secret"></i>
+        <h3>Report Malicious Activity</h3>
+
+        <h6>Fill out the appropriate details below. You will bre emailed a Report of your submission along with a case number. Keep this as a record as you see fit!</h6>
+
+        <form> <!-- The form element houses all elements related to as form. Drop down menus, buttons, etc-->
+            
+            <!-- drop down menu-->
+            <label for = "Subject">Who is at Fault?</label>
+            <select id = "Subject">
+                <option value = "">Select An Option</option>
+                <option value = "User">User</option>
+                <option value = "Advisor">Advisor</option>
+                <option value = "System">System</option>
+            </select>
+
+            <div id = "UserSelect" class = "hidden">
+                <label for = "User">What did the User do?</label>
+                <select id = "User">
+                    <option value = "Choose an option">Choose an option</option>
+                    <option value = "Inappropriate Photo">Inappropriate Photo</option>
+                    <option value = "Spam">Spam</option>
+                    <option value = "Scam Likely">Scam Likely</option>
+                    <option value = "Hacked Account">Hacked Account</option>
+                    <option value = "Phising">Phising</option>
+                    <option value = "Other">Other</option>
+                </select>
+            </div>
+
+            <div id = "AdvisorSelect" class = "hidden">
+                <label for = "Advisor">What did the Advisor do?</label>
+                <select id = "Advisor">
+                    <option value = "Choose an option">Choose an option</option>
+                    <option value = "Inappropriate Response">Inappropriate Photo</option>
+                    <option value = "Spam">Spam</option>
+                    <option value = "Scam Likely">Scam Likely</option>
+                    <option value = "Hacked Account">Hacked Account</option>
+                    <option value = "Phising">Other</option>
+                    <option value = "Other">Inappropriate Photo</option>
+                </select>
+            </div>
+
+            
+            <div id = "SystemSelect" class = "hidden">
+                <label for = "System">What did the System do?</label>
+                <select id = "System">
+                    <option value = "Choose an option">Choose an option</option>
+                    <option value = "Hyperlink not working">Hyperlink not working</option>
+                    <option value = "Button does not work">Button does not work</option>
+                    <option value = "Product card glitchy">Product card glitchy</option>
+                    <option value = "Profile editing issue">Profile editing issue</option>
+                    <option value = "Security risk">Secuirty Risk</option>
+                    <option value = "Other">Other</option>
+                </select>
+            </div>
+
+            <div id = "IssueTF" class = "hidden">
+                <label for = "Issue">Describe your issue:</label>
+                <textarea id = "Issue" maxlength="200" placeholder="Max 200 chars"></textarea>            
+            </div>
+
+            <div id = "PhotoUpload" class = "hidden">
+                <label for = "Photo">Upload a max of 4 Photos</label>
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+            </div>
+
+            <div id = "ButtonUpload" class = "hidden">
+                <button ></button>
+
+            </div>
+
+        </form>
+        
+      </div>
+
+      
+      <!-- The script element allows us to add js syntax -->
+      <script>
+        //The 2nd, 3rd, and 4th script element will only appear based on the value of what the user chooses for the 1st select element
+
+        //store the 'select' element's ID in a variable via the div
+        const Subject = document.getElementById('Subject');
+
+        //Get the corresponding  select elemt's and their DIV ID and store it in a variable
+        //We use the div ID because the div ID has the class css selector hidden, the select element doesn't
+        const UserSelect = document.getElementById('UserSelect')
+        const AdvisorSelect = document.getElementById('AdvisorSelect')
+        const SystemSelect = document.getElementById('SystemSelect');
+
+        //Textarea element
+        const IssueTF = document.getElementById('IssueTF');
+
+        //input file type element
+        const PhotoUpload = document.getElementById('PhotoUpload');
+
+        //button element
+        const ButtonUpload = document.getElementById('ButtonUpload');
+
+
+        //Even Listener function to "hear" what the user chooses from Subject Select
+        Subject.addEventListener('change', function(){
+            //Hide the 2nd, 3rd, and 4th select!
+            UserSelect.classList.add('hidden');
+            AdvisorSelect.classList.add('hidden');
+            SystemSelect.classList.add('hidden');
+
+            IssueTF.classList.add('hidden');
+
+            PhotoUpload.classList.add('hidden');
+
+
+            //Using the conditional statements below, determine which coresponding select/dropdown menu appears
+            //we use the corresponding select element ID in the conditional statement
+            if(Subject.value === 'User'){
+                UserSelect.classList.remove('hidden');
+                IssueTF.classList.remove('hidden');
+                PhotoUpload.classList.remove('hidden');
+            }
+            else if(Subject.value === 'Advisor'){
+                AdvisorSelect.classList.remove('hidden');
+                IssueTF.classList.remove('hidden');
+                PhotoUpload.classList.remove('hidden');
+
+            }
+            else if(Subject.value === 'System'){
+                SystemSelect.classList.remove('hidden');
+                IssueTF.classList.remove('hidden');
+                PhotoUpload.classList.remove('hidden');
+
+            }
+        });
+
+        
+
+      </script>
+
+      <script>
+        //the funtions below are used to communicate to the FactoryMethod.js file. It will 
+        window.onload = function(){
+
+            //create a variable that stores the id of the select targeted element (working with the first select element)
+            const SelectedSubject = document.getElementById('Subject');
+            
+
+            SelectedSubject.addEventListener('change', function() {
+
+                //get the selected value from the attribute value for the element option (working with the first select element) 
+                const SelectedSubjectValue = SelectedSubject.value;
+
+                
+                //Now create the variable that stores the id the chosen subject (working with the second select element)
+                const SelectedSubject2 = document.getElementById(SelectedSubjectValue);
+
+                    SelectedSubject2.addEventListener('change', function() {
+                    //get the selected value from the attribute value for the element option (working with the second select element)
+                    const SelectedSubject2Value = SelectedSubject2.value;
+
+                    var object = CreateClass(SelectedSubjectValue, SelectedSubject2Value); //the return type for this function is an instance of a class
+
+                    //using the object.synatx notation, invoke the proper method
+                    object.Priorty(SelectedSubject2Value);
+                    object.ticket(SelectedSubject2Value);
+
+                    });
+
+            });
+        };
+      </script>
+
+
+
+     
+
+
+      
+    
+
+    <!--footer-->
+    <footer>
+        <div class="footer-section">
+          <img src="images/Warriors.png
+          " height="85" alt=""
+               loading="lazy" />
+        <p >WSU MarketShare</p>
+      </div>
+      
+
+        <div class="footer-section">
+          <li>
+            <a href="https://wayne.edu">Wayne State University</a></li>
+       <li>
+            <a href="https://www.google.com/maps/place/Welcome+Center,+42+W+Warren+Ave,+Detroit,+MI+48202/@42.3569923,-83.0677759,17z/data=!3m1!4b1!4m6!3m5!1s0x8824d2bc65c97381:0x6907f5eb914af2de!8m2!3d42.3569923!4d-83.065201!16s%2Fg%2F1tm8l666?entry=ttu&g_ep=EgoyMDI1MDIwMi4wIKXMDSoASAFQAw%3D%3D">42 W. Warren Avenue, Detroit, MI 48201</a></li>
+      <li>
+            <a href="#!">313-577-2424</a></li>
+          <li>Made with 💚 in Detroit</li>				
+          </li>
+      </div>
+      <!--Grid column-->
+        <div class="footer-section">
+          <li>
+            <a href="#top">Home</a></li>
+       <li>
+            <a href="Sellpageintro.html">Sell Page</a></li>
+      <li>
+            <a href="#!">Account</a></li>				
+          </li>
+      </div>
+   <!--Grid column-->
+        <div class="footer-section">
+          <li>
+            <a href="#!">FAQ</a></li>
+       <li>
+            <a href="#!">Support</a></li>
+      <li>
+            <a href="ReportPage.html">Report</a></li>				
+          </li>
+      </div>      
+
+    </footer>
+
+    </div>
+
+   
+    
+    
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> 
+</body>
+
+</html>
