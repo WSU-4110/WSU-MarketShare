@@ -201,6 +201,11 @@ transform: translateX(3px);
 /* from iffats ribbon file */
 
 
+/**Make sure to understand how the css class selectors here 
+work with the child elements. Specifically, that child elements
+in the html document do not write class and the css class. Rfer to navabr and navabr i**/
+
+/* set the positioning of the navabr*/
 
 .navbar{
     position: static; /* Position must static for links to work*/
@@ -385,6 +390,11 @@ Opacity controls the transparency of an element (values 0-1)
     z-index:100; /*Place search bar on top*/  
 
 }
+
+
+ 
+ 
+
 /*iffat code end*/
 
 
