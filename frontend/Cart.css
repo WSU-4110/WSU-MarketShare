@@ -181,8 +181,23 @@ margin-bottom: 8px;
     letter-spacing: 1px;
     box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
 }
+.checkout-btn:hover{
+    background-color: #1d8a4f;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4);
+}
+.checkout-btn:active{
+    transform: translateY(0);
+}
 
+.checkout-btn i{
+    transition: transform 0.3 ease;
 
+}
+
+.checkout-btn:hover i{
+transform: translateX(3px);
+}
 /* from iffats ribbon file */
 
 
