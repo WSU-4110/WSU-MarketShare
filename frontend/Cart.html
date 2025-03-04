@@ -9,7 +9,6 @@
         <link rel="preconnect" href="https://fonts.googleapis.com">   <!--for more graphocs and designs-->
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- this is for the symbols from the websitte fontawesome that i plan to use-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 
         <link href="https://fonts.googleapis.com/css2?family=Freeman&display=swap" rel="stylesheet">
@@ -120,13 +119,14 @@
                 constructor(){
                     this.items = [];
                     this.loadCart();
-                    this.updateSubtotal();
                     this.initEventListeners();
+                    this.updateSubtotal();
+                    
 
                 }
 
                 loadCart(){
-                    this.items[{
+                    this.items = [{
                 id: 1,
                 name: "Product Name 1",
                 price: 20.99,
