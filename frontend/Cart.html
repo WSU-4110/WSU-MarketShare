@@ -107,7 +107,7 @@
 
                     <div class="form-group">
                         <label>Expiration Date:</label>
-                        <input type="text" id="expDate" placeholder="11/22" maxlength="5">
+                        <input type="text" id="expDate" placeholder="MM/YY" maxlength="5">
                     </div>
 
                     <div class="form-group">
@@ -199,7 +199,7 @@
                         }
                     });
                     document.querySelector('.checkout-btn').addEventListener('click', () => {
-                        checkoutModal.style.display = 'flex';
+                        document.getElementById('checkoutModal').style.display = 'flex';
                     });
 
                     
@@ -208,7 +208,7 @@
                     const item = this.items.find(i => i.id === itemId);
                     return item ? item.quantity : 1;
                 }
-                removeItem(ItemId){
+                removeItem(itemId){
                     this.items = this.items.filter(i => i.id !== itemId);
                     this.renderCart();
                     this.updateSubtotal();
