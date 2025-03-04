@@ -135,15 +135,15 @@
                 }
 
                 renderCart(){                                                           //takes lines from my html file
-                    const cartItems = document.querySelector('.cart-items');
+                    const cartItems = document.csSelector('.cart-items');
                     cartItems.innerHTML = this.items.length === 0
                     ? '<div class="empty-cart-message"><i class="fa-solid fa-cart-arrow-down"></i><br>Your cart is empty</div>'
-                    : this.items.map(item =>`
+                : this.items.map(item => `
                     <div class="cart-item" data-id="${item.id}">
                         <img src="${item.image}" alt="${item.name}" class="item-image">
                         <div class="item-details">
                             <h2 class="item-name">${item.name}</h2>
-                            <p class="item-price">$${item.price.toFixed(2)}</p>        
+                            <p class="item-price">$${item.price.toFixed(2)}</p>
                             <div class="quantity-controls">
                                 <button class="quantity-btn minus">-</button>
                                 <input type="number" class="quantity-input" value="${item.quantity}" min="1">
@@ -151,8 +151,8 @@
                             </div>
                         </div>
                         <button class="remove-btn"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `).join('');
+                    </div> 
+                `).join(''); // code from html end
                 }
                 updateQuantity(itemId, newQuantity){
                     const item = this.items.find(i => i.id ===itemId);
@@ -174,7 +174,7 @@
                         if(!itemElement) return;
 
                         const itemId = parseInt(itemElement.dataset.id);
-                        if(e.target.closest('plus')){
+                        if(e.target.closest('.plus')){
                             this.updateQuantity(itemId, this.getItemQuantity(itemId) + 1); //should give functionality to my plus symbol
                         }
                         else if(e.target.closest('.minus')){
@@ -186,7 +186,7 @@
                         }
                     });
                     document.querySelector('.checkout-btn').addEventListener('click', () => {
-                        checkoutFunct.style.display = 'flex';
+                        checkoutModal.style.display = 'flex';
                     });
 
                     
@@ -203,7 +203,86 @@
                 }
             }
 
+            class CheckoutForm {
+                constructor() {
+                    this.modal = document.getElementById('checkoutModal');
+                    this.initEventListeners();
+                }
+                initEventListeners(){
+                    document.querySelector('.cart-items').addEventListener('click', () => this.close());
+                        window.addEventListener('click', (e) => {
+                            if(e.target === this.modal) this.close();
+                        });
+
+                        document.getElementById('paymentForm').addEventListener('submit', (e) => {
+                            e.preventDefault();
+                            if(this.validateForm()){
+                                alert('Successful Purchase!');
+                                this.close();
+                            }
+                        });
+                        document.getElementById('cardNumber').addEventListener('input', this.formatCardNumber);
+                        document.getElementById('expDate').addEventListener('input', this.formatExpDate);
+
+
+                    }
+
+                    formatCardNumber(e){
+                        let value = e.target.value.replace(/\D/g, '');
+                        value = value.match(/.{1,4}/g)?.join(' ').substring(0, 19) || '';
+                        e.target.value= value;
+                    }
+
+                    formatExpDate(e){
+                        let value = e.target.value.replace(/\D/g, '');
+                        if(value.length >= 2){
+                            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                        }
+                        e.target.value = value.substring(0, 5);
+                    }
+
+                    validateForm(){
+                        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                        const expDate = document.getElementById('expDate').value;
+                        const cvv = document.getElementById('cvv').value;
+                        const cardName = document.getElementById('cardName').value;
+
+                        if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)){
+                            alert('Enter a Valid Card Number');
+                            return false;
+                        }
+                        if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expDate)){
+                            alert('Enter a Valid month and date');
+                            return false;
+                        }
+                        if(!/^\d{3}$/.test(cvv)){
+                            alert('Enter security cvv code');
+                            return false;
+                        }
+                        if(cardName.trim === ''){
+                            alert('Enter Cardholders Name');
+                            return false;
+
+                        }
+
+
+
+                        return true;
+                    }
+                    close(){
+                        this.modal.style.display = 'none';
+                    }
+                    
+
+                    
+
+                }
+
+            
+
             const cart = new Cart();
+            const checkoutform = new CheckoutForm();
+            
             
         </script>
 
