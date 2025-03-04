@@ -97,24 +97,30 @@
                 <span class="close-checkout">&times;</span>
                 <h2>Payment Information</h2>
                 <form id="paymentForm">
+
                     <div class="form-group">
                         <label>Card Number:</label>
                         <input type="text" id="cardNumber" placeholder="1234 5678 1234 5678" maxlength="19">
 
                     </div>
+
                     <div class="form-group">
                         <label>Expiration Date:</label>
                         <input type="text" id="expDate" placeholder="11/22" maxlength="5">
                     </div>
+
                     <div class="form-group">
                         <label>CVV:</label>
                         <input type="text" id="cvv" placeholder="123" maxlength="3">
                     </div>
+
                     <div class="form-group">
-                        <label></label>
+                        <label>Cardholder Name:</label>
                         <input type="text" id="cardName" placeholder="Emadul Emad">
-                        <button type="submit" class="checkout-btn">Purchase Complete!</button>
+                        
                     </div>
+
+                    <button type="submit" class="checkout-btn">Purchase Complete!</button>
                 </form>
             </div>
         </div>
@@ -130,12 +136,18 @@
                 }
 
                 loadCart(){
-                    this.items[{id: 1, name: "Placeholder product", price: 20.99, quantity: 1, image: "https://via.placeholder.com/100"}];
+                    this.items[{
+                id: 1,
+                name: "Product Name 1",
+                price: 20.99,
+                quantity: 1,
+                image: "https://via.placeholder.com/100"
+            }];
                     this.renderCart();
                 }
 
                 renderCart(){                                                           //takes lines from my html file
-                    const cartItems = document.csSelector('.cart-items');
+                    const cartItems = document.querySelector('.cart-items');
                     cartItems.innerHTML = this.items.length === 0
                     ? '<div class="empty-cart-message"><i class="fa-solid fa-cart-arrow-down"></i><br>Your cart is empty</div>'
                 : this.items.map(item => `
@@ -195,7 +207,7 @@
                     const item = this.items.find(i => i.id === itemId);
                     return item ? item.quantity : 1;
                 }
-                removeItem(){
+                removeItem(ItemId){
                     this.items = this.items.filter(i => i.id !== itemId);
                     this.renderCart();
                     this.updateSubtotal();
@@ -208,11 +220,11 @@
                     this.modal = document.getElementById('checkoutModal');
                     this.initEventListeners();
                 }
-                initEventListeners(){
-                    document.querySelector('.cart-items').addEventListener('click', () => this.close());
-                        window.addEventListener('click', (e) => {
-                            if(e.target === this.modal) this.close();
-                        });
+                initEventListeners() {
+                    document.querySelector('.close-checkout').addEventListener('click', () => this.close());
+                    window.addEventListener('click', (e) => {
+                        if (e.target === this.modal) this.close();
+                    });
 
                         document.getElementById('paymentForm').addEventListener('submit', (e) => {
                             e.preventDefault();
@@ -259,7 +271,7 @@
                             alert('Enter security cvv code');
                             return false;
                         }
-                        if(cardName.trim === ''){
+                        if(cardName.trim() === ''){
                             alert('Enter Cardholders Name');
                             return false;
 
@@ -282,7 +294,7 @@
 
             const cart = new Cart();
             const checkoutform = new CheckoutForm();
-            
+
             
         </script>
 
