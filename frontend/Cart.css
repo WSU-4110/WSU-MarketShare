@@ -16,10 +16,6 @@ body{
     background-size: cover;
     background-position: center top;
     background-repeat: no-repeat;
-    display: block;
-    padding: 20px;
-    font-family: sans-serif;
-    margin: 0;
     min-height: 100vh;
 }
 
@@ -74,7 +70,7 @@ margin-bottom: 8px;
 }
 
 .item-price{
-    color: black;
+    color: red;
     font-weight: bold;
     font-size: 1.1em;
 }
@@ -110,6 +106,7 @@ margin-bottom: 8px;
     padding: 8px;
     font-size: 1em;
     border: 2px solid var(--link-color);
+    border-radius: 8px;
     text-align: center;
 
 }
@@ -126,4 +123,238 @@ margin-bottom: 8px;
 .remove-btn:hover{
     transform: scale(1.1);
 }
+
+.checkout-modal{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: black;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.checkout-content{
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.subtotal-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    padding: 1.5rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px black;
+}
+
+.subtotal-text{
+    font-size: 1.5rem;
+    color: #2c3e50;
+    margin: 0;
+    font-weight: bold;
+}
+
+
+
+
+/* from iffats ribbon file */
+
+
+
+.navbar{
+    position: static; /* Position must static for links to work*/
+    width: 100%;
+    z-index: 10;
+  
+    
+}
+
+/* apply css elements to the a tag (hyperlinks) */
+.navbar a{
+    position: relative;
+    color: white !important;
+    text-decoration: none !important;
+    display: inline-block;
+    /** Margin adds space outside of it and and other elements**/
+    padding: 10px;
+    margin-right: 20px;
+    cursor: pointer;
+    z-index: 100; /** as of 2/18 **/
+}
+
+.navbar a:hover{
+    color: gold;
+}
+
+/* Apply css to the font awsome elements, remember they come in tags of i */
+.navbar i{
+    position: relative;
+    bottom: -15px;
+}
+
+/* apply css to search bar */
+.navbar input{
+    position: relative !important;
+    width: 410px;
+    left: 39px;
+}
+
+/** This css is for the profile icon from font awsome **/
+#ProfileIcon{
+    bottom: 0px;
+}
+
+/* apply css when hovering over a element */ 
+
+
+.navbar button{
+    background-color: white;
+
+}
+.nav-link{
+    cursor: pointer;
+}
+
+.navbar i{
+    color: white;
+}
+
+/** The following css is for the W button and a message appearing when hovering over it **/
+
+.button-container{
+    position: relative;
+    display: inline-block;
+}
+
+#MainButton{
+    color: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+
+.hover-message{
+    opacity: 0; /** affect the transpaerncy or the clarity of the element**/
+    visibility: hidden;
+    background-color: rgb(8, 98, 8);
+    color: white;
+    padding: 10px 20px;
+    position: absolute;
+    top: 100%;
+    left: 30px;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s; 
+    border-radius: 5px;
+    cursor: pointer;
+    width: 70px;
+}  
+
+
+.hover-message:hover{
+    color:gold;
+}
+.button-container:hover .hover-message{
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+
+}
+
+#HomeIcon{
+    position: absolute;
+    left: 2px;
+    top: 15px;
+    font-size: 13px;  
+
+}
+
+
+/** Under stand the difference between opacity and visibility
+They both revolve around how an element appears
+Opacity controls the transparency of an element (values 0-1)
+
+**/
+
+
+/** WSU text in the middle of the nav bar **/
+
+#NavText {
+    position: relative;
+    top: -50px; 
+    left: 0;
+    text-align: center;
+    color: gold;
+    margin: 15px 0;
+    z-index: 10;
+  
+}
+/** The css below is for the search icon on the right */
+#RightButton{
+    position: relative  !important; 
+    border: 11px solid transparent !important; /** the thickness of the border **/
+    border-radius: 0px !important; /** the corners of the border **/
+    border-top-right-radius: 5px !important;
+    border-bottom-right-radius: 5px  !important;
+    background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
+    cursor: pointer;
+    right: -185px;
+    z-index: 100 !important;
+    height: 40px;
+    bottom: -17px;
+
+}
+
+#RightButton:hover{
+    background-color: goldenrod !important;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#searchicon{
+    position: absolute;
+    bottom: -3px;
+    right: 2px;
+    font-size: 19px;
+    color: green;
+}
+
+
+
+
+
+#NavText{
+    position: relative;
+    top: -75px;
+    left: 50px;
+    text-align: center;
+    padding: 15px 0;
+    margin: 0; 
+}
+
+#searchInput {
+    width: 400px!important; 
+    border-radius: 10px!important; 
+    left: 220px;
+    text-indent: 10px;
+    z-index:100; /*Place search bar on top*/  
+
+}
+/*iffat code end*/
+
+
 
