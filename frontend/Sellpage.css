@@ -15,11 +15,15 @@ html, body{
     padding: 0;
     height: 100%;
 }
+
+
 *{
     margin: 0;
     padding:0;
     box-sizing: border-box;
 }
+
+
 html{
     scroll-behavior: smooth;
 
@@ -80,34 +84,39 @@ h1{
 }
 .info{
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 90%;
   text-align: center;
+  margin: 5px 0;
 }
 
 
 .info2{
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 90%;
   text-align: center;
+  margin: 5px 0;
+
 }
 .info3{
   background: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 300px;
+  width: 90%;
   text-align: center;
+  margin: 5px 0;
+
 }
 .info3,
 textarea{
   resize: none;
-  width: 300px;
+  width: 100%;
+  height: 60px;
 
 }
 
@@ -148,10 +157,11 @@ textarea{
 .popup-content{
   position: relative;
     background: white;
-    padding: 12px;
-    border-radius: 30px;
-    width: 380px;
-    max-height: 250;
+    padding: 10px;
+    border-radius: 15px;
+    width: 350px;
+    overflow-y: auto;
+    max-height: 100vh;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -163,9 +173,10 @@ textarea{
 }
 .popup-content input,
 .popup-content textarea{
-    width: 85%;
-    height: 30px;
-    padding: 5px;
+    width: 100%;
+    height: 28px;
+    padding: 4px;
+    font-size: 0.9rem;
     border: 1px solid rgb(43, 38, 16);
     border-radius: 5px;
 
@@ -176,7 +187,8 @@ textarea{
   resize: none;
 }
 .popup-content label{
-  font-size: 14px;
+  font-size: 13px;
+  margin-bottom: 2px;
 }
 
 .closebutton{
@@ -191,6 +203,8 @@ textarea{
 /* From Uiverse.io by andrew-demchenk0 */ 
 .button {
     position: relative;
+    margin: 8px 0;
+    transform: scale(0.9);
     width: 150px;
     height: 40px;
     cursor: pointer;
@@ -398,14 +412,14 @@ textarea{
 .image-boxes{
     display: grid;
     grid-template-columns:repeat(2,1fr);
-    gap: 10px;
+    gap: 8px;
     justify-content: center;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .imgbx{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border: 2px dashed #ccc;
     display: flex;
     align-items: center;
@@ -413,7 +427,7 @@ textarea{
     position: relative;
     overflow: hidden;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 8px;
 
    
 
@@ -453,6 +467,7 @@ textarea{
 
 .custom-radio {
   display: flex;
+  padding: 5px;
   flex-direction: column;
   background-color: #fff;
   border-radius: 10px;
@@ -467,7 +482,7 @@ textarea{
 .radio-label {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
+  padding: 8px 15px;
   cursor: pointer;
   transition: background-color 0.3s ease-in-out;
 }
@@ -482,7 +497,7 @@ textarea{
 }
 
 .radio-text {
-  font-size: 1rem;
+  font-size: 0.9rem;
   color: #333;
   transition: color 0.3s ease-in-out;
 }
