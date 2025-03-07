@@ -44,10 +44,6 @@ function resetPassword() {
             messageBox.style.color = "red";
         });
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> 6228a4d (Updated authentication, 2FA verification, and Firebase integration)
 
 // Attach function to the global scope so it's accessible in HTML
 window.resetPassword = resetPassword;
