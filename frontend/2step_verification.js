@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 // Firebase configuration
@@ -15,10 +14,9 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Function to send verification code
+// Function to send verification code via SendGrid
 async function sendVerificationCode() {
     const email = document.getElementById("userEmail").value;
     const messageBox = document.getElementById("message");
@@ -36,18 +34,30 @@ async function sendVerificationCode() {
         // Save the code in Firestore
         await setDoc(doc(db, "verifications", email), { code: verificationCode });
 
-        // Store the email in localStorage
-        localStorage.setItem("userEmail", email);
+        // Send Email via SendGrid
+        await fetch("https://api.sendgrid.com/v3/mail/send", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer YOUR_SENDGRID_API_KEY",
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                personalizations: [{
+                    to: [{ email: email }],
+                    subject: "Your Wayne State Verification Code"
+                }],
+                from: { email: "noreply@waynestate.edu" },
+                content: [{
+                    type: "text/plain",
+                    value: `Your verification code is: ${verificationCode}`
+                }]
+            })
+        });
 
-        messageBox.innerHTML = `✅ A verification code has been sent to ${email}. Redirecting...`;
+        messageBox.innerHTML = `✅ A verification code has been sent to ${email}.`;
         messageBox.style.color = "green";
 
         console.log("Verification Code:", verificationCode);
-
-        // Redirect to code entry page after 2 seconds
-        setTimeout(() => {
-            window.location.href = "verify_code.html";
-        }, 2000);
     } catch (error) {
         messageBox.innerHTML = `❌ Error sending verification code: ${error}`;
         messageBox.style.color = "red";
