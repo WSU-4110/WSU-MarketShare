@@ -219,7 +219,15 @@
       });
 
       function uploadImg(index) {
-        document.querySelectorAll(".hidden-file-input")[index].click();
+        const fileInput = document.querySelectorAll(".hidden-file-input")[index];
+        if(fileInput){
+          fileInput.click();
+
+        }
+        else{
+          console.error("File not found ",index);
+        }
+
       }
 
       function previewImage(event, index) {
@@ -228,25 +236,52 @@
           const reader = new FileReader();
           reader.onload = function (e) {
             const imgBox = document.querySelectorAll(".imgbx")[index];
-            imgBox.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+
+            const plusIcon = imgBox.querySelector('i');
+            if(plusIcon){
+              plusIcon.remove();
+            }
+
+
+            const existingImg = imgBox.querySelector('img');
+            if(existingImg){
+              existingImg.remove();
+
+            }
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = "Uploaded Image";
+            img.style.width = '100%'
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            imgBox.appendChild(img);
           };
           reader.readAsDataURL(file);
+        }
+        else{
+          console.error("No files are in ", index);
         }
       }
 
 
       async function uploadImage(file){
+        console.log("Uploading file names: ", file.name);
         const storageRef = storage.ref();
         const fileRef = storageRef.child(`items/${Date.now()}_${file.name}`);
         await fileRef.put(file);
-        return await fileRef.getDownloadURL();
+        const downloadURL = await fileRef.getDownloadURL();
+        console.log("File uploaded to here: ", downloadURL);
+        return downloadURL;
       }
       
       document.getElementById("addItem").addEventListener("click", async function(){
+
         try{
-          const checkedCondition = document.querySelector('input[name = "tabs"]:checked')
-          .filter(input => input.files[0])
-          .map(input => input.files[0]);
+          const fileInputs = document.querySelectorAll(".hidden-file-input");
+          const files = Array.from(fileInputs).map(input => input.files[0]).filter(file => file);
+
+
 
         if(files.length === 0){
             alert('Need at least 1 image');
