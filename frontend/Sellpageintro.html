@@ -79,7 +79,7 @@
       <div id="itemsContainer"></div>
     </div>
 
-
+   <!--This is all my firebase stuff all deals with the storing of listings-->
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
@@ -107,7 +107,7 @@
       itemsContainer.innerHTML="";
 
       if(snapshot.empty){
-        itemsContainer.innerHTML = "<p class='NA-list'> No listings</p>";
+        itemsContainer.innerHTML = "<p class='NA-list'> Empty</p>";
         return;
       }
       
@@ -168,7 +168,9 @@
     });
   });
 
+ 
 
+  //end of storage stuff//
   document.getElementById("sell_button").addEventListener("click", function(){
     window.location.href = "Sellpage.html";
   });
