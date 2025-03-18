@@ -208,7 +208,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
 /* set the positioning of the navabr*/
 
 .navbar{
-    position: static; /* Position must static for links to work*/
+    position: static !important; /* Position must static for links to work*/
     width: 100%;
     z-index: 10;
   
@@ -229,7 +229,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
 }
 
 .navbar a:hover{
-    color: gold;
+    color: gold !important;
 }
 
 /* Apply css to the font awsome elements, remember they come in tags of i */
@@ -350,7 +350,7 @@ Opacity controls the transparency of an element (values 0-1)
     right: -185px;
     z-index: 100 !important;
     height: 40px;
-    bottom: -17px;
+    bottom: 0px;
 
 }
 
