@@ -397,5 +397,34 @@ Opacity controls the transparency of an element (values 0-1)
 
 /*iffat code end*/
 
+.checkout-content h2{
+    margin-bottom: 20px;
+    font-size: 1.8em;
+    color: var(--link-color);
 
+}
+.form-group{
+margin-bottom: 20px;
+}
+
+.form-group label{
+    display: block;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+    color: #333;
+
+}
+.form-group input{
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 2px solid var(--link-color);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.checkout-btn{
+    width: 100%;
+    margin-top: 20px;
+}
 
