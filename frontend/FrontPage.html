@@ -193,12 +193,6 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const productList = document.getElementById("productList");
-        const searchInput = document.getElementById("searchInput");
-        const categoryFilter = document.getElementById("categoryFilter");
-
-
       // Firebase conig straight up copy and paste
       const firebaseConfig = {
         apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
@@ -268,32 +262,26 @@
           });
         }
 
-        //This part deals with the search
-
+        // functional search
         searchInput.addEventListener("input", function (e) {
           const term = e.target.value.toLowerCase();
-          const filtered = listings.filter(
-            (item) =>
-              item.name.toLowerCase().includes(term) ||
-              item.details.toLowerCase().includes(term)
+          const filtered = listings.filter(item => 
+            item.name.toLowerCase().includes(term) ||
+            item.details.toLowerCase().includes(term)
           );
           displayProducts(filtered);
         });
 
-        //This part is the function or javascript for the filter basically a backend but here//
-
+        // functional part of the filter
         function applyFilter() {
           const category = categoryFilter.value;
-          const filtered = category
-            ? listings.filter((item) => item.category === category)
+          const filtered = category 
+            ? listings.filter(item => item.category === category)
             : listings;
           displayProducts(filtered);
         }
 
-
-        document
-          .querySelector(".btn-success")
-          .addEventListener("click", applyFilter);
+        document.querySelector(".btn-success").addEventListener("click", applyFilter);
       });
     </script>
   </body>
