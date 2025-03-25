@@ -53,21 +53,22 @@ flex-direction: column;
     color: var(--link-color);
 }
 .user-info p{
-    font-size: 1.2em;
+    font-size: 1.5em;
     color: var(--link-color);
 }
 
 .profile-links{
     display: flex;
     flex-direction: column;
+
     gap: 10px;
 }
 .profile-link {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: var(--link-color);
-    border-color: var(--link-color);
+    color: rgb(50 120 210);
+    border-color: rgb(50 120 210);
     font-size: 1.2em;
     text-decoration: none;
     padding: 10px;
@@ -76,13 +77,37 @@ flex-direction: column;
 }
 
 .profile-link:hover{
-    background-color: var(--link-color);
+    background-color: rgb(50 120 210);
     color: white;
 }
 
 .profile-link i{
     font-size: 1.5em;
 }
+
+
+.profile-links-logout{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.profile-link-logout {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgb(230 10 70);
+    border-color: rgb(230 10 70);
+    font-size: 1.2em;
+    text-decoration: none;
+    padding: 10px;
+    border-radius: 10px;
+    transition: background-color 0.3s ease;
+}
+.profile-link-logout:hover{
+    background-color: rgb(230 10 70);
+    color: white;
+}
+
 
 /* from iffats ribbon file */
 
