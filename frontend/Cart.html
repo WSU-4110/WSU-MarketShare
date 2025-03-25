@@ -1,179 +1,174 @@
-<!DOCTYPE html>
+<!DOCTYPE html> <!--Emadul implemented firebase to the code, and i pasted it here-->
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- The code up here is used on almost every HTML file -->
-        <title>WSU-Marketshare </title>
-        <link rel="stylesheet" href="Cart.css">       <!-- This code connects my cascade style sheets to the webpage -->
-
-        <link rel="preconnect" href="https://fonts.googleapis.com">   <!--for more graphocs and designs-->
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-
-        <link href="https://fonts.googleapis.com/css2?family=Freeman&display=swap" rel="stylesheet">
-
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!--from teammates code for the header-->
-    </head>
-    <body>
-
-        <!--NavBar code from teammates start-->
-        <body>
-            <nav
-              class="navbar navbar-expand-lg"
-              style="background-color: rgb(8, 98, 8) !important"
-            >
-              <div class="container-fluid">
-                <div class="button-container">
-                  <a href="#top">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WSU-Marketshare Cart</title>
+    <link rel="stylesheet" href="Cart.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Freeman&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important">
+        <div class="container-fluid">
+            <div class="button-container">
+                <a href="FrontPage.html">
                     <button id="MainButton">
-                      <img
-                        src="images/Warriors.png"
-                        alt="Logo"
-                        width="30"
-                        height="24"
-                        class="d-inline-block align-text-top"
-                      />
+                        <img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top">
                     </button>
                     <div class="hover-message">
-                      Home
-                      <i class="fa-solid fa-house" id="HomeIcon"></i>
+                        Home
+                        <i class="fa-solid fa-house" id="HomeIcon"></i>
                     </div>
-                  </a>
-                </div>
-                <i class="fa-solid fa-user" id="ProfileIcon"></i>
-                <button
-                  class="navbar-toggler"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#navbarSupportedContent"
-                  aria-controls="navbarSupportedContent"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                </a>
+            </div>
+            <i class="fa-solid fa-user" id="ProfileIcon"></i>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                      <a class="nav-link active" aria-current="page" href="#"
-                        >Profile</a
-                      >
+                        <a class="nav-link active" href="#">Profile</a>
                     </li>
                     <i class="fa-solid fa-bell"></i>
                     <li class="nav-item">
-                      <a class="nav-link" href="Sellpageintro.html">Sell</a>
+                        <a class="nav-link" href="Sellpageintro.html">Sell</a>
                     </li>
                     <i class="fa-solid fa-cart-shopping" id="i4"></i>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Cart</a>
+                        <a class="nav-link" href="#">Cart</a>
                     </li>
                     <i class="fa-solid fa-gear" id="i5"></i>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Settings</a>
+                        <a class="nav-link" href="#">Settings</a>
                     </li>
                     <i class="fa-solid fa-envelope" id="i3"></i>
                     <li class="nav-item">
-                      <a class="nav-link" href="#">Messages</a>
+                        <a class="nav-link" href="#">Messages</a>
                     </li>
-                  </ul>
-                  <form class="d-flex w-50">
-                    <input
-                      class="form-control me-2"
-                      type="search"
-                      id="searchInput"
-                      placeholder="Search products..."
-                      aria-label="Search"
-                    />
-                    <button
-                      class="btn btn-outline-success"
-                      id="RightButton"
-                      type="button"
-                    >
-                      <i class="fa-solid fa-magnifying-glass" id="searchicon"></i>
+                </ul>
+                <form class="d-flex w-50">
+                    <input class="form-control me-2" type="search" id="searchInput" placeholder="Search products...">
+                    <button class="btn btn-outline-success" id="RightButton" type="button">
+                        <i class="fa-solid fa-magnifying-glass" id="searchicon"></i>
                     </button>
-                  </form>
-                </div>
-              </div>
-            </nav>
-        
-            <h3 id="NavText">WSU Marketplace</h3>
-        <!--NavBar code ends-->
-
-
-        <div class="cart-container">
-            <h1 class="cart-header"><i class="fa-solid fa-cart-shopping"></i> Your Cart</h1>
-            <div class="cart-items"></div>
-            <div class="subtotal-container">
-                <p class="subtotal-text">Subtotal: $20.99</p>
-                <button class="checkout-btn">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-  
-        </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!--Part of the NavBar code-->
-
-
-        <div id="checkoutModal" class="checkout-modal">
-            <div class="checkout-content">
-                <span class="close-checkout">&times;</span>
-                <h2>Payment Information</h2>
-                <form id="paymentForm">
-
-                    <div class="form-group">
-                        <label>Card Number:</label>
-                        <input type="text" id="cardNumber" placeholder="1234 5678 1234 5678" maxlength="19">
-
-                    </div>
-
-                    <div class="form-group">
-                        <label>Expiration Date:</label>
-                        <input type="text" id="expDate" placeholder="MM/YY" maxlength="5">
-                    </div>
-
-                    <div class="form-group">
-                        <label>CVV:</label>
-                        <input type="text" id="cvv" placeholder="123" maxlength="3">
-                    </div>
-
-                    <div class="form-group">
-                        <label>Cardholder Name:</label>
-                        <input type="text" id="cardName" placeholder="Emadul Emad">
-                        
-                    </div>
-
-                    <button type="submit" class="checkout-btn">Purchase Complete!</button>
                 </form>
             </div>
         </div>
+    </nav>
 
-        <script>
-            class Cart {
-                constructor(){
+    <h3 id="NavText">WSU Marketplace</h3>
+
+    <!-- Cart Container -->
+    <div class="cart-container">
+        <h1 class="cart-header"><i class="fa-solid fa-cart-shopping"></i> Your Cart</h1>
+        <div class="cart-items"></div>
+        <div class="subtotal-container">
+            <p class="subtotal-text">Subtotal: $0.00</p>
+            <button class="checkout-btn">Proceed to Checkout <i class="fa-solid fa-arrow-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Checkout stuff -->
+    <div id="checkoutMode" class="checkout-mode">
+        <div class="checkout-content">
+            <span class="close-checkout">&times;</span>
+            <h2>Payment Information</h2>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label>Card Number:</label>
+                    <input type="text" id="cardNumber" placeholder="1234 5678 1234 5678" maxlength="19">
+                </div>
+                <div class="form-group">
+                    <label>Expiration Date:</label>
+                    <input type="text" id="expDate" placeholder="MM/YY" maxlength="5">
+                </div>
+                <div class="form-group">
+                    <label>CVV:</label>
+                    <input type="text" id="cvv" placeholder="123" maxlength="3">
+                </div>
+                <div class="form-group">
+                    <label>Cardholder Name:</label>
+                    <input type="text" id="cardName" placeholder="John Doe">
+                </div>
+                <button type="submit" class="checkout-btn">Purchase Complete!</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Firebase and Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase stuff
+        const firebaseConfig = {
+            apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+            authDomain: "sell-25f45.firebaseapp.com",
+            projectId: "sell-25f45",
+            storageBucket: "sell-25f45.firebasestorage.app",
+            messagingSenderId: "953873344669",
+            appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+            measurementId: "G-9DB3NVDSQJ"
+        };
+
+        // more Firebase stuff
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        class Cart {
+            constructor() {
+                this.items = [];
+                this.userId = "current_user"; 
+                this.initCart();
+            }
+
+            initCart() {
+                this.setupFirebaseListener();
+                this.initEventListeners();
+            }
+
+            setupFirebaseListener() {
+                db.collection("carts").doc(this.userId).onSnapshot((doc) => {
+                    if (doc.exists) {
+                        const cartData = doc.data();
+                        this.items = cartData.items || [];
+                        console.log("Cart updated:", this.items);
+                        this.renderCart();
+                        this.updateSubtotal();
+                    } else {
+                        this.items = [];
+                        this.renderCart();
+                        this.updateSubtotal();
+                    }
+                }, (error) => {
+                    console.error("Cart listener error:", error);
                     this.items = [];
-                    this.loadCart();
-                    this.initEventListeners();
-                    this.updateSubtotal();
-                    
-
-                }
-
-                loadCart(){
-                    this.items = [{
-                id: 1,
-                name: "Product Name 1",
-                price: 20.99,
-                quantity: 1,
-                image: "https://via.placeholder.com/100"
-            }];
                     this.renderCart();
+                    this.updateSubtotal();
+                });
+            }
+
+            renderCart() {
+                const cartItems = document.querySelector('.cart-items');
+                
+                if (this.items.length === 0) {
+                    cartItems.innerHTML = `
+                        <div class="empty-cart-message">
+                            <i class="fa-solid fa-cart-arrow-down"></i><br>
+                            Your cart is empty
+                        </div>
+                    `;
+                    return;
                 }
 
-                renderCart(){                                                           //takes lines from my html file
-                    const cartItems = document.querySelector('.cart-items');
-                    cartItems.innerHTML = this.items.length === 0
-                    ? '<div class="empty-cart-message"><i class="fa-solid fa-cart-arrow-down"></i><br>Your cart is empty</div>'
-                : this.items.map(item => `
+                cartItems.innerHTML = this.items.map(item => `
                     <div class="cart-item" data-id="${item.id}">
                         <img src="${item.image}" alt="${item.name}" class="item-image">
                         <div class="item-details">
@@ -186,145 +181,173 @@
                             </div>
                         </div>
                         <button class="remove-btn"><i class="fa-solid fa-trash"></i></button>
-                    </div> 
-                `).join(''); // code from html end
-                }
-                updateQuantity(itemId, newQuantity){
-                    const item = this.items.find(i => i.id ===itemId);
-                    if(item){
-                        item.quantity = Math.max(1, newQuantity);
-                        this.updateSubtotal();
-                        this.renderCart();
-                    }
-                }
+                    </div>
+                `).join('');
+            }
 
-                updateSubtotal(){
-                    const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-                    document.querySelector('.subtotal-text').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
-                }
-
-                initEventListeners(){
-                    document.querySelector('.cart-items').addEventListener('click', (e) => {
-                        const itemElement = e.target.closest('.cart-item');
-                        if(!itemElement) return;
-
-                        const itemId = parseInt(itemElement.dataset.id);
-                        if(e.target.closest('.plus')){
-                            this.updateQuantity(itemId, this.getItemQuantity(itemId) + 1); //should give functionality to my plus symbol
-                        }
-                        else if(e.target.closest('.minus')){
-                            this.updateQuantity(itemId, this.getItemQuantity(itemId) - 1);
-
-                        }
-                        else if(e.target.closest('.remove-btn')){
-                            this.removeItem(itemId);
-                        }
-                    });
-                    document.querySelector('.checkout-btn').addEventListener('click', () => {
-                        document.getElementById('checkoutModal').style.display = 'flex';
-                    });
-
+            updateQuantity(itemId, newQuantity) {
+                db.runTransaction(async (transaction) => {
+                    const cartRef = db.collection("carts").doc(this.userId);
+                    const cartDoc = await transaction.get(cartRef);
                     
-                }
-                getItemQuantity(itemId) {
-                    const item = this.items.find(i => i.id === itemId);
-                    return item ? item.quantity : 1;
-                }
-                removeItem(itemId){
-                    this.items = this.items.filter(i => i.id !== itemId);
-                    this.renderCart();
-                    this.updateSubtotal();
+                    if (cartDoc.exists) {
+                        const cartData = cartDoc.data();
+                        const itemIndex = cartData.items.findIndex(item => item.id === itemId);
+                        
+                        if (itemIndex !== -1) {
+                            cartData.items[itemIndex].quantity = Math.max(1, newQuantity);
+                            transaction.update(cartRef, {
+                                items: cartData.items,
+                                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        }
+                    }
+                }).catch(error => {
+                    console.error("Transaction error:", error);
+                });
+            }
 
+            removeItem(itemId) {
+                db.runTransaction(async (transaction) => {
+                    const cartRef = db.collection("carts").doc(this.userId);
+                    const cartDoc = await transaction.get(cartRef);
+                    
+                    if (cartDoc.exists) {
+                        const cartData = cartDoc.data();
+                        const updatedItems = cartData.items.filter(item => item.id !== itemId);
+                        
+                        transaction.update(cartRef, {
+                            items: updatedItems,
+                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                        });
+                    }
+                }).catch(error => {
+                    console.error("Transaction error:", error);
+                });
+            }
+
+            updateSubtotal() {
+                const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                document.querySelector('.subtotal-text').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+            }
+
+            initEventListeners() {
+                document.addEventListener('click', (e) => {
+                    const cartItem = e.target.closest('.cart-item');
+                    if (!cartItem) return;
+
+                    const itemId = cartItem.dataset.id;
+                    
+                    if (e.target.closest('.plus')) {
+                        const currentQty = parseInt(cartItem.querySelector('.quantity-input').value);
+                        this.updateQuantity(itemId, currentQty + 1);
+                    } 
+                    else if (e.target.closest('.minus')) {
+                        const currentQty = parseInt(cartItem.querySelector('.quantity-input').value);
+                        this.updateQuantity(itemId, currentQty - 1);
+                    } 
+                    else if (e.target.closest('.remove-btn')) {
+                        this.removeItem(itemId);
+                    }
+                });
+
+                document.querySelector('.checkout-btn').addEventListener('click', () => {
+                    if (this.items.length === 0) {
+                        alert("Your cart is empty!");
+                        return;
+                    }
+                    document.getElementById('checkoutMode').style.display = 'flex';
+                });
+            }
+        }
+
+        class CheckoutForm {
+            constructor() {
+                this.modal = document.getElementById('checkoutMode');
+                this.initEventListeners();
+            }
+
+            initEventListeners() {
+                document.querySelector('.close-checkout').addEventListener('click', () => this.close());
+                window.addEventListener('click', (e) => {
+                    if (e.target === this.modal) this.close();
+                });
+
+                document.getElementById('paymentForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (this.validateForm()) {
+                        this.processCheckout();
+                    }
+                });
+
+                document.getElementById('cardNumber').addEventListener('input', this.formatCardNumber);
+                document.getElementById('expDate').addEventListener('input', this.formatExpDate);
+            }
+
+            formatCardNumber(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.match(/.{1,4}/g)?.join(' ').substring(0, 19) || '';
+                e.target.value = value;
+            }
+
+            formatExpDate(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length >= 2) {
+                    value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                }
+                e.target.value = value.substring(0, 5);
+            }
+
+            validateForm() {
+                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                const expDate = document.getElementById('expDate').value;
+                const cvv = document.getElementById('cvv').value;
+                const cardName = document.getElementById('cardName').value;
+
+                if (!/^\d{16}$/.test(cardNumber)) {
+                    alert('Please enter a valid 16-digit card number');
+                    return false;
+                }
+                if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expDate)) {
+                    alert('Please enter a valid expiration date (MM/YY)');
+                    return false;
+                }
+                if (!/^\d{3}$/.test(cvv)) {
+                    alert('Please enter a valid 3-digit CVV');
+                    return false;
+                }
+                if (cardName.trim() === '') {
+                    alert('Please enter the cardholder name');
+                    return false;
+                }
+
+                return true;
+            }
+
+            async processCheckout() {
+                try {
+                    // In a real app, you would process payment here
+                    alert('Payment successful! Your order has been placed.');
+                    
+                    // Clear the cart after successful checkout
+                    const userId = "current_user";
+                    await db.collection("carts").doc(userId).delete();
+                    
+                    this.close();
+                } catch (error) {
+                    console.error("Checkout error:", error);
+                    alert("There was an error processing your payment. Please try again.");
                 }
             }
 
-            class CheckoutForm {
-                constructor() {
-                    this.modal = document.getElementById('checkoutModal');
-                    this.initEventListeners();
-                }
-                initEventListeners() {
-                    document.querySelector('.close-checkout').addEventListener('click', () => this.close());
-                    window.addEventListener('click', (e) => {
-                        if (e.target === this.modal) this.close();
-                    });
+            close() {
+                this.modal.style.display = 'none';
+            }
+        }
 
-                        document.getElementById('paymentForm').addEventListener('submit', (e) => {
-                            e.preventDefault();
-                            if(this.validateForm()){
-                                alert('Successful Purchase!');
-                                this.close();
-                            }
-                        });
-                        document.getElementById('cardNumber').addEventListener('input', this.formatCardNumber);
-                        document.getElementById('expDate').addEventListener('input', this.formatExpDate);
-
-
-                    }
-
-                    formatCardNumber(e){
-                        let value = e.target.value.replace(/\D/g, '');
-                        value = value.match(/.{1,4}/g)?.join(' ').substring(0, 19) || '';
-                        e.target.value= value;
-                    }
-
-                    formatExpDate(e){
-                        let value = e.target.value.replace(/\D/g, '');
-                        if(value.length >= 2){
-                            value = value.slice(0, 2) + '/' + value.slice(2, 4);
-                        }
-                        e.target.value = value.substring(0, 5);
-                    }
-
-                    validateForm(){
-                        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-                        const expDate = document.getElementById('expDate').value;
-                        const cvv = document.getElementById('cvv').value;
-                        const cardName = document.getElementById('cardName').value;
-
-                        if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)){
-                            alert('Enter a Valid Card Number');
-                            return false;
-                        }
-                        if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expDate)){
-                            alert('Enter a Valid month and date');
-                            return false;
-                        }
-                        if(!/^\d{3}$/.test(cvv)){
-                            alert('Enter security cvv code');
-                            return false;
-                        }
-                        if(cardName.trim() === ''){
-                            alert('Enter Cardholders Name');
-                            return false;
-
-                        }
-
-
-
-                        return true;
-                    }
-                    close(){
-                        this.modal.style.display = 'none';
-                    }
-                    
-
-                    
-
-                }
-
-            
-
-            const cart = new Cart();
-            const checkoutForm = new CheckoutForm();
-
-            
-        </script>
-
-
-
-
-        
-    </body>
-
-    </html>
+  
+        const cart = new Cart();
+        const checkoutForm = new CheckoutForm();
+    </script>
+</body>
+</html>
