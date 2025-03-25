@@ -1,5 +1,4 @@
-:root{ 
-    /*Emadul implemented firebase to the code, and i pasted it here*/
+:root{
     --text-color: rgb(20, 236, 92);
     --link-color: rgba(105, 156, 10, 0.735); /* so i don't have to memorize or keep going back to this*/
     --background-color: yellow;
@@ -396,7 +395,7 @@ Opacity controls the transparency of an element (values 0-1)
  
  
 
-/*iffat code ends*/
+/*iffat code end*/
 
 .checkout-content h2{
     margin-bottom: 20px;
@@ -428,3 +427,4 @@ margin-bottom: 20px;
     width: 100%;
     margin-top: 20px;
 }
+
