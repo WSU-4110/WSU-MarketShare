@@ -60,7 +60,7 @@ flex-direction: column;
 .profile-links{
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 .profile-link {
     display: flex;
