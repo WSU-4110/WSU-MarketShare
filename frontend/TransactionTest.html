@@ -188,9 +188,10 @@
 					
 					if (!productSnapshot.empty) {
 						const productData = productSnapshot.docs[0].data();
-						transactionData.ProductName = productData.ProductName;
-						transactionData.Price = productData.Price;
-						transactionData.Category = productData.Category;
+						transactionData.ProductName = productData.ProductName || "Unknown Product";
+						transactionData.Price = productData.Price || 0;
+						transactionData.Category = productData.Category || "Uncategorized";
+						//transactionData.ImageURL = productData.ImageURL; // Add if available
 					}
 
 					transactions.push(transactionData);
@@ -199,20 +200,49 @@
 				return transactions;
 			} catch (error) {
 				console.error("Error fetching transactions: ", error);
-				return [];
+				throw error;
 			}
 		}
+		// Function to add a new transaction
+		async function addTransaction(transactionData) {
+			try {
+				// Add server-side timestamp
+				const transactionWithTimestamp = {
+					...transactionData,
+					createdAt: serverTimestamp()
+				};
 
+				const docRef = await addDoc(collection(db, "Transactions"), transactionWithTimestamp);
+				console.log("Transaction added with ID: ", docRef.id);
+				return {
+					success: true,
+					transactionId: docRef.id
+				};
+			} catch (error) {
+				console.error("Error adding transaction: ", error);
+				return {
+					success: false,
+					error: error.message
+				};
+			}
+		}
 		// Function to display transaction history in HTML
 		async function displayTransactionHistory(BuyerID) {
 			let transactions = await getTransactionHistory(BuyerID);
 			let transactionList = document.getElementById("transaction-history");
 			transactionList.innerHTML = ""; // Clear previous entries
 
-			if (transactions.length === 0) {
-				transactionList.innerHTML = "<li>No transactions found.</li>";
-				return;
-			}
+			try {
+            // Show loading state
+            transactionList.innerHTML = "<li>Loading transactions...</li>";
+            
+            const transactions = await getTransactionHistory(BuyerID);
+            transactionList.innerHTML = ""; // Clear loading state
+
+            if (transactions.length === 0) {
+                transactionList.innerHTML = "<li>No transactions found.</li>";
+                return;
+            }
 
 			transactions.forEach((transaction) => {
 				let listItem = document.createElement("li");
@@ -223,6 +253,10 @@
 				`;
 				transactionList.appendChild(listItem);
 			});
+			} catch (error) {
+            transactionList.innerHTML = "<li>Error loading transactions. Please try again.</li>";
+            console.error("Display error:", error);
+			}
 		}
 
 		
