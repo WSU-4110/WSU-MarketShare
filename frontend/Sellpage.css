@@ -35,6 +35,7 @@ h1{
     font-style: var(--text-color);
     font-family: 'Freeman', sans-serif;
     font-size: 50px;
+    margin-top: 30px;
 }
 .items{
     display: flex;
@@ -46,6 +47,7 @@ h1{
 .option{
     font-family: 'Freeman', sans-serif;
     display: flex;
+    margin-top: 80px;
     padding: 5px 10px;
     width: 150px;
     border-radius: 20%;
