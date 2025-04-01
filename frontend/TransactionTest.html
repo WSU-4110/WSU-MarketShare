@@ -17,11 +17,12 @@
     <script src="ProductGUI.js"></script>
     <style>
       .product {
+		flex: 1 1 300px;
         border: 3px solid darkgreen;
         border-radius: 25px;
         padding: 20px;
         margin: 15px;
-        width: 300px;
+        max-width: 300px;
         display: inline-block;
         vertical-align: top;
         background-color: #f8f9fa;
@@ -54,6 +55,12 @@
         top: -70px;
         right: -500px;
       }
+	  .transaction-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 20px;
+		justify-content: left; /* Centers items */
+	  }
     </style>
   </head>
 
@@ -157,52 +164,7 @@
 		const app = initializeApp(firebaseConfig);
 		const db = getFirestore(app);
 
-		// Function to fetch transactions for a specific user
-		async function getTransactionHistory(UserID) {
-			console.log(`Fetching transactions for user: ${UserID}`);
-			
-			const transactionsRef = collection(db, "Transactions");
-			const q = query(transactionsRef, where("BuyerID", "==", UserID));
 
-			try {
-				const querySnapshot = await getDocs(q);
-				console.log(`Transactions found: ${querySnapshot.size}`);
-
-				if (querySnapshot.empty) {
-					console.warn("No transactions found for this user.");
-					return [];
-				}
-				
-				let transactions = [];
-
-				for (const doc of querySnapshot.docs) {
-					let transactionData = doc.data();
-					console.log("Transaction data:", transactionData);
-					
-					// Fetch product details
-					const productRef = collection(db, "Products");
-					const productQuery = query(productRef, where("ProductID", "==", transactionData.ProductID));
-					const productSnapshot = await getDocs(productQuery);
-					
-					console.log(`Product search for ProductID: ${transactionData.ProductID} - Found: ${productSnapshot.size}`);
-					
-					if (!productSnapshot.empty) {
-						const productData = productSnapshot.docs[0].data();
-						transactionData.ProductName = productData.ProductName || "Unknown Product";
-						transactionData.Price = productData.Price || 0;
-						transactionData.Category = productData.Category || "Uncategorized";
-						//transactionData.ImageURL = productData.ImageURL; // Add if available
-					}
-
-					transactions.push(transactionData);
-				}
-
-				return transactions;
-			} catch (error) {
-				console.error("Error fetching transactions: ", error);
-				throw error;
-			}
-		}
 		// Function to add a new transaction
 		async function addTransaction(transactionData) {
 			try {
@@ -226,45 +188,64 @@
 				};
 			}
 		}
-		// Function to display transaction history in HTML
-		async function displayTransactionHistory(BuyerID) {
-			let transactions = await getTransactionHistory(BuyerID);
-			let transactionList = document.getElementById("transaction-history");
-			transactionList.innerHTML = ""; // Clear previous entries
+		
+	
+		async function fetchAndDisplayTransactionHistory(BuyerID) {
+			let transactionContainer = document.getElementById("transaction-container");
+			if (!transactionContainer) {
+				console.error("Error: Could not find 'transaction-container' div.");
+				return;
+			}
+
+			transactionContainer.innerHTML = "<p>Loading transactions...</p>";
 
 			try {
-            // Show loading state
-            transactionList.innerHTML = "<li>Loading transactions...</li>";
-            
-            const transactions = await getTransactionHistory(BuyerID);
-            transactionList.innerHTML = ""; // Clear loading state
+				const transactionsRef = collection(db, "Transactions");
+				const q = query(transactionsRef, where("BuyerID", "==", BuyerID));
+				const querySnapshot = await getDocs(q);
 
-            if (transactions.length === 0) {
-                transactionList.innerHTML = "<li>No transactions found.</li>";
-                return;
-            }
+				transactionContainer.innerHTML = ""; // Clear loading text
 
-			transactions.forEach((transaction) => {
-				let listItem = document.createElement("li");
-				listItem.innerHTML = `
-					<strong>${transaction.BuyerName}</strong> bought 
-					<strong>${transaction.ProductName}</strong> (${transaction.Category}) for 
-					<strong>$${transaction.Price}</strong> from <strong>${transaction.SellerName}</strong>
-				`;
-				transactionList.appendChild(listItem);
-			});
+				if (querySnapshot.empty) {
+					transactionContainer.innerHTML = "<p>No transactions found.</p>";
+					return;
+				}
+
+				for (const doc of querySnapshot.docs) {
+					let transaction = doc.data();
+					const productRef = collection(db, "Products");
+					const productQuery = query(productRef, where("ProductID", "==", transaction.ProductID));
+					const productSnapshot = await getDocs(productQuery);
+
+					if (!productSnapshot.empty) {
+						const productData = productSnapshot.docs[0].data();
+
+						let transactionElement = document.createElement("div");
+						transactionElement.classList.add("product");
+
+						transactionElement.innerHTML = `
+							<img src="${productData.ImageURL || 'default-image.jpg'}" alt="${productData.ProductName}">
+							<h4>${productData.ProductName}</h4>
+							<p>Category: ${productData.Category}</p>
+							<p>Price: $${productData.Price}</p>
+							<p>Seller: ${transaction.SellerName}</p>
+							<p><strong>Buyer:</strong> ${transaction.BuyerName}</p>
+						`;
+
+						transactionContainer.appendChild(transactionElement);
+					}
+				}
 			} catch (error) {
-            transactionList.innerHTML = "<li>Error loading transactions. Please try again.</li>";
-            console.error("Display error:", error);
+				console.error("Error fetching transaction history:", error);
+				transactionContainer.innerHTML = "<p>Failed to load transactions.</p>";
 			}
-		}
-
-		
-		displayTransactionHistory(1234);
+	}
+		fetchAndDisplayTransactionHistory(1234);
 	</script>
 	<body>
     <h2>Transaction History</h2>
     <ul id="transaction-history"></ul>
+	<div id="transaction-container" class="transaction-list"></div>
 	</body>
 	<footer>
       <div class="footer-section">
