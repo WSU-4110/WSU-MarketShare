@@ -29,7 +29,7 @@ body{
     box-shadow: var(--box-shadow);
 }
 
-.profile-header{
+.profile-container .profile-header{
     display: flex;
     align-items: center;
     gap: 20px;
@@ -43,27 +43,27 @@ body{
     padding: 20px;
 
 }
-.user-info{
+.profile-container .user-info{
 display: flex;
 flex-direction: column;
 }
 
-.user-info h1{
+.profile-container .user-info h1{
     font-size: 2.5em;
     color: var(--link-color);
 }
-.user-info p{
+.profile-container .user-info p{
     font-size: 1.5em;
     color: var(--link-color);
 }
 
-.profile-links{
+.profile-container .profile-links{
     display: flex;
     flex-direction: column;
 
     gap: 10px;
 }
-.profile-link {
+.profile-container .profile-link {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -76,22 +76,22 @@ flex-direction: column;
     transition: background-color 0.3s ease;
 }
 
-.profile-link:hover{
+.profile-container .profile-link:hover{
     background-color: rgb(50 120 210);
     color: white;
 }
 
-.profile-link i{
+.profile-container .profile-link i{
     font-size: 1.5em;
 }
 
 
-.profile-links-logout{
+.profile-container .profile-links-logout{
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
-.profile-link-logout {
+.profile-container .profile-link-logout {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -103,7 +103,7 @@ flex-direction: column;
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }
-.profile-link-logout:hover{
+.profile-container .profile-link-logout:hover{
     background-color: rgb(230 10 70);
     color: white;
 }
@@ -307,3 +307,64 @@ Opacity controls the transparency of an element (values 0-1)
  
 
 /*iffat code end*/
+
+
+/* footer css */
+footer {
+    position: relative;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100p;
+    background-color: rgb(8, 98, 8);
+    color: white;
+    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: auto;
+    margin-top: 40px;
+  }
+  
+  .footer-section {
+      flex: 1;
+      padding: 15px;
+      border-right: 2px solid #FFCC33;
+      width: 100%; /* Ensures it takes the full width */
+      box-sizing: border-box;
+  }
+  .footer-section:last-child {
+      border-right: none;
+  }
+  
+  a1 {
+      color: white ; /* Default link color */
+      text-decoration: none ; /* Removes underline */
+      transition: color 0.3s ease-in-out;
+  }
+  
+  a1:hover {
+      color: #FFCC33 ; /* Color when hovered */
+      text-decoration: underline ; /* Adds underline on hover */
+  
+  
+  }
+  
+  
+  
+  
+   html, body{
+       height: 100%;
+       margin: 0;
+   }
+  
+   .container{
+       min-height: 100vh;
+       display: flex;
+       flex-direction: column;
+   }
+   .content{
+       flex: 1;
+   }
