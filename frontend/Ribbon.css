@@ -188,6 +188,23 @@ Opacity controls the transparency of an element (values 0-1)
 
 }
 
+#LoginButton{
+    display: inline-block;
+    position: absolute;
+    left: 1750px;
+    top: 25px;
+    padding: 5px 5px;
+    border-radius: 5px;
+    background-color: gold;
+    cursor: pointer;
+    z-index: 9999;/*had to add this to get button workingl*/
+
+}
+#LoginRedirect{
+    cursor: pointer;
+}
+
+
 
  
  
