@@ -247,7 +247,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#"
+              <a class="nav-link active" aria-current="page" href="Profile.html"
                 >Profile</a
               >
             </li>
@@ -257,7 +257,7 @@
             </li>
             <i class="fa-solid fa-cart-shopping" id="i4"></i>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cart</a>
+              <a class="nav-link" href="Cart.html">Cart</a>
             </li>
             <i class="fa-solid fa-gear" id="i5"></i>
             <li class="nav-item">
@@ -289,6 +289,10 @@
     </nav>
 
     <h3 id="NavText">WSU Marketplace</h3>
+
+    <a href="login.html" id="LoginRedirect">
+    <button id ="LoginButton">Log in</button>
+    </a>
 
     <!--This is the Filter portion-->
 
@@ -337,112 +341,102 @@
       </div>
     </footer>
 
+<!-- Firebase stuff and Bootstrap -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <!--This script basically deals with loading the listing into the FrontPage-->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
 
     <script>
+      // Firebase conig straight up copy and paste
+      const firebaseConfig = {
+        apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+        authDomain: "sell-25f45.firebaseapp.com",
+        projectId: "sell-25f45",
+        storageBucket: "sell-25f45.firebasestorage.app",
+        messagingSenderId: "953873344669",
+        appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+        measurementId: "G-9DB3NVDSQJ"
+      };
+
+      const app = firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+
+      // filter
       document.addEventListener("DOMContentLoaded", function () {
         const productList = document.getElementById("productList");
         const searchInput = document.getElementById("searchInput");
         const categoryFilter = document.getElementById("categoryFilter");
+        
+        let listings = [];
 
-
-        let listings = JSON.parse(localStorage.getItem("listings")) || [];
+        
+        db.collection("items")
+          .orderBy("createdAt", "desc")
+          .onSnapshot((snapshot) => {
+            listings = [];
+            snapshot.forEach(doc => {
+              const data = doc.data();
+              listings.push({
+                id: doc.id,
+                name: data.name,
+                price: data.price,
+                condition: data.condition,
+                category: data.category,
+                images: data.images,
+                details: data.details || "",
+                createdAt: data.createdAt?.toDate() || new Date()
+              });
+            });
+            displayProducts(listings);
+          });
 
         function displayProducts(products) {
           productList.innerHTML = "";
-          //No products in FrontPage
+          
           if (products.length === 0) {
-            productList.innerHTML =
-              '<p class="text-muted">No products found matching your criteria.</p>';
+            productList.innerHTML = '<p class="text-muted">No products found matching your criteria.</p>';
             return;
           }
-
-          //This is basically all the info gathered from the SellPage popup like images,price,description etc.//
 
           products.forEach((item) => {
             const productElement = document.createElement("div");
             productElement.className = "product";
             const randomIndex = Math.floor(Math.random() * item.images.length);
+            
             productElement.innerHTML = `
               <h3>${item.name}</h3>
               <img src="${item.images[randomIndex]}" alt="Product image">
-              <p><strong>Price:</strong> $${parseFloat(item.price).toFixed(
-                2
-              )}</p>
+              <p><strong>Price:</strong> $${item.price.toFixed(2)}</p>
               <p><strong>Condition:</strong> ${item.condition}</p>
               <p><strong>Category:</strong> ${item.category}</p>
             `;
+            
             productElement.onclick = () => CreateWindow(item);
             productList.appendChild(productElement);
-
-    
-<!--	<div id="productList"> 
-	<!-- Products to be inserted here --
-	</div>
--->
-
-
-	
-	
-<!--	
-<div class="filter-container">
-		<h3>Filters</h3>
-		
-		<!-- Category Filter -->
-		<div class="filter-section">
-			<h4>Categories</h4>
-			<label><input type="checkbox" name="category"  value="Electronics"> Electronics</label>
-			<label><input type="checkbox" name="category"  value="Clothing"> Clothing</label>
-			<label><input type="checkbox" name="category"  value="Books"> Books</label>
-		</div>
-
-		<!-- Price Range Filter -->
-		<div class="filter-section">
-			<h4>Price Range</h4>
-			<input type="range" id="priceRange" min="0" max="1000" step="10" value="500">
-			<span id="priceValue">$500</span>
-		</div>
-
-		<button id="filterButton" onclick="applyFilter()">Apply Filters</button>
-	</div>
-	-->
-
- 
 
           });
         }
 
-        displayProducts(listings);
-
-        //This part deals with the search
-
+        // functional search
         searchInput.addEventListener("input", function (e) {
           const term = e.target.value.toLowerCase();
-          const filtered = listings.filter(
-            (item) =>
-              item.name.toLowerCase().includes(term) ||
-              item.details.toLowerCase().includes(term)
+          const filtered = listings.filter(item => 
+            item.name.toLowerCase().includes(term) ||
+            item.details.toLowerCase().includes(term)
           );
           displayProducts(filtered);
         });
 
-        //This part is the function or javascript for the filter basically a backend but here//
-
+        // functional part of the filter
         function applyFilter() {
           const category = categoryFilter.value;
-          const filtered = category
-            ? listings.filter((item) => item.category === category)
+          const filtered = category 
+            ? listings.filter(item => item.category === category)
             : listings;
           displayProducts(filtered);
         }
 
-
-        document
-          .querySelector(".btn-success")
-          .addEventListener("click", applyFilter);
+        document.querySelector(".btn-success").addEventListener("click", applyFilter);
       });
     </script>
   </body>

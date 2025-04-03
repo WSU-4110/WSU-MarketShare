@@ -45,12 +45,34 @@
     max-width: 100%;
     height: auto;
   }
+  .add-to-cart-btn {
+  background-color: #085e08;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background-color 0.3s;
+}
+ .add-to-cart-btn:hover {
+  background-color: #0a7e0a;
+}
+
+ .add-to-cart-btn i {
+  font-size: 18px;
+}
   
   .product:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 128, 0, 0.2);
     border-color: #004d00;
   }
+
   
 
   

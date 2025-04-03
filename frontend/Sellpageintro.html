@@ -45,7 +45,7 @@
             </li>
             <i class="fa-solid fa-cart-shopping" id = "i4"></i>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cart</a>
+              <a class="nav-link" href="Cart.html">Cart</a>
             </li>
             <i class="fa-solid fa-gear" id = "i5"></i>
             <li class="nav-item">
@@ -79,88 +79,104 @@
       <div id="itemsContainer"></div>
     </div>
 
-    <!-- Deals with posting the product to this page/delete button-->
+   <!--This is all my firebase stuff all deals with the storing of listings-->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        let listings = JSON.parse(localStorage.getItem("listings")) || [];
-        let itemsContainer = document.getElementById("itemsContainer");
+    const firebaseConfig = {
+    apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+    authDomain: "sell-25f45.firebaseapp.com",
+    projectId: "sell-25f45",
+    storageBucket: "sell-25f45.firebasestorage.app",
+    messagingSenderId: "953873344669",
+    appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+    measurementId: "G-9DB3NVDSQJ"
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
 
-        itemsContainer.innerHTML = "";
-        
+  document.addEventListener("DOMContentLoaded", function (){
+    const itemsContainer = document.getElementById("itemsContainer");
 
-      if(listings.length === 0){
-          itemsContainer.innerHTML = "<p class = 'NA-list'>Empty</p>";
+    db.collection("items")
+    .orderBy("createdAt", "desc")
+    .onSnapshot((snapshot)=>{
+      itemsContainer.innerHTML="";
 
-        }
-        
-          
-        
-      else{
-
-
-        listings.forEach((item) => {
-          let itemElement = document.createElement("div");
-          itemElement.classList.add("item");
-
-          let imagesHTML = item.images
-            .map(
-              (img) => `
-          <div class="image-container">
-            <img src="${img}" alt="Product Image">
-          </div>` 
-          )
-          .join("");
-          itemElement.innerHTML = `
-        <div class="item-header">
-          <h3>${item.name}</h3>
-          <span class="price">$${item.price}</span>
-        </div>
-          <button class="delete-btn" data-id="${item.id}">
-            <i class="fa-solid fa-xmark"></i> 
-          </button>
-        
-        <p class="condition">${item.condition}</p>
-        <p class="description">${item.details}</p>
-        <div class="image-gallery">${imagesHTML}</div>
-        `;
-
-            
-          itemsContainer.appendChild(itemElement);
-        });
+      if(snapshot.empty){
+        itemsContainer.innerHTML = "<p class='NA-list'> Empty</p>";
+        return;
       }
-      document.querySelectorAll('.delete-btn').forEach(button =>{
-          button.addEventListener('click', function(){
-            const itemId = this.dataset.id;
-            deleteItem(itemId);
-          });
-        }); 
       
-       
-      });
-          
-      function deleteItem(id) {
+      snapshot.forEach(doc =>{
+        const item = doc.data();
+        const itemId = doc.id;
+
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("item");
         
-        if (confirm("Confirm to remove listing?")) {
-          let listings = JSON.parse(localStorage.getItem("listings")) || [];
-          listings = listings.filter(item => item.id !== id);
-          localStorage.setItem("listings", JSON.stringify(listings));
-          location.reload(); 
+
+        const imagesHTML = item.images.map(img =>`
+        <div class = "image-container">
+          <img src = "${img}" alt = "Product Image" loading = "lazy">
+          </div>
+          `).join("");
+
+
+
+          itemElement.innerHTML = `
+          <div class = "item-header">
+            <h3>${item.name}</h3>
+            <span class = "price">$${item.price.toFixed(2)}</span>
+            
+
+          </div>
+          <button class="delete-btn" data-id = "${itemId}">
+            <i class = "fa-solid fa-xmark"></i>
+            </button>
+            <p class="condition">${item.condition}</p>
+            <p class="description">${item.details}</p>
+            <div class="image-gallery">${imagesHTML}</div>
+            `;
+
+            itemsContainer.appendChild(itemElement);
+
+      });
+
+
+
+      document.querySelectorAll('.delete-btn').forEach(button =>{
+        button.addEventListener('click', function(){
+          const itemId = this.dataset.id;
+          if(confirm("Delete listing?")){
+            db.collection("items").doc(itemId).delete()
+            .catch(error => {
+            console.error("error ",error);
+            alert("Could'nt remove listing");
+          });
         }
-      }
 
-
-
-    </script>
-
-
-
-    <!-- Basically a button which takes you to the sellpage -->
-    <script>
-      document
-        .getElementById("sell_button")
-        .addEventListener("click", function () {
-          window.location.href = "Sellpage.html";
         });
-    </script>
+      
+
+
+      });
+
+    });
+  });
+
+ 
+
+  //end of storage stuff//
+  document.getElementById("sell_button").addEventListener("click", function(){
+    window.location.href = "Sellpage.html";
+  });
+
+</script>
+
+
   </body>
 </html>

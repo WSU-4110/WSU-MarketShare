@@ -25,13 +25,8 @@
       <i class="fa-solid fa-arrow-left"></i>
     </div>
 
-    <script>
-      document
-        .getElementsByClassName("home")[0]
-        .addEventListener("click", function () {
-          window.location.href = "Sellpageintro.html";
-        });
-    </script>
+
+
 
 
     <div class="items">
@@ -169,10 +164,41 @@
       </div>
     </div>
 
-    
-   <!-- Gui/popup basically after clicking a product you want to sell it shows a pop-up -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
+    <!--Firebase stuff deals with adding the listing ans storing it into Sellpageintro.html-->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+
+  <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+    authDomain: "sell-25f45.firebaseapp.com",
+    projectId: "sell-25f45",
+    storageBucket: "sell-25f45.firebasestorage.app",
+    messagingSenderId: "953873344669",
+    appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+    measurementId: "G-9DB3NVDSQJ"
+  };
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const storage = firebase.storage();
+
+  document.querySelectorAll(".option, .option2").forEach(option => {
+        
+    option.addEventListener("click", function() {
+      selectedCategory = this.dataset.category;
+      document.getElementById("popup").style.display = "flex";
+      });
+  });
+  
+
+  let selectedCategory = '';
+
+
+  document.querySelector(".home").addEventListener("click", function(){
+    window.location.href = "Sellpageintro.html";
+  });
+  document.addEventListener("DOMContentLoaded", function () {
         const popup = document.getElementById("popup");
         const closebutton = document.querySelector(".closebutton");
         const options = document.querySelectorAll(".option, .option2");
@@ -193,12 +219,17 @@
           }
         });
       });
-    </script>
 
-    <!--Upload images via files -->
-    <script>
       function uploadImg(index) {
-        document.querySelectorAll(".hidden-file-input")[index].click();
+        const fileInput = document.querySelectorAll(".hidden-file-input")[index];
+        if(fileInput){
+          fileInput.click();
+
+        }
+        else{
+          console.error("File not found ",index);
+        }
+
       }
 
       function previewImage(event, index) {
@@ -207,47 +238,86 @@
           const reader = new FileReader();
           reader.onload = function (e) {
             const imgBox = document.querySelectorAll(".imgbx")[index];
-            imgBox.innerHTML = `<img src="${e.target.result}" alt="Uploaded Image">`;
+
+            const plusIcon = imgBox.querySelector('i');
+            if(plusIcon){
+              plusIcon.remove();
+            }
+
+
+            const existingImg = imgBox.querySelector('img');
+            if(existingImg){
+              existingImg.remove();
+
+            }
+
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = "Uploaded Image";
+            img.style.width = '100%'
+            img.style.height = '100%';
+            img.style.objectFit = 'cover';
+            imgBox.appendChild(img);
           };
           reader.readAsDataURL(file);
         }
+        else{
+          console.error("No files are in ", index);
+        }
       }
-    </script>
 
-    <!--This part deals with putting the item into Sellpageintro-->
-    <script>
-      // Modified script to handle category selection
-      let selectedCategory = '';
+
+      async function uploadImage(file){
+        console.log("Uploading file names: ", file.name);
+        const storageRef = storage.ref();
+        const fileRef = storageRef.child(`items/${Date.now()}_${file.name}`);
+        await fileRef.put(file);
+        const downloadURL = await fileRef.getDownloadURL();
+        console.log("File uploaded to here: ", downloadURL);
+        return downloadURL;
+      }
       
-      document.addEventListener("DOMContentLoaded", function () {
-        const options = document.querySelectorAll(".option, .option2");
-        
-        options.forEach((option) => {
-          option.addEventListener("click", function() {
-            selectedCategory = this.dataset.category;
-            document.getElementById("popup").style.display = "flex";
-          });
-        });
+      document.getElementById("addItem").addEventListener("click", async function(){
+
+        try{
+          const fileInputs = document.querySelectorAll(".hidden-file-input");
+          const files = Array.from(fileInputs).map(input => input.files[0]).filter(file => file);
+
+
+
+        if(files.length === 0){
+            alert('Need at least 1 image');
+            return;
+          }
+
+          const imageUrls = await Promise.all(files.map(file => uploadImage(file)));
+
+          const item = {
+            name: document.getElementById("productname").value,
+            price: parseFloat(document.getElementById("productPrice").value),
+            details: document.getElementById("productDetails").value,
+            condition: document.querySelector('input[name= "tabs"]:checked').nextElementSibling.innerText,
+            
+
+
+            images: imageUrls,
+            category: selectedCategory,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          };
+
+          await db.collection("items").add(item);
+          alert('Item has been posted');
+          window.location.href = "Sellpageintro.html";
+          
+        }
+        catch(error){
+          console.error("Unable to add item ", error);
+          alert('Try again...');
+        }
+
       });
 
-      // Modified addItem event listener to include category
-      document.getElementById("addItem").addEventListener("click", function () {
-        const item = {
-          id: Date.now() + Math.random().toString().slice(2,8),
-          name: document.getElementById("productname").value,
-          price: document.getElementById("productPrice").value,
-          details: document.getElementById("productDetails").value,
-          condition: document.querySelector('input[name="tabs"]:checked').nextElementSibling.innerText,
-          images: Array.from(document.querySelectorAll(".imgbx img")).map(img => img.src),
-          category: selectedCategory
-        };
 
-        const listings = JSON.parse(localStorage.getItem("listings")) || [];
-        listings.push(item);
-        localStorage.setItem("listings", JSON.stringify(listings));
-        
-        window.location.href = "Sellpageintro.html";
-      });
     </script>
 
   </body>
