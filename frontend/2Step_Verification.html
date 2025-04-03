@@ -1,27 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
-    <title>WSU-Marketshare Two-Step Verification</title>
-    <link rel="stylesheet" href="2stepStyle.css">  
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  <title>WSU-Marketshare Two-Step Verification</title>
+  <link rel="stylesheet" href="2stepStyle.css" />
+
+    
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
+      authDomain: "wayne-state-marketshare.firebaseapp.com",
+      projectId: "wayne-state-marketshare",
+      storageBucket: "wayne-state-marketshare.appspot.com",
+      messagingSenderId: "11946478991",
+      appId: "1:11946478991:web:a2382361767bb0a5e54ffa"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    window.db = db;
+    window.doc = doc;
+    window.setDoc = setDoc;
+    window.getDoc = getDoc;
+  </script>
+
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("rlnDd5iIwFwRjzmAp"); 
+    })();
+  </script>
+
+  <!-- Local JS file -->
+  <script defer src="2step_verification.js" type="module"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="mainBox">
-            <h1>Two-Step Verification</h1>
-            <p>Enter your email to receive a verification code.</p>
+  <div class="container">
+    <div class="mainBox">
+      <h1>Two-Step Verification</h1>
+      <p>Enter your email to receive a verification code.</p>
 
-            <!-- Email input -->
-            <div class="text_in_bar">
-                <input type="email" id="userEmail" placeholder="Enter your Wayne State email">
-            </div>
+      <!-- Email input -->
+      <div class="text_in_bar">
+        <input type="email" id="userEmail" placeholder="Enter your Wayne State email">
+      </div>
 
-            <button id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
+      <button id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
 
-            <p id="message"></p>
-        </div>
+      <p id="message"></p>
     </div>
-     <script type="module" src="2step_verification.js"></script>
+  </div>
 </body>
 </html>
