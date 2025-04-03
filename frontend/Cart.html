@@ -179,8 +179,10 @@
                 initCart() {
                 this.setupFirebaseListener();
                 this.initEventListeners();
-            }
-            setupFirebaseListener() {
+             }
+
+        
+             setupFirebaseListener() {
                 db.collection("carts").doc(this.userId).onSnapshot((doc) => {
                     if (doc.exists) {
                         const cartData = doc.data();
@@ -199,7 +201,7 @@
                     this.renderCart();
                     this.updateSubtotal();
                 });
-            }
+             }
 
 
                /* loadCart(){
@@ -270,35 +272,32 @@
                     document.querySelector('.subtotal-text').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
                 }
 
-                initEventListeners(){
-                    document.querySelector('.cart-items').addEventListener('click', (e) => {
-                        const itemElement = e.target.closest('.cart-item');
-                        if(!itemElement) return;
+                initEventListeners() { //reverted to an older version of this function i had
+                    document.addEventListener('click', (e) => {
+                        const cartItem = e.target.closest('.cart-item');
+                        if (!cartItem) return;
+                        const itemId = cartItem.dataset.id;
 
-                        const itemId = parseInt(itemElement.dataset.id);
-                        if(e.target.closest('.plus')){
-                            console.log(`Plus button clicked for item ${itemId}`);
-                            this.updateQuantity(itemId, this.getItemQuantity(itemId) + 1); //should give functionality to my plus symbol
+                        if (e.target.closest('.plus')) {
+                            const currentQty = parseInt(cartItem.querySelector('.quantity-input').value);
+                            this.updateQuantity(itemId, currentQty + 1);
                         }
-                        else if(e.target.closest('.minus')){
-                            console.log(`Minus button clicked for item ${itemId}`);
-                            this.updateQuantity(itemId, this.getItemQuantity(itemId) - 1);
-
+                        else if (e.target.closest('.minus')) {
+                            const currentQty = parseInt(cartItem.querySelector('.quantity-input').value); //should implement plus and minus correctly
+                            this.updateQuantity(itemId, currentQty - 1);
                         }
-                        else if(e.target.closest('.remove-btn')){
+                        else if (e.target.closest('.remove-btn')) {
                             this.removeItem(itemId);
                         }
                     });
 
                     document.querySelector('.checkout-btn').addEventListener('click', () => {
-                    if (this.items.length === 0) {
-                        alert("Your cart is empty!");
-                        return;
-                    }
-                    document.getElementById('checkoutModal').style.display = 'flex';
-                });
-
-                    
+                        if (this.items.length === 0) {
+                            alert("Your cart is empty!");
+                            return;
+                        }
+                        document.getElementById('checkoutModal').style.display = 'flex';
+                    });
                 }
                 getItemQuantity(itemId) {
                     const item = this.items.find(i => i.id === itemId);
