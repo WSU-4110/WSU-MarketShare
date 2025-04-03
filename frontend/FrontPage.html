@@ -1,4 +1,154 @@
 <!DOCTYPE html>
+
+
+    
+<!--	<script type="module" defer>
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
+            authDomain: "wsu-market-share.firebaseapp.com",
+            databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
+            projectId: "wsu-market-share",
+            storageBucket: "wsu-market-share.firebasestorage.app",
+            messagingSenderId: "176228593560",
+            appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
+            measurementId: "G-HZ3VRX4MK1"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        console.log("Firebase initialized.");
+
+        const productList = document.getElementById('productList');
+        const searchInput = document.getElementById('searchInput');
+		
+
+        async function fetchAndDisplayProducts(searchQuery = '') {
+            try {
+                let q = collection(db, "Products");
+                if (searchQuery) {
+					q = query(q, where("name", ">=", searchQuery), where("name", "<=", searchQuery + '\uf8ff'));
+                }
+
+                const querySnapshot = await getDocs(q);
+                productList.innerHTML = '';
+
+                querySnapshot.forEach((doc) => {
+                    const product = doc.data();
+                    const productElement = document.createElement("div");
+                    productElement.className = "buttonDIV";
+                    productElement.onclick = () => CreateWindow(product);
+
+                    productElement.innerHTML = `
+                        <div class="divPT">
+                            <img src="${product.imageURL}" alt="${product.name}">
+                            <hr>
+                            <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                            <span class="ProductUserPFP"></span>
+                            <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                            <p class="ProductUserName">${product.sellerName}</p>
+                            <div>
+                                <span class="fa fa-star checked rating"></span>
+                                <span class="fa fa-star checked rating"></span>
+                                <span class="fa fa-star checked rating"></span>
+                            </div>
+                        </div>
+                    `;
+
+                    productList.appendChild(productElement);
+                });
+
+            } catch (error) {
+                console.error("Error fetching products: ", error);
+            }
+        }
+
+        window.applyFilter = async function() {
+    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
+    const maxPrice = parseFloat(document.getElementById('priceRange').value);
+	console.log("Selected Categories: ", selectedCategories);
+    let q = collection(db, "Products");
+
+    if (selectedCategories.length > 0) {
+        q = query(q, where("category", "in", selectedCategories));
+    }
+
+    q = query(q, where("price", "<=", maxPrice));
+
+    try {
+        const snapshot = await getDocs(q);
+        console.log("Query Snapshot Size:", snapshot.size);
+
+        productList.innerHTML = '';
+
+        if (snapshot.empty) {
+            productList.innerHTML = "<p>No products found.</p>";
+            return;
+        }
+
+        snapshot.forEach((doc) => {
+            const product = doc.data();
+            console.log("Product:", product);
+
+            const productElement = document.createElement("div");
+            productElement.className = "buttonDIV";
+            productElement.onclick = () => CreateWindow(product);
+
+            productElement.innerHTML = `
+                <div class="divPT">
+                    <hr>
+                    <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
+                    <span class="ProductUserPFP"></span>
+                    <p class="ProductAcessID">Access ID: ${product.accessId}</p>
+                    <p class="ProductUserName">${product.sellerName}</p>
+                    <div>
+                        <span class="fa fa-star checked rating"></span>
+                        <span class="fa fa-star checked rating"></span>
+                        <span class="fa fa-star checked rating"></span>
+                    </div>
+                </div>
+            `;
+        });
+
+    } catch (error) {
+        console.error("❌ Error fetching documents:", error);
+        productList.innerHTML = "<p>Error loading data.</p>";
+    }
+};
+	function handleSearch(event) {
+		let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
+		let productElements = document.querySelectorAll('.divPT'); // Get all product cards
+
+		productElements.forEach((productElement) => {
+			let productName = productElement.querySelector('.ProductName').textContent.toLowerCase(); // Get product name
+			if (productName.includes(searchQuery)) {
+				productElement.style.display = 'block'; // Show the product if it matches the search
+			} else {
+				productElement.style.display = 'none'; // Hide the product if it doesn't match
+			}
+		});
+	}
+
+        document.getElementById('priceRange').addEventListener('input', function () {
+            document.getElementById('priceValue').innerText = `$${this.value}`;
+            applyFilter();
+        });
+
+        document.getElementById('searchInput').addEventListener('keyup', function(event) {
+            const searchQuery = event.target.value.toLowerCase();
+            fetchAndDisplayProducts(searchQuery);
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchAndDisplayProducts();
+        });
+		document.getElementById('searchInput').addEventListener('keyup', handleSearch);
+
+    </script>
+-->
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -263,6 +413,7 @@
             
             productElement.onclick = () => CreateWindow(item);
             productList.appendChild(productElement);
+
           });
         }
 
