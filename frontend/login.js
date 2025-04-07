@@ -30,19 +30,45 @@ function togglePasswordVisibility() {
     }
 }
 
-// Login function
+
 function loginUser() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
+    const messageBox = document.getElementById("message"); 
+
+    if (!email.endsWith("@wayne.edu")) {
+        messageBox.innerHTML = "❌ Please enter a valid Wayne State email.";
+        messageBox.style.color = "red"; 
+        return;
+    }
 
     signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            console.log("Login successful. Redirecting...");
-            window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
+            const user = userCredential.user;
+            console.log("Login successful! User:", user.email);
+            
+            messageBox.innerHTML = "✅ Welcome, redirecting...";
+            messageBox.style.color = "green";
+
+        
+            setTimeout(() => {
+                window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
+            }, 1500);
         })
         .catch((error) => {
             console.error("Login failed:", error);
-            alert("Error: Login not successful. " + error.message);
+
+            // Handling specific Firebase authentication errors
+            if (error.code === "auth/wrong-password") {
+                messageBox.innerHTML = "❌ Incorrect password. Please try again.";
+            } else if (error.code === "auth/user-not-found") {
+                messageBox.innerHTML = "❌ No account found with this email.";
+            } else if (error.code === "auth/too-many-requests") {
+                messageBox.innerHTML = "⚠️ Too many failed attempts. Try again later.";
+            } else {
+                messageBox.innerHTML = "❌ Login failed: " + error.message;
+            }
+            messageBox.style.color = "red";
         });
 }
 
@@ -55,16 +81,12 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-
+// Function to save user (Optional)
 function saveUser(userID, email) {
-    const db = firebase.database();
-    db.ref('users/' + userID).set({
-        email: email,
-        createdAt: new Date().toISOString()
-    });
+    console.log("Saving user:", userID, email);
 }
 
-// Attach functions to the global window object
+// Make functions accessible in HTML
 window.togglePasswordVisibility = togglePasswordVisibility;
 window.loginUser = loginUser;
 window.saveUser = saveUser;
