@@ -166,7 +166,7 @@
 
 
 		// Function to add a new transaction
-		async function addTransaction(transactionData) {
+		export async function addTransaction(transactionData) {
 			try {
 				// Add server-side timestamp
 				const transactionWithTimestamp = {
@@ -190,7 +190,7 @@
 		}
 		
 	
-		async function fetchAndDisplayTransactionHistory(BuyerID) {
+		export async function fetchAndDisplayTransactionHistory(BuyerID) {
 			let transactionContainer = document.getElementById("transaction-container");
 			if (!transactionContainer) {
 				console.error("Error: Could not find 'transaction-container' div.");

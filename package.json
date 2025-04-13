@@ -31,32 +31,33 @@
     "jest-environment-jsdom": "^29.7.0"
   },
   "jest": {
-    "testEnvironment": "node",
+    "testEnvironment": "jsdom",
     "transform": {
-      "^.+\\.jsx?$": "babel-jest"
+      "^.+\\.(js|jsx)$": [
+        "babel-jest",
+        {
+          "rootMode": "upward"
+        }
+      ]
     },
+    "transformIgnorePatterns": [
+      "node_modules/(?!(@firebase|firebase)/)"
+    ],
     "moduleFileExtensions": [
       "js",
       "jsx"
     ],
-    "transformIgnorePatterns": [
-      "node_modules/(?!(@firebase|firebase)/)"
-    ],
     "moduleDirectories": [
-      "node_modules"
+      "node_modules",
+      "frontend"
     ],
     "moduleNameMapper": {
       "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-      "^(\\.{1,2}/.*)\\.js$": "$1"
+      "^@/(.*)$": "<rootDir>/frontend/$1",
+      "^firebase/(.*)$": "<rootDir>/node_modules/firebase/$1"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/jest.setup.js"
-    ],
-    "testMatch": [
-      "**/__tests__/**/*.test.js"
-    ],
-    "extensionsToTreatAsEsm": [
-      ".js"
     ]
   }
 }
