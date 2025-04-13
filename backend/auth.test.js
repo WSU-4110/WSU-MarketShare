@@ -1,39 +1,40 @@
 import { describe, expect, test, jest } from '@jest/globals';
 import { getCurrentUserAsync, getIdToken, getAuthHeaders } from './auth.js';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 
-jest.mock("firebase/auth", () => {
-  const originalModule = jest.requireActual("firebase/auth");
-  return {
-    ...originalModule,
-    getAuth: jest.fn(() => ({})),
-    onAuthStateChanged: jest.fn((auth, callback) => {
-      const mockUser = { email: "test@example.com", getIdToken: jest.fn().mockResolvedValue("mock-token") };
-      callback(mockUser);
-      return () => {}; // unsubscribe function
-    }),
-    signOut: jest.fn(),
-  };
-});
+jest.mock("firebase/auth", () => ({
+  getAuth: jest.fn(() => ({})),
+  onAuthStateChanged: jest.fn((auth, callback) => {
+    const mockUser = { 
+      email: "test@wayne.edu", 
+      getIdToken: jest.fn().mockResolvedValue("mock-token") 
+    };
+    setTimeout(() => callback(mockUser), 0);
+    return jest.fn(); // unsubscribe function
+  }),
+  signOut: jest.fn()
+}));
 
 describe('Auth Functions', () => {
-  test('getCurrentUserAsync returns user when logged in', async () => {
-    const mockUser = { email: 'test@wayne.edu' };
-   
+  beforeEach(() => {
+    jest.clearAllMocks();
   });
 
-  it("should return current user via getCurrentUserAsync", async () => {
+  test('getCurrentUserAsync returns user when logged in', async () => {
     const user = await getCurrentUserAsync();
     expect(user).toBeDefined();
-    expect(user.email).toBe("test@example.com");
+    expect(user.email).toBe("test@wayne.edu");
   });
 
-  it("should get ID token", async () => {
+  test('getIdToken returns valid token', async () => {
     const token = await getIdToken();
     expect(token).toBe("mock-token");
   });
 
-  it("should return Authorization headers", async () => {
+  test('getAuthHeaders returns correct format', async () => {
     const headers = await getAuthHeaders();
-    expect(headers).toEqual({ Authorization: "Bearer mock-token" });
+    expect(headers).toEqual({ 
+      Authorization: "Bearer mock-token" 
+    });
   });
 });

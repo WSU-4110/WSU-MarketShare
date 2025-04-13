@@ -41,8 +41,11 @@ const authListener = onAuthStateChanged(auth, handleAuthStateChanged);
 // Async user getter
 const getCurrentUserAsync = () => {
   return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      unsubscribe();
+    let unsubscribe;
+    unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (unsubscribe) {
+        unsubscribe();
+      }
       resolve(user);
     });
   });
