@@ -14,6 +14,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "FactoryMethod.js" defer></script>
+    <!-- Add Firebase SDKs via CDN 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    -->
+
+
     
 
 
@@ -72,124 +78,8 @@
         }
     </style>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-	<script type = "module">
-		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
- 	 	import { getFirestore, collection, query, where, getDocs,  } from 					"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-	const firebaseConfig = {
-  		apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
-  		authDomain: "wsu-market-share.firebaseapp.com",
-  		databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
-  		projectId: "wsu-market-share",
-  		storageBucket: "wsu-market-share.firebasestorage.app",
-  		messagingSenderId: "176228593560",
-  		appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
-  		measurementId: "G-HZ3VRX4MK1"
-	};
+   
 
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
-	const db = getFirestore(app);
-
-	console.log("Firebase initialized.");
-
-	// Fetch and display products
-        const productList = document.getElementById('productList');
-        const searchInput = document.getElementById('searchInput');
-
-        // Function to fetch and display products
-async function fetchAndDisplayProducts() {
-    try {
-        // ❌ Old syntax (incorrect for Firebase v9+)
-        // const querySnapshot = await db.collection('Products').get();
-
-        // ✅ Correct syntax for Firebase v9+
-        const querySnapshot = await getDocs(collection(db, "Products"));
-
-        // Clear the product list
-        productList.innerHTML = '';
-
-        querySnapshot.forEach((doc) => {
-            const product = doc.data();
-
-            // Create a product card
-            const productElement = document.createElement('div');
-            productElement.className = 'product';
-            productElement.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <p><strong>Price:</strong> $${product.price}</p>
-                <p><strong>Category:</strong> ${product.category}</p>
-            `;
-
-            // Append the product card to the product list
-            productList.appendChild(productElement);
-        });
-
-    } catch (error) {
-        console.error("Error fetching products: ", error);
-    }
-}
-        // Fetch and display products when the page loads
-        fetchAndDisplayProducts();
-window.applyFilter = async function () {
-  let category = document.getElementById("categoryFilter").value;
-    let productList = document.getElementById("productList"); // Main product list div
-    productList.innerHTML = "<p>Loading...</p>"; // Show loading message
-
-    try {
-        let q = collection(db, "Products");
-
-        if (category) {
-            q = query(q,  where("category", "==", category));
-        }
-
-        const snapshot = await getDocs(q);
-        productList.innerHTML = ""; // Clear previous products
-
-        if (snapshot.empty) {
-            productList.innerHTML = "<p>No products found.</p>";
-        } else {
-            snapshot.forEach((doc) => {
-                let product = doc.data();
-
-                // Create a product card with the same styles
-                let productElement = document.createElement("div");
-                productElement.classList.add("product"); // Ensure it keeps the styling
-                productElement.innerHTML = `
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p><strong>Price:</strong> $${product.price}</p>
-                    <p><strong>Category:</strong> ${product.category}</p>
-                `;
-
-                // Append product to the productList
-                productList.appendChild(productElement);
-            });
-        }
-    } catch (error) {
-        console.error("❌ Error fetching documents:", error);
-        productList.innerHTML = "<p>Error loading data.</p>";
-    }
-};
-function handleSearch(event) {
-    let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
-    let productElements = document.querySelectorAll('.product'); // Get all product cards
-
-    productElements.forEach((productElement) => {
-        let productName = productElement.querySelector('h3').textContent.toLowerCase(); // Get product name
-        if (productName.includes(searchQuery)) {
-            productElement.style.display = 'block'; // Show the product if it matches the search
-        } else {
-            productElement.style.display = 'none'; // Hide the product if it doesn't match
-        }
-    });
-}
-
-// Event listener for search input
-document.getElementById('searchInput').addEventListener('keyup', handleSearch);
-</script>
     
     
 </head><!--The head tag takes metadata tags that are related to the document. You can insert .css exteranl files-->
@@ -253,7 +143,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
 
         <h6>Fill out the appropriate details below. You will bre emailed a Report of your submission along with a case number. Keep this as a record as you see fit!</h6>
 
-        <form> <!-- The form element houses all elements related to as form. Drop down menus, buttons, etc-->
+        <form id = "ReportForum"> <!-- The form element houses all elements related to as form. Drop down menus, buttons, etc-->
         <!-- Also note that the value for the "for" attribute within the label element should match the value of the id attribute of the corresponding form element, only recommended-->   
             <!-- 
             1) drop down menu is created by the select element
@@ -327,7 +217,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
                 </div>
             </div>
 
-            <!-- The required attribute is a conditional that occurs if the user attempts to submit the form when the corresponding text field is empty, a msg will pop up on said text field-->
+            <!-- The required attribute is a conditional that occurs if the user attempts to submit the form when the corresponding text field is empty, a msg will pop up on said text field, essenitally will only allow the forum to be subnmited once they're all valid values-->
             <div id = "NameField" class =  "hidden">
                 <label for = "name"> 5. Your Name:</label>
                 <input type = "text" id = "name" required>
@@ -341,7 +231,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
 
 
             <div id = "ButtonUpload" class = "hidden">
-                <button >Submit</button>
+                <button type = "submit" >Submit</button>
             </div>
 
       
@@ -473,6 +363,94 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
         };
       </script>
 
+      <!-- This portion of javascript is used to upload the user data from the forum into our database (firebase) and send the user an email of the details they filled out -->
+<script type = "module">
+        // Import the functions you need from the SDKs you need, this is considered as ES6 synatx. In order to use it in a reg html script, you must declare the script as type module
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+       //import { getAnalytics } from "firebase/analytics";
+        import {getFirestore, collection, addDoc} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"; //getFireStire - intialize the firestore database, collection -create the collection, document - add a document to the collection, all of which comes from the same single firestore module
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = { //this simply tells firebase which project we belong to on their webpage, not the tools nesseary to use their libraries and APIs. that would be the SDK
+        apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+        authDomain: "sell-25f45.firebaseapp.com",
+        databaseURL: "https://sell-25f45-default-rtdb.firebaseio.com",
+        projectId: "sell-25f45",
+        storageBucket: "sell-25f45.firebasestorage.app",
+        messagingSenderId: "953873344669",
+        appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+        measurementId: "G-9DB3NVDSQJ"
+    };
+
+    // Initialize Firebase 
+    const app = initializeApp(firebaseConfig);
+    //const analytics = getAnalytics(app);
+    //Initilaize firestore
+    const db = getFirestore(app);
+
+    //initalize firestore - the specific part of where we upload our data to firebase
+    /**
+     * Firestore stores that data into collections (folders) <-- Category
+     * The different versions of said data is storted into documents (files)
+     * */
+     
+    
+
+
+    //Lines of code to upload the user data to our firebase
+    document.getElementById("ReportForum").addEventListener("submit", async function(event) { //this function wont execute unless submit button has actually "submitted" or been executed itself
+        event.preventDefault();
+
+        //get the actual user data from the forum elements and store it into a variable
+        let subject = document.getElementById("Subject").value;
+        let reason = document.getElementById(subject).value;
+        //dont use the id value from the div element that houses the forum elements, instead use the value of the id that is an attribute directly for the forum element, as this is where the .value property works
+        let photo1 = document.getElementById("PhotoPU1").value;
+        let photo2 = document.getElementById("PhotoPU2").value;
+        let photo3 = document.getElementById("PhotoPU3").value;
+        let photo4 = document.getElementById("PhotoPU4").value;
+        let issue = document.getElementById("Issue").value;
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+
+        //now upload the data into firestore by creating the collection and use exception handling - try and catch block
+        try{
+            await addDoc(
+                collection(db, "Reports"),
+            {
+                subject,
+                reason,
+                photo1,
+                photo2,
+                photo3,
+                photo4,
+                issue,
+                name,
+                email,
+                timestamp: new Date().toISOString()
+            }
+        );
+        alert("The Report has been uploaded, an email will be sent soon");
+        document.getElementById("ReportForum").reset();
+        }
+        catch(e){
+            console.error("error in uploading documents: ", e);
+        } //catch block must be right after try block 
+
+      
+    
+     
+
+        
+    });
+
+</script>
+
+
+
 
 
      
@@ -487,7 +465,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
           <img src="images/Warriors.png
           " height="85" alt=""
                loading="lazy" />
-        <p >WSU MarketShare</p>
+        <p>WSU MarketShare</p>
       </div>
       
 
