@@ -1,4 +1,3 @@
-// auth.js
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
 import {
   getAuth,
@@ -6,7 +5,6 @@ import {
   signOut
 } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
-// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
   authDomain: "wayne-state-marketshare.firebaseapp.com",
@@ -17,22 +15,61 @@ const firebaseConfig = {
   measurementId: "G-FCRMC500EK"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-// This will hold the current user
 let currentUser = null;
 
-// Auth state listener
-onAuthStateChanged(auth, (user) => {
-  currentUser = user;
-  if (user) {
-    console.log("✅ Logged in as:", user.email);
-  } else {
-    console.log("⛔ User not logged in");
+// Auth state handler
+const handleAuthStateChanged = (user) => {
+  try {
+    currentUser = user;
+    if (user) {
+      console.log("✅ Logged in as:", user.email);
+    } else {
+      console.log("⛔ User not logged in");
+    }
+  } catch (error) {
+    console.error("Auth state error:", error);
+    currentUser = null;
   }
-});
+};
 
-// Export useful items
-export { auth, currentUser, signOut };
+// Initialize auth state listener
+const authListener = onAuthStateChanged(auth, handleAuthStateChanged);
+
+// Async user getter
+const getCurrentUserAsync = () => {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user);
+    });
+  });
+};
+
+// Token management
+const getIdToken = async () => {
+  if (!currentUser) return null;
+  try {
+    return await currentUser.getIdToken();
+  } catch (error) {
+    console.error("Error getting token:", error);
+    return null;
+  }
+};
+
+const getAuthHeaders = async () => {
+  const token = await getIdToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+};
+
+export {
+  auth,
+  currentUser,
+  signOut,
+  getCurrentUserAsync,
+  getIdToken,
+  getAuthHeaders,
+  authListener
+};

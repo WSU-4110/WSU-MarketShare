@@ -28,7 +28,7 @@ async function verifyCode() {
         const docSnap = await getDoc(doc(db, "verifications", email));
 
         if (docSnap.exists() && userCode === docSnap.data().code.toString()) {
-            messageBox.innerHTML = "✅ Verification successful! Redirecting...";
+            messageBox.innerHTML = "Verification successful! Redirecting...";
             messageBox.style.color = "green";
 
             // Redirect to homepage after verification
@@ -36,12 +36,12 @@ async function verifyCode() {
                 window.location.href = "https://wsu-4110.github.io/WSU-MarketShare/frontend/FrontPage.html";
             }, 2000);
         } else {
-            messageBox.innerHTML = "❌ Incorrect code. Try again.";
+            messageBox.innerHTML = "Incorrect code. Try again.";
             messageBox.style.color = "red";
         }
     } catch (error) {
         console.error("Error verifying code:", error);
-        messageBox.innerHTML = "❌ Error verifying code.";
+        messageBox.innerHTML = "Error verifying code.";
         messageBox.style.color = "red";
     }
 }

@@ -59,7 +59,7 @@
   </head>
 <!-- Auth logic -->
 	<script type="module">
-	  import { getCurrentUserAsync, signOut } from './auth.js';
+	  import { getCurrentUserAsync, signOut } from '/backend/auth.js';
 
 	  const loginBtn = document.getElementById("LoginButton");
 	  const loginRedirect = document.getElementById("LoginRedirect");
@@ -73,12 +73,7 @@
 			loginRedirect.style.display = "none";
 		  }
 
-		  // Optionally add a welcome message or logout button
-		  const welcome = document.createElement("span");
-		  welcome.textContent = `Welcome, ${user.email}`;
-		  welcome.style.color = "white";
-		  welcome.style.marginRight = "15px";
-
+		  S
 		  const nav = document.querySelector(".navbar .container-fluid");
 		  nav.insertBefore(welcome, nav.firstChild);
 
@@ -98,46 +93,29 @@
 	</script>
   <!--Nav-bar-->
   <body>
-    <nav
-      class="navbar navbar-expand-lg"
-      style="background-color: rgb(8, 98, 8) !important"
-    >
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important">
       <div class="container-fluid">
+        <!-- Your existing logo and toggler button -->
         <div class="button-container">
           <a href="#top">
             <button id="MainButton">
-              <img
-                src="images/Warriors.png"
-                alt="Logo"
-                width="30"
-                height="24"
-                class="d-inline-block align-text-top"
-              />
+              <img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" />
             </button>
             <div class="hover-message">
-              Home
-              <i class="fa-solid fa-house" id="HomeIcon"></i>
+              Home <i class="fa-solid fa-house" id="HomeIcon"></i>
             </div>
           </a>
         </div>
-        <i class="fa-solid fa-user" id="ProfileIcon"></i>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
           <span class="navbar-toggler-icon"></span>
         </button>
+    
+        <!-- Main navbar content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Your existing nav items -->
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="Profile.html"
-                >Profile</a
-              >
+              <a class="nav-link active" href="Profile.html">Profile</a>
             </li>
             <i class="fa-solid fa-bell"></i>
             <li class="nav-item">
@@ -155,33 +133,59 @@
             <li class="nav-item">
               <a class="nav-link" href="#">Messages</a>
             </li>
+            
           </ul>
+    
+          <!-- Search form -->
           <form class="d-flex w-50">
-            <input
-              class="form-control me-2"
-              type="search"
-              id="searchInput"
-              placeholder="Search products..."
-              aria-label="Search"
-            />
-            <button
-              class="btn btn-outline-success"
-              id="RightButton"
-              type="button"
-            >
+            <input class="form-control me-2" type="search" id="searchInput" placeholder="Search products..." aria-label="Search" />
+            <button class="btn btn-outline-success" id="RightButton" type="button">
               <i class="fa-solid fa-magnifying-glass" id="searchicon"></i>
             </button>
           </form>
+          </div>
         </div>
       </div>
     </nav>
+    
+    <script type="module">
+      import { auth, onAuthStateChanged, signOut } from './auth.js';
+      
+      function updateAuthUI(user) {
+        const authContainer = document.getElementById('authContainer');
+        if (user) {
+          authContainer.innerHTML = `
+          <button id="logoutButton" class="btn btn-outline-light btn-sm">Log out</button>
+          `;
+          
+          document.getElementById('logoutButton').addEventListener('click', async () => {
+            try {
+              await signOut(auth);
+            } catch (error) {
+              console.error('Logout failed:', error);
+            }
+          });
+        } else {
+          authContainer.innerHTML = `
+            <a href="login.html" class="text-decoration-none">
+              <button class="btn btn-outline-light btn-sm">Log in</button>
+            </a>
+          `;
+        }
+      }
+    
+      onAuthStateChanged(auth, (user) => {
+        updateAuthUI(user);
+      });
+    </script>
+    
 
     <h3 id="NavText">WSU Marketplace</h3>
-
-    <a href="login.html" id="LoginRedirect">
-    <button id ="LoginButton">Log in</button>
+    <div id="authContainer"></div>
+      <a href="login.html" id="LoginRedirect">
+        <button id ="LoginButton">Log in</button>
     </a>
-
+  </div>
     <!--This is the Filter portion-->
 
     <div class="filter-section">
@@ -218,9 +222,21 @@
 
       <div class="footer-section">
         <li><a href="#top">Home</a></li>
-        <li><a href="Sellpageintro.html">Sell Page</a></li>
-        <li><a href="#!">Account</a></li>
-      </div>
+        <li><a href="Sellpageintro.html">Sell Page</a></li><li><a href="#!">Account</a></li>
+    </a>div>
+  </div>
+    <!--This is the Filter portion-->      <div class="footer-section">
+</li>
+    <div class="filter-section">a></li>
+      <select id="categoryFilter"></li>
+        <option value="">All Categories</option>
+        <option value="Calculators">Calculators</option>
+        <option value="Textbooks">Textbooks</option>
+        <option value="Tablets">Tablets</option>
+        <option value="Laptops">Laptops</option>="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+      </select>t.js"></script>
+      <button onclick="applyFilter()" class="btn btn-success">Filter</button>t src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    </div>
 
       <div class="footer-section">
         <li><a href="#!">FAQ</a></li>
@@ -327,5 +343,51 @@
         document.querySelector(".btn-success").addEventListener("click", applyFilter);
       });
     </script>
-  </body>
+   
+    <script type="module">
+      import { getCurrentUserAsync, signOut } from '/backend/auth.js';
+  
+      const loginButton = document.getElementById('loginButton');
+      const loginLink = document.getElementById('loginLink');
+  
+      async function updateAuthUI() {
+        const authContainer = document.getElementById('authContainer');
+        const user = await getCurrentUserAsync();
+        
+        if (user) {
+          // User is logged in - show logout button
+          authContainer.innerHTML = `
+            <span class="text-light me-3">Welcome, ${user.email}</span>
+            <button id="logoutButton" class="btn btn-danger">Log out</button>
+          `;
+          
+          document.getElementById('logoutButton').addEventListener('click', async () => {
+            try {
+              await signOut(auth);
+              window.location.reload(); // Refresh to update UI
+            } catch (error) {
+              console.error('Logout failed:', error);
+            }
+          });
+        } else {
+          // User is not logged in - show login button
+          authContainer.innerHTML = `
+            <a href="login.html" id="loginLink">
+              <button id="loginButton" class="btn btn-outline-light">Log in</button>
+            </a>
+          `;
+        }
+      }
+  
+      // Initialize auth UI
+      updateAuthUI();
+  
+      // Optional: Listen for auth changes (if you want real-time updates without page refresh)
+      import { auth } from '/backend/auth.js';
+      import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
+      
+      onAuthStateChanged(auth, () => {
+        updateAuthUI();
+      });
+    </script>
 </html>
