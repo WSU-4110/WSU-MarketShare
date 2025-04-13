@@ -39,40 +39,40 @@ const handleAuthStateChanged = (user) => {
 const authListener = onAuthStateChanged(auth, handleAuthStateChanged);
 
 // Async user getter
-const getCurrentUserAsync = () => {
+export async function getCurrentUserAsync() {
+  const auth = getAuth();
   return new Promise((resolve) => {
     let unsubscribe;
     unsubscribe = onAuthStateChanged(auth, (user) => {
       if (unsubscribe) {
-        unsubscribe();
+        unsubscribe(); // Call unsubscribe only if it is initialized
       }
       resolve(user);
     });
   });
-};
+}
 
 // Token management
-const getIdToken = async () => {
-  if (!currentUser) return null;
-  try {
-    return await currentUser.getIdToken();
-  } catch (error) {
-    console.error("Error getting token:", error);
-    return null;
+export async function getIdToken() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  if (user) {
+    return await user.getIdToken();
   }
-};
+  return null;
+}
 
-const getAuthHeaders = async () => {
+export async function getAuthHeaders() {
   const token = await getIdToken();
-  return token ? { Authorization: `Bearer ${token}` } : {};
-};
+  if (token) {
+    return { Authorization: `Bearer ${token}` };
+  }
+  return {};
+}
 
 export {
   auth,
   currentUser,
   signOut,
-  getCurrentUserAsync,
-  getIdToken,
-  getAuthHeaders,
   authListener
 };

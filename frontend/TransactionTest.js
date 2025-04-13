@@ -1,20 +1,7 @@
-import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, query, where, addDoc, serverTimestamp } from "firebase/firestore";
+import { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } from 'firebase/firestore';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
-    authDomain: "sell-25f45.firebaseapp.com",
-    databaseURL: "https://sell-25f45-default-rtdb.firebaseio.com",
-    projectId: "sell-25f45",
-    storageBucket: "sell-25f45.firebasestorage.app",
-    messagingSenderId: "953873344669",
-    appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
-    measurementId: "G-9DB3NVDSQJ"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+// Initialize Firestore
+const db = getFirestore();
 
 export async function addTransaction(transactionData) {
     try {
@@ -23,7 +10,9 @@ export async function addTransaction(transactionData) {
             createdAt: serverTimestamp()
         };
 
-        const docRef = await addDoc(collection(db, "Transactions"), transactionWithTimestamp);
+        const transactionsRef = collection(db, "Transactions");
+        const docRef = await addDoc(transactionsRef, transactionWithTimestamp);
+
         console.log("Transaction added with ID: ", docRef.id);
         return {
             success: true,
@@ -55,27 +44,10 @@ export async function fetchAndDisplayTransactionHistory(BuyerID) {
             return;
         }
 
-        for (const doc of querySnapshot.docs) {
-            let transaction = doc.data();
-            const productRef = collection(db, "Products");
-            const productQuery = query(productRef, where("ProductID", "==", transaction.ProductID));
-            const productSnapshot = await getDocs(productQuery);
-
-            if (!productSnapshot.empty) {
-                const productData = productSnapshot.docs[0].data();
-                let transactionElement = document.createElement("div");
-                transactionElement.classList.add("product");
-                transactionElement.innerHTML = `
-                    <img src="${productData.ImageURL || 'default-image.jpg'}" alt="${productData.ProductName}">
-                    <h4>${productData.ProductName}</h4>
-                    <p>Category: ${productData.Category}</p>
-                    <p>Price: $${productData.Price}</p>
-                    <p>Seller: ${transaction.SellerName}</p>
-                    <p><strong>Buyer:</strong> ${transaction.BuyerName}</p>
-                `;
-                transactionContainer.appendChild(transactionElement);
-            }
-        }
+        transactionContainer.innerHTML = querySnapshot.docs.map(doc => {
+            const data = doc.data();
+            return `<div>${data.SellerName} sold ${data.ProductID} to ${data.BuyerID}</div>`;
+        }).join('');
     } catch (error) {
         console.error("Error fetching transaction history:", error);
         transactionContainer.innerHTML = "<p>Failed to load transactions.</p>";

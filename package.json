@@ -32,32 +32,14 @@
   },
   "jest": {
     "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
     "transform": {
-      "^.+\\.(js|jsx)$": [
-        "babel-jest",
-        {
-          "rootMode": "upward"
-        }
-      ]
+      "^.+\\.jsx?$": "babel-jest"
     },
     "transformIgnorePatterns": [
       "node_modules/(?!(@firebase|firebase)/)"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx"
-    ],
-    "moduleDirectories": [
-      "node_modules",
-      "frontend"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less|scss|sass)$": "identity-obj-proxy",
-      "^@/(.*)$": "<rootDir>/frontend/$1",
-      "^firebase/(.*)$": "<rootDir>/node_modules/firebase/$1"
-    },
-    "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
     ]
   }
 }
