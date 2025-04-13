@@ -4,7 +4,7 @@
   "description": "A digital MarketPlace exclusively for WSU students",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -13,9 +13,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/WSU-4110/WSU-MarketShare/issues"
   },
-  "homepage": "https://github.com/WSU-4110/WSU-MarketShare#readme"
+  "homepage": "https://github.com/WSU-4110/WSU-MarketShare#readme",
+  "devDependencies": {
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "babel-jest": "^29.7.0",
+    "firebase": "^11.6.0",
+    "jest": "^29.7.0"
+  }
 }
