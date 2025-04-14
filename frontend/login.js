@@ -66,7 +66,7 @@ function loginUser() {
 
             // Redirect after short delay
             setTimeout(() => {
-                window.location.href = "frontpage.html"; // Redirect to frontpage
+                window.location.href = "FrontPage.html"; // Redirect to frontpage
             }, 1500);
         })
         .catch((error) => {
