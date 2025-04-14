@@ -47,6 +47,7 @@
         padding: 8px;
         border: 2px solid darkgreen;
         border-radius: 20px;
+
       }
       .filter-section {
         position: relative;
@@ -61,6 +62,15 @@
 		gap: 20px;
 		justify-content: left; /* Centers items */
 	  }
+    #RightButton{
+      bottom: -17px !important
+    }
+    .navbar i{
+      bottom: -14px !important;
+    }
+    #profileIcon{
+      bottom: 0px !important;
+    }
     </style>
   </head>
 
@@ -146,6 +156,7 @@
 
     <h3 id="NavText">WSU Marketplace</h3>
 	<script type="module">
+		import { getCurrentUserAsync, auth } from '../backend/auth.js';
 		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 		import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
 
@@ -164,44 +175,29 @@
 		const app = initializeApp(firebaseConfig);
 		const db = getFirestore(app);
 
-
-		// Function to add a new transaction
-		async function addTransaction(transactionData) {
-			try {
-				// Add server-side timestamp
-				const transactionWithTimestamp = {
-					...transactionData,
-					createdAt: serverTimestamp()
-				};
-
-				const docRef = await addDoc(collection(db, "Transactions"), transactionWithTimestamp);
-				console.log("Transaction added with ID: ", docRef.id);
-				return {
-					success: true,
-					transactionId: docRef.id
-				};
-			} catch (error) {
-				console.error("Error adding transaction: ", error);
-				return {
-					success: false,
-					error: error.message
-				};
-			}
-		}
-		
-	
-		async function fetchAndDisplayTransactionHistory(BuyerID) {
+		async function fetchAndDisplayTransactionHistory() {
 			let transactionContainer = document.getElementById("transaction-container");
 			if (!transactionContainer) {
 				console.error("Error: Could not find 'transaction-container' div.");
 				return;
 			}
 
-			transactionContainer.innerHTML = "<p>Loading transactions...</p>";
-
 			try {
+				const user = await getCurrentUserAsync();
+				if (!user) {
+					console.log('No user logged in');
+					transactionContainer.innerHTML = "<p>Please log in to view your transactions</p>";
+					setTimeout(() => {
+						window.location.href = "login.html";
+					}, 2000);
+					return;
+				}
+
+				console.log('Fetching transactions for user:', user.email);
+				transactionContainer.innerHTML = "<p>Loading transactions...</p>";
+
 				const transactionsRef = collection(db, "Transactions");
-				const q = query(transactionsRef, where("BuyerID", "==", BuyerID));
+				const q = query(transactionsRef, where("BuyerID", "==", user.uid));
 				const querySnapshot = await getDocs(q);
 
 				transactionContainer.innerHTML = ""; // Clear loading text
@@ -229,7 +225,7 @@
 							<p>Category: ${productData.Category}</p>
 							<p>Price: $${productData.Price}</p>
 							<p>Seller: ${transaction.SellerName}</p>
-							<p><strong>Buyer:</strong> ${transaction.BuyerName}</p>
+							 <p>Purchase Date: ${transaction.createdAt ? new Date(transaction.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</p>
 						`;
 
 						transactionContainer.appendChild(transactionElement);
@@ -239,8 +235,12 @@
 				console.error("Error fetching transaction history:", error);
 				transactionContainer.innerHTML = "<p>Failed to load transactions.</p>";
 			}
-	}
-		fetchAndDisplayTransactionHistory(1234);
+		}
+
+		// Initialize when DOM is ready
+		document.addEventListener('DOMContentLoaded', () => {
+			fetchAndDisplayTransactionHistory();
+		});
 	</script>
 	<body>
     <h2>Transaction History</h2>

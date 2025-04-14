@@ -27,12 +27,14 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 .navbar a:hover{
     color: gold;
+    text-decoration: none !important;
+
 }
 
 /* Apply css to the font awsome elements, remember they come in tags of i */
 .navbar i{
     position: relative;
-    bottom: -15px;
+    bottom: 0px;
 }
 
 /* apply css to search bar */
@@ -147,7 +149,7 @@ Opacity controls the transparency of an element (values 0-1)
     right: -185px;
     z-index: 100 !important;
     height: 40px;
-    bottom: -17px;
+    bottom: 0px;
 
 }
 

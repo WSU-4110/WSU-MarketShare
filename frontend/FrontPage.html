@@ -1,154 +1,4 @@
 <!DOCTYPE html>
-
-
-    
-<!--	<script type="module" defer>
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
-            authDomain: "wsu-market-share.firebaseapp.com",
-            databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
-            projectId: "wsu-market-share",
-            storageBucket: "wsu-market-share.firebasestorage.app",
-            messagingSenderId: "176228593560",
-            appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
-            measurementId: "G-HZ3VRX4MK1"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        console.log("Firebase initialized.");
-
-        const productList = document.getElementById('productList');
-        const searchInput = document.getElementById('searchInput');
-		
-
-        async function fetchAndDisplayProducts(searchQuery = '') {
-            try {
-                let q = collection(db, "Products");
-                if (searchQuery) {
-					q = query(q, where("name", ">=", searchQuery), where("name", "<=", searchQuery + '\uf8ff'));
-                }
-
-                const querySnapshot = await getDocs(q);
-                productList.innerHTML = '';
-
-                querySnapshot.forEach((doc) => {
-                    const product = doc.data();
-                    const productElement = document.createElement("div");
-                    productElement.className = "buttonDIV";
-                    productElement.onclick = () => CreateWindow(product);
-
-                    productElement.innerHTML = `
-                        <div class="divPT">
-                            <img src="${product.imageURL}" alt="${product.name}">
-                            <hr>
-                            <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
-                            <span class="ProductUserPFP"></span>
-                            <p class="ProductAcessID">Access ID: ${product.accessId}</p>
-                            <p class="ProductUserName">${product.sellerName}</p>
-                            <div>
-                                <span class="fa fa-star checked rating"></span>
-                                <span class="fa fa-star checked rating"></span>
-                                <span class="fa fa-star checked rating"></span>
-                            </div>
-                        </div>
-                    `;
-
-                    productList.appendChild(productElement);
-                });
-
-            } catch (error) {
-                console.error("Error fetching products: ", error);
-            }
-        }
-
-        window.applyFilter = async function() {
-    const selectedCategories = Array.from(document.querySelectorAll('input[name="category"]:checked')).map(cb => cb.value);
-    const maxPrice = parseFloat(document.getElementById('priceRange').value);
-	console.log("Selected Categories: ", selectedCategories);
-    let q = collection(db, "Products");
-
-    if (selectedCategories.length > 0) {
-        q = query(q, where("category", "in", selectedCategories));
-    }
-
-    q = query(q, where("price", "<=", maxPrice));
-
-    try {
-        const snapshot = await getDocs(q);
-        console.log("Query Snapshot Size:", snapshot.size);
-
-        productList.innerHTML = '';
-
-        if (snapshot.empty) {
-            productList.innerHTML = "<p>No products found.</p>";
-            return;
-        }
-
-        snapshot.forEach((doc) => {
-            const product = doc.data();
-            console.log("Product:", product);
-
-            const productElement = document.createElement("div");
-            productElement.className = "buttonDIV";
-            productElement.onclick = () => CreateWindow(product);
-
-            productElement.innerHTML = `
-                <div class="divPT">
-                    <hr>
-                    <p class="ProductName fw-semibold">${product.name} - $${product.price}</p>
-                    <span class="ProductUserPFP"></span>
-                    <p class="ProductAcessID">Access ID: ${product.accessId}</p>
-                    <p class="ProductUserName">${product.sellerName}</p>
-                    <div>
-                        <span class="fa fa-star checked rating"></span>
-                        <span class="fa fa-star checked rating"></span>
-                        <span class="fa fa-star checked rating"></span>
-                    </div>
-                </div>
-            `;
-        });
-
-    } catch (error) {
-        console.error("❌ Error fetching documents:", error);
-        productList.innerHTML = "<p>Error loading data.</p>";
-    }
-};
-	function handleSearch(event) {
-		let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
-		let productElements = document.querySelectorAll('.divPT'); // Get all product cards
-
-		productElements.forEach((productElement) => {
-			let productName = productElement.querySelector('.ProductName').textContent.toLowerCase(); // Get product name
-			if (productName.includes(searchQuery)) {
-				productElement.style.display = 'block'; // Show the product if it matches the search
-			} else {
-				productElement.style.display = 'none'; // Hide the product if it doesn't match
-			}
-		});
-	}
-
-        document.getElementById('priceRange').addEventListener('input', function () {
-            document.getElementById('priceValue').innerText = `$${this.value}`;
-            applyFilter();
-        });
-
-        document.getElementById('searchInput').addEventListener('keyup', function(event) {
-            const searchQuery = event.target.value.toLowerCase();
-            fetchAndDisplayProducts(searchQuery);
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchAndDisplayProducts();
-        });
-		document.getElementById('searchInput').addEventListener('keyup', handleSearch);
-
-    </script>
--->
 <html>
   <head>
     <meta charset="UTF-8" />
@@ -165,135 +15,238 @@
     <link rel="stylesheet" href="Ribbon.css" />
 
     <link rel="stylesheet" href="footer.css" />
-    <script src="ProductGUI.js"></script>
+    <script type="module" src="ProductGUI.js"></script>
     <style>
+      /* General product styling */
       .product {
-        border: 3px solid darkgreen;
-        border-radius: 25px;
-        padding: 20px;
-        margin: 15px;
-        width: 300px;
-        display: inline-block;
-        vertical-align: top;
-        background-color: #f8f9fa;
-        cursor: pointer;
-        transition: transform 0.10s ease-in-out, box-shadow 0.2s ease-in-out;
+          border: 3px solid darkgreen;
+          border-radius: 25px;
+          padding: 20px;
+          background-color: #f8f9fa;
+          cursor: pointer;
+          transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+          display: flex;
+          flex-direction: column;
+          height: auto;
+          min-height: 400px;
       }
+  
       .product img {
-        max-width: 250px;
-        max-height: 200px;
-        margin-bottom: 10px;
-        border-radius: 10px;
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 10px;
+          margin-bottom: 10px;
       }
-      #categoryFilter {
-        margin: 15px;
-        padding: 8px;
-        border: 2px solid darkgreen;
-        border-radius: 5px;
+  
+      /* Navbar styling */
+      .navbar {
+          background-color: rgb(8, 98, 8) !important;
       }
-      #searchInput {
-        width: 300px;
-        margin: 15px;
-        padding: 8px;
-        border: 2px solid darkgreen;
-        border-radius: 20px;
+  
+      .navbar-toggler {
+          border-color: white;
       }
-      .filter-section {
-        position: relative;
-        text-align: center;
-        margin: 20px 0;
-        top: -70px;
-        right: -500px;
+  
+      .navbar-toggler-icon {
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%28255, 255, 255, 1%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
       }
-    </style>
-  </head>
+  
+      #navbarSupportedContent {
+          flex-grow: 1;
+          display: flex;
+          justify-content: flex-end;
+      }
+  
+      #authContainer {
+          margin-left: 1rem;
+      }
+  
+      #authContainer .btn {
+          color: #fff;
+          background-color: transparent;
+          border: 2px solid #fff;
+          border-radius: 5px;
+          padding: 8px 16px;
+      }
+  
+      #authContainer .btn:hover {
+          background-color: #fff;
+          color: rgb(8, 98, 8);
+      }
 
+      /* Update the navbar layout styles */
+      .navbar .container-fluid {
+          position: relative;
+          padding: 0.5rem 1rem;
+      }
+
+      .navbar-brand {
+          font-size: 1.5rem;
+          color: white !important;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+      }
+
+      .nav-items-right {
+          display: flex;
+          align-items: center;
+          gap: 50px; /* Updated from 1rem to 50px to match */
+          margin-left: auto;
+      }
+
+      .search-container {
+          width: 300px;
+          margin-right: 150px; /* Updated from 1rem to 50px */
+      }
+
+      #navbarSupportedContent {
+          flex-grow: 1;
+          display: flex;
+          justify-content: flex-end;
+      }
+
+      #authContainer {
+          min-width: 100px;
+          margin-left: 1rem;
+      }
+
+      /* Ensure the search input doesn't overlap on smaller screens */
+      @media (max-width: 992px) {
+          .nav-items-right {
+              width: 100%;
+              justify-content: space-between;
+              margin-top: 1rem;
+          }
+
+          .search-container {
+              width: auto;
+              flex-grow: 1;
+              margin-right: 1rem;
+          }
+      }
+
+      /* Update product list and product styling */
+      #productList {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 20px;
+          padding: 20px;
+          max-width: 1600px;
+          margin: 0 auto;
+          align-items: start; /* Add this to prevent stretching */
+      }
+
+      .product {
+          border: 3px solid darkgreen;
+          border-radius: 25px;
+          padding: 20px;
+          background-color: #f8f9fa;
+          cursor: pointer;
+          transition: transform 0.1s ease-in-out, box-shadow 0.2s ease-in-out;
+          display: flex;
+          flex-direction: column;
+          height: auto; /* Change from 100% to auto */
+          min-height: 400px;
+      }
+
+      .product:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      }
+
+      .product img {
+          width: 100%;
+          height: 200px;
+          object-fit: cover;
+          border-radius: 10px;
+          margin-bottom: 10px;
+      }
+
+      /* Add responsive adjustments */
+      @media (max-width: 1200px) {
+          #productList {
+              padding: 15px;
+          }
+      }
+
+      @media (max-width: 576px) {
+          #productList {
+              padding: 10px;
+          }
+          
+          .product {
+              min-height: 350px;
+          }
+      }
+  </style>
+  </head>
   <!--Nav-bar-->
   <body>
-    <nav
-      class="navbar navbar-expand-lg"
-      style="background-color: rgb(8, 98, 8) !important"
-    >
+    <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important">
       <div class="container-fluid">
+        <!-- Logo button -->
         <div class="button-container">
-          <a href="#top">
-            <button id="MainButton">
-              <img
-                src="images/Warriors.png"
-                alt="Logo"
-                width="30"
-                height="24"
-                class="d-inline-block align-text-top"
-              />
-            </button>
-            <div class="hover-message">
-              Home
-              <i class="fa-solid fa-house" id="HomeIcon"></i>
-            </div>
-          </a>
+            <a href="#top">
+                <button id="MainButton">
+                    <img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top" />
+                </button>
+                <div class="hover-message">
+                    Home <i class="fa-solid fa-house" id="HomeIcon"></i>
+                </div>
+            </a>
         </div>
-        <i class="fa-solid fa-user" id="ProfileIcon"></i>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+
+        <!-- Centered brand -->
+        <a class="navbar-brand" href="#">WSU Marketplace</a>
+
+        <!-- Navbar toggler for mobile -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+            <span class="navbar-toggler-icon"></span>
         </button>
+
+        <!-- Collapsible content -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="Profile.html"
-                >Profile</a
-              >
-            </li>
-            <i class="fa-solid fa-bell"></i>
-            <li class="nav-item">
-              <a class="nav-link" href="Sellpageintro.html">Sell</a>
-            </li>
-            <i class="fa-solid fa-cart-shopping" id="i4"></i>
-            <li class="nav-item">
-              <a class="nav-link" href="Cart.html">Cart</a>
-            </li>
-            <i class="fa-solid fa-gear" id="i5"></i>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Settings</a>
-            </li>
-            <i class="fa-solid fa-envelope" id="i3"></i>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Messages</a>
-            </li>
-          </ul>
-          <form class="d-flex w-50">
-            <input
-              class="form-control me-2"
-              type="search"
-              id="searchInput"
-              placeholder="Search products..."
-              aria-label="Search"
-            />
-            <button
-              class="btn btn-outline-success"
-              id="RightButton"
-              type="button"
-            >
-              <i class="fa-solid fa-magnifying-glass" id="searchicon"></i>
-            </button>
-          </form>
+            <!-- Left side nav items -->
+            <ul class="navbar-nav nav-items-left">
+                <li class="nav-item">
+                  <i class="fa-solid fa-user" id="ProfileIcon"></i> 
+                  <a class="nav-link active" href="Profile.html">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <i class="fa-solid fa-bell"></i>
+                    <a class="nav-link" href="Sellpageintro.html">Sell</a>
+                </li>
+                <li class="nav-item">
+                    <i class="fa-solid fa-cart-shopping" id="i4"></i>
+                    <a class="nav-link" href="Cart.html">Cart</a>
+                </li>
+            </ul>
+
+            <!-- Right side items -->
+            <div class="nav-items-right">
+                <!-- Search form -->
+                <div class="search-container">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" id="searchInput" placeholder="Search products..." aria-label="Search" />
+                        <button class="btn btn-outline-light" id="RightButton" type="button">
+                            <i class="fa-solid fa-magnifying-glass" id="searchicon"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Auth container -->
+                <div id="authContainer" class="d-flex align-items-center">
+                    <!-- Auth buttons will be dynamically inserted here -->
+                </div>
+            </div>
         </div>
-      </div>
-    </nav>
-
-    <h3 id="NavText">WSU Marketplace</h3>
-
-    <a href="login.html" id="LoginRedirect">
-    <button id ="LoginButton">Log in</button>
-    </a>
-
+    </div>
+</nav>
+    
+    <!-- Remove or comment out the old h3 -->
+    <!-- <h3 id="NavText">WSU Marketplace</h3> -->
     <!--This is the Filter portion-->
 
     <div class="filter-section">
@@ -330,10 +283,9 @@
 
       <div class="footer-section">
         <li><a href="#top">Home</a></li>
-        <li><a href="Sellpageintro.html">Sell Page</a></li>
-        <li><a href="#!">Account</a></li>
-      </div>
-
+        <li><a href="Sellpageintro.html">Sell Page</a></li><li><a href="#!">Account</a></li>
+    </a></div>
+  </div>
       <div class="footer-section">
         <li><a href="#!">FAQ</a></li>
         <li><a href="#!">Support</a></li>
@@ -345,6 +297,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
 
     <script>
       // Firebase conig straight up copy and paste
@@ -384,7 +337,8 @@
                 category: data.category,
                 images: data.images,
                 details: data.details || "",
-                createdAt: data.createdAt?.toDate() || new Date()
+                createdAt: data.createdAt?.toDate() || new Date(),
+                sellerEmail: data.userEmail || ""
               });
             });
             displayProducts(listings);
@@ -439,5 +393,76 @@
         document.querySelector(".btn-success").addEventListener("click", applyFilter);
       });
     </script>
+   
+    <script type="module">
+    // Update import path to match your project structure
+    import { getCurrentUserAsync, signOut, auth, onAuthStateChanged } from '../backend/auth.js';
+
+    async function updateAuthUI() {
+        const authContainer = document.getElementById('authContainer');
+        
+        if (!authContainer) {
+            console.error('Auth container not found');
+            return;
+        }
+
+        try {
+            const user = await getCurrentUserAsync();
+            
+            if (user) {
+                // Update button styling for logged-in state
+                authContainer.innerHTML = `
+                    <button id="logoutButton" class="btn">
+                        <span>Logout</span>
+                    </button>
+                `;
+                
+                const logoutButton = document.getElementById('logoutButton');
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', async () => {
+                        try {
+                            await signOut(auth);
+                            console.log('Successfully logged out');
+                            window.location.href = 'frontpage.html';
+                        } catch (error) {
+                            console.error('Logout failed:', error);
+                        }
+                    });
+                }
+            } else {
+                // Update button styling for logged-out state
+                authContainer.innerHTML = `
+                    <a href="login.html" class="btn" id="loginButton">
+                        <span>Login</span>
+                    </a>
+                `;
+            }
+        } catch (error) {
+            console.error('Error updating auth UI:', error);
+        }
+    }
+
+    // Initialize auth UI when DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            updateAuthUI();
+            onAuthStateChanged(auth, updateAuthUI);
+        });
+    } else {
+        updateAuthUI();
+        onAuthStateChanged(auth, updateAuthUI);
+    }
+</script>
+
+<script type="module">
+    import { CreateWindow, CloseWindow, addToCart } from './ProductGUI.js';
+
+    // Make functions available globally
+    window.CreateWindow = CreateWindow;
+    window.CloseWindow = CloseWindow;
+    window.addToCart = addToCart;
+
+    // ...rest of your existing script code...
+</script>
   </body>
 </html>

@@ -6,28 +6,6 @@
   <title>WSU-Marketshare Two-Step Verification</title>
   <link rel="stylesheet" href="2stepStyle.css" />
 
-  <!-- Firebase + Firestore -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
-      authDomain: "wayne-state-marketshare.firebaseapp.com",
-      projectId: "wayne-state-marketshare",
-      storageBucket: "wayne-state-marketshare.appspot.com",
-      messagingSenderId: "11946478991",
-      appId: "1:11946478991:web:a2382361767bb0a5e54ffa"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    window.db = db;
-    window.doc = doc;
-    window.setDoc = setDoc;
-    window.getDoc = getDoc;
-  </script>
-
   <!-- EmailJS -->
   <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
   <script>
@@ -50,7 +28,7 @@
         <input type="email" id="userEmail" placeholder="Enter your Wayne State email">
       </div>
 
-      <button id="sendCodeBtn" onclick="sendVerificationCode()">Send Code</button>
+      <button id="sendCodeBtn">Send Code</button>
 
       <p id="message"></p>
     </div>

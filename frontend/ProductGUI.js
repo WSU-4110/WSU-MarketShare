@@ -1,5 +1,10 @@
 // Product GUI the backend of the GUI
 
+// Import the auth module at the top of the file
+import { getCurrentUserAsync, auth } from '../backend/auth.js';
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js';
+import { getFirestore } from 'https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js';
+
 function addCSS() {
   let link = document.createElement("link");
   link.rel = "stylesheet";
@@ -7,7 +12,11 @@ function addCSS() {
   document.head.appendChild(link);
 }
 
-function CreateWindow(product) {
+export function CreateWindow(product) {
+  // Add debug logging
+  console.log('Product data:', product);
+  console.log('User email:', product.userEmail);
+
   if (document.getElementById("popupWindow")) return;
 
   const GUI = document.createElement("div");
@@ -27,17 +36,21 @@ function CreateWindow(product) {
 
   addCSS();
 
-  
   const safeProduct = {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      condition: product.condition,
-      category: product.category,
-      details: product.details,
-      images: product.images
+      id: product.id || '',
+      name: product.name || 'Unnamed Product',
+      price: product.price || 0,
+      condition: product.condition || 'Not specified',
+      category: product.category || 'Uncategorized',
+      details: product.details || 'No description available',
+      images: product.images || [],
+      // Change how we handle the email
+      userEmail: product.userEmail || product.sellerEmail || 'Email not available',
+      userId: product.userId || 'unknown'  // Add userId for tracking
   };
-
+  console.log('Product data:', product);
+  console.log('Seller email:', product.userEmail);
+  console.log('Safe product data:', safeProduct);
 
   //everything in GUI from product images to price
   GUI.innerHTML = `
@@ -60,95 +73,118 @@ function CreateWindow(product) {
           <p><strong>Condition:</strong> ${safeProduct.condition}</p>
           <p><strong>Category:</strong> ${safeProduct.category}</p>
           <p><strong>Description:</strong> ${safeProduct.details}</p>
-          <button class="add-to-cart-btn" onclick="addToCart(${JSON.stringify(safeProduct).replace(/"/g, '&quot;')})">
+          <div class="seller-info">
+              <p><strong>Contact Seller:</strong> 
+                  ${safeProduct.userEmail !== 'Email not available' 
+                      ? `<a href="mailto:${safeProduct.userEmail}" class="seller-email">${safeProduct.userEmail}</a>`
+                      : '<span class="no-email">Email not available</span>'}
+              </p>
+          </div>
+          <button class="add-to-cart-btn" data-product='${JSON.stringify(safeProduct)}'>
               <i class="fas fa-cart-plus"></i> Add to Cart
           </button>
       </div>
   `;
 
+  // Add some CSS for the seller info
+  const style = document.createElement('style');
+  style.textContent = `
+    .seller-info {
+      margin: 15px 0;
+      padding: 10px;
+      background: #f5f5f5;
+      border-radius: 5px;
+    }
+    .seller-email {
+      color: #086208 !important;
+      text-decoration: underline;
+    }
+    .no-email {
+      color: #666;
+      font-style: italic;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Add event listener for add to cart button
+  const addToCartBtn = GUI.querySelector('.add-to-cart-btn');
+  addToCartBtn.addEventListener('click', () => {
+      const productData = JSON.parse(addToCartBtn.dataset.product);
+      addToCart(productData);
+  });
+
   document.body.appendChild(GUI);
 }
 
 // add to cart button functionality part
-function addToCart(product) {
-  try {
-      // Firebase stuff
-      if (!firebase.apps.length) {
-          const firebaseConfig = {
-              apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
-              authDomain: "sell-25f45.firebaseapp.com",
-              projectId: "sell-25f45",
-              storageBucket: "sell-25f45.firebasestorage.app",
-              messagingSenderId: "953873344669",
-              appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
-              measurementId: "G-9DB3NVDSQJ"
-          };
-          firebase.initializeApp(firebaseConfig);
-      }
-      const db = firebase.firestore();
-      
-      const userId = "current_user"; 
-      
-      const cartItem = {
-          id: product.id || Date.now().toString(),
-          name: product.name,
-          price: parseFloat(product.price),
-          quantity: 1,
-          image: product.images?.[0] || "https://via.placeholder.com/100"
-      };
+export async function addToCart(product) {
+    try {
+        const user = await getCurrentUserAsync();
+        if (!user) {
+            alert('Please log in to add items to cart');
+            window.location.href = "login.html";
+            return;
+        }
 
-      const cartRef = db.collection("carts").doc(userId);
-      
-      db.runTransaction(async (transaction) => {
-          const cartDoc = await transaction.get(cartRef);
-          
-          if (cartDoc.exists) {
-              const cartData = cartDoc.data();
-              const existingItemIndex = cartData.items.findIndex(item => item.id === cartItem.id);
-              
-              if (existingItemIndex >= 0) {
-                  const updatedItems = [...cartData.items];
-                  updatedItems[existingItemIndex].quantity += 1;
-                  transaction.update(cartRef, {
-                      items: updatedItems,
-                      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                  });
-              } else {
-                  transaction.update(cartRef, {
-                      items: [...cartData.items, cartItem],
-                      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                  });
-              }
-          } else {
-              transaction.set(cartRef, {
-                  items: [cartItem],
-                  createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-                  updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-              });
-          }
+        const userId = user.uid;
+        
+        // Add null checks and default values for all fields
+        const cartItem = {
+            id: product.id || `item_${Date.now()}`,
+            name: product.name || 'Unnamed Product',
+            price: parseFloat(product.price) || 0,
+            quantity: 1,
+            image: product.images?.[0] || "https://via.placeholder.com/100",
+            addedAt: new Date().toISOString(),
+            sellerId: product.userId || 'unknown',
+            sellerEmail: product.userEmail || 'unknown'
+        };
 
-      }).then(() => {
-          console.log("Cart updated successfully");
-          alert(`${product.name} has been added to your cart!`);
-          CloseWindow();
+        const cartRef = db.collection("carts").doc(userId);
+        
+        await db.runTransaction(async (transaction) => {
+            const cartDoc = await transaction.get(cartRef);
+            const timestamp = new Date().toISOString(); // Use ISO string for consistency
+            
+            if (cartDoc.exists) {
+                const cartData = cartDoc.data();
+                const items = cartData.items || []; // Add default empty array
+                const existingItemIndex = items.findIndex(item => item.id === cartItem.id);
+                
+                if (existingItemIndex >= 0) {
+                    const updatedItems = [...items];
+                    updatedItems[existingItemIndex].quantity += 1;
+                    transaction.update(cartRef, {
+                        items: updatedItems,
+                        updatedAt: timestamp
+                    });
+                } else {
+                    transaction.update(cartRef, {
+                        items: [...items, cartItem],
+                        updatedAt: timestamp
+                    });
+                }
+            } else {
+                transaction.set(cartRef, {
+                    items: [cartItem],
+                    createdAt: timestamp,
+                    updatedAt: timestamp,
+                    userId: userId // Add userId to the cart document
+                });
+            }
+        });
 
-      
-          //if in the future any rules get changed i will receive the errors so here are the errors i may recieve
+        console.log('Item added to cart successfully');
+        alert('Item added to cart');
 
-      }).catch((error) => {
-          console.error("Transaction failed: ", error);
-          alert("There was an error adding the item to your cart.");
-      });
-
-  } catch (error) {
-      console.error("Error in addToCart: ", error);
-      alert("There was an error initializing the cart system.");
-  }
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        alert('An error occurred while adding the item to the cart. Please try again.');
+    }
 }
 
-
 //close button 
-function CloseWindow() {
+export function CloseWindow() {
   const GUI = document.getElementById("popupWindow");
   if (GUI) GUI.remove();
 }

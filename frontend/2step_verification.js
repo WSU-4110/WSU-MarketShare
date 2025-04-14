@@ -1,5 +1,4 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js";
 
 // Firebase configuration
@@ -15,13 +14,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
-
-// Initialize EmailJS
-(function () {
-    emailjs.init("rlnDd5iIwFwRjzmAp"); 
-})();
 
 // Function to send the verification code
 async function sendVerificationCode() {
@@ -29,7 +22,7 @@ async function sendVerificationCode() {
     const messageBox = document.getElementById("message");
 
     if (!email.endsWith("@wayne.edu")) {
-        messageBox.innerHTML = "❌ Please enter a valid Wayne State email.";
+        messageBox.innerHTML = "Please enter a valid Wayne State email.";
         messageBox.style.color = "red";
         return;
     }
@@ -52,7 +45,7 @@ async function sendVerificationCode() {
         // Save email to local storage
         localStorage.setItem("userEmail", email);
 
-        messageBox.innerHTML = `✅ A verification code has been sent to ${email}. Redirecting...`;
+        messageBox.innerHTML = 'A verification code has been sent to ${email}. Redirecting...';
         messageBox.style.color = "green";
         console.log("Verification Code:", verificationCode);
 
@@ -62,9 +55,12 @@ async function sendVerificationCode() {
 
     } catch (error) {
         console.error("Error sending verification code:", error);
-        messageBox.innerHTML = `❌ Error sending verification code.`;
+        messageBox.innerHTML = 'Error sending verification code.';
         messageBox.style.color = "red";
     }
 }
 
-window.sendVerificationCode = sendVerificationCode;
+// Add event listener after DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('sendCodeBtn').addEventListener('click', sendVerificationCode);
+});
