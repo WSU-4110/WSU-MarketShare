@@ -336,6 +336,7 @@
                         document.getElementById('paymentForm').addEventListener('submit', (e) => {
                             e.preventDefault();
                             if(this.validateForm()){
+                                this.saveOrderToFirebase(); //saved so we can send this to the orders page
                                 alert('Successful Purchase!');
                                 this.close();
                             }
@@ -387,6 +388,19 @@
 
 
                         return true;
+                    }
+                    saveOrderToFirebase(){
+                        const userId = "current_user";
+                        const orderData = {
+                            items: cart.items, timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                        };
+                        db.collection("orders").doc(userId).collection("userOrders").add(orderData)
+                        .then(() =>{
+                            console.log("Order saved successfully");
+                        })
+                        .catch((error) =>{
+                            console.error("Error saving order: ", error);
+                        })
                     }
                     close(){
                         this.modal.style.display = 'none';
