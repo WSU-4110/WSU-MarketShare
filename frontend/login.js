@@ -48,7 +48,7 @@ function loginUser() {
     const messageBox = document.getElementById("message");
 
     if (!email.endsWith("@wayne.edu")) {
-        messageBox.innerHTML = "❌ Please enter a valid Wayne State email.";
+        messageBox.innerHTML = "Please enter a valid Wayne State email.";
         messageBox.style.color = "red";
         return;
     }
@@ -61,25 +61,25 @@ function loginUser() {
             saveUser(user.uid, email);
   
 
-            messageBox.innerHTML = "✅ Login successful! Redirecting...";
+            messageBox.innerHTML = " Login successful! Redirecting...";
             messageBox.style.color = "green";
 
             // Redirect after short delay
             setTimeout(() => {
-                window.location.href = "frontpage.html"; // Redirect to frontpage
+                window.location.href = "FrontPage.html"; // Redirect to frontpage
             }, 1500);
         })
         .catch((error) => {
             console.error("Login failed:", error);
 
             if (error.code === "auth/wrong-password") {
-                messageBox.innerHTML = "❌ Incorrect password. Please try again.";
+                messageBox.innerHTML = "Incorrect password. Please try again.";
             } else if (error.code === "auth/user-not-found") {
-                messageBox.innerHTML = "❌ User not found. Please try again.";
+                messageBox.innerHTML = "User not found. Please try again.";
             } else if (error.code === "auth/too-many-requests") {
-                messageBox.innerHTML = "❌ Too many attempts. Try again later.";
+                messageBox.innerHTML = "Too many attempts. Try again later.";
             } else {
-                messageBox.innerHTML = "❌ Login failed: " + error.message;
+                messageBox.innerHTML = "Login failed: " + error.message;
             }
 
             messageBox.style.color = "red";
@@ -89,9 +89,9 @@ function loginUser() {
 // Monitor auth state
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        console.log("✅ User logged in:", user.email);
+        console.log("User logged in:", user.email);
     } else {
-        console.log("ℹ️ No user is logged in.");
+        console.log("No user is logged in.");
     }
 });
 
@@ -101,9 +101,9 @@ function saveUser(userID, email) {
         email: email,
         createdAt: new Date().toISOString()
     }).then(() => {
-        console.log("✅ User data saved successfully");
+        console.log("User data saved successfully");
     }).catch((error) => {
-        console.error("❌ Failed to save user data:", error);
+        console.error("Failed to save user data:", error);
     });
 }
 

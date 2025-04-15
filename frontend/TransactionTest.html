@@ -293,7 +293,9 @@
 
 				 // Query transactions
 				const transactionsRef = collection(db, "transactions");
+
 				const q = query(transactionsRef, where("buyerId", "==", user.uid));
+
 				const querySnapshot = await getDocs(q);
 
 				console.log('Found transactions:', querySnapshot.size);
