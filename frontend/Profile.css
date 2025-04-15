@@ -75,14 +75,34 @@ flex-direction: column;
     border-radius: 10px;
     transition: background-color 0.3s ease;
 }
+.profile-container .profilepic {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgb(50 120 210);
+  border-color: rgb(50 120 210);
+  font-size: 1.2em;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
 
 .profile-container .profile-link:hover{
     background-color: rgb(50 120 210);
     color: white;
 }
 
+.profile-container .profilepic:hover{
+  background-color: rgb(50 120 210);
+  color: white;
+}
+
 .profile-container .profile-link i{
     font-size: 1.5em;
+}
+.profile-container .profilepic i{
+  font-size: 1.5em;
 }
 
 
