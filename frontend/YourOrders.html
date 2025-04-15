@@ -129,53 +129,59 @@
                       this.init();
 
                     }
-                    init(){
+                   async init(){
+                      const user = await getCurrentUserAsynce();
+                      if(!user) {
+                        console.log('No user logged in');
+                        window.location.href = "login.html";
+                        return;
+                      }
+                      this.userId = user.uid;
                       this.fetchOrders();
                     }
-                    fetchOrders(){
-                      db.collection("orders").doc(this.userId).collection("userOrders").orderBy("timestamp", "desc").onSnapshot((snapchot) =>{
-                        const orderList = document.getElementById('orders-list');
+                   fetchOrders(){
+                    db.collection("orders").doc(this.userId).collection("userOrders").orderBy("timestamp", "desc").onSnapshot((snapshot) => {
+                        const ordersList = document.getElementById('orders-list');
                         const noOrdersMessage = document.getElementById('no-orders-message');
-                        orderList.innerHTML = '';
-                        if(snapchot.empty){
-                          noOrdersMessage.style.display = 'block';
-                        }
-                        else{
-                          noOrdersMessage.style.display = 'none';
-                          snapshot.forEach((doc) =>{
-                            const orderData = doc.data();
-                          const orderElement = this.createOrderElement(orderData);
-                          orderList.appendChild(orderElement);
+                        ordersList.innerHTML = '';
 
-                          });
-                         
+                        if (snapshot.empty) {
+                            noOrdersMessage.style.display = 'block';
+                        } else {
+                            noOrdersMessage.style.display = 'none';
+                            snapshot.forEach((doc) => {
+                                const orderData = doc.data();
+                                const orderElement = this.createOrderElement(orderData);
+                                ordersList.appendChild(orderElement);
+                            });
                         }
-
-                      });
-                    }
-                    createOrderElement(orderData){
-                      const orderElement = document.createElement('div');
-                      orderElement.classList.add('order-item');
-                      
-                      const orderDate = orderData.timestamp ? orderData.timestamp.toDate().toLocaleString() : 'Unkown date';
-                      orderElement.innerHTML = `
-                    <h2>Order Placed on: ${orderDate}</h2>
-                    <div class="order-items">
-                        ${orderData.items.map(item => `
-                            <div class="order-item-details">
-                                <img src="${item.image}" alt="${item.name}" class="item-image">
-                                <div class="item-info">
-                                    <h3>${item.name}</h3>
-                                    <p>Price: $${item.price.toFixed(2)}</p>
-                                    <p>Quantity: ${item.quantity}</p>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-                return orderElement;
-                    }
+                    });
+                   
                   }
+                  //some of this is from the older version of the tausif branch code
+                  createOrderElement(orderData) {
+                    const orderElement = document.createElement('div');
+                    orderElement.classList.add('order-item');
+
+                    const orderDate = orderData.timestamp ? orderData.timestamp.toDate().toLocaleString() : 'Unknown date';
+                    orderElement.innerHTML = `
+                        <h2>Order Placed on: ${orderDate}</h2>
+                        <div class="order-items">
+                            ${orderData.items.map(item => `
+                                <div class="order-item-details">
+                                    <img src="${item.image}" alt="${item.name}" class="item-image">
+                                    <div class="item-info">
+                                        <h3>${item.name}</h3>
+                                        <p>Price: $${item.price.toFixed(2)}</p>
+                                        <p>Quantity: ${item.quantity}</p>
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    return orderElement;
+                      }}
+                      const orders = new Orders();
 
 
                 </script>
