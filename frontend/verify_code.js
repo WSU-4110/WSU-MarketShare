@@ -58,7 +58,6 @@ window.verifyCode = async function () {
   }
 };
 
-emailjs.init("rlnDd5iIwFwRjzmAp");
 
 window.resendCode = async function () {
   const email = localStorage.getItem("userEmail");
