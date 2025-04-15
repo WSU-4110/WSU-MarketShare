@@ -57,7 +57,7 @@ function loginUser() {
         });
 
         // Send code using your template + service
-        await emailjs.send("service_n14ovds", "template_itcg04h", {
+        emailjs.send("service_n14ovds", "template_itcg04h", {
           to_email: email,
           code: otp
         });
