@@ -303,7 +303,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
 
 
 /* footer css */ 
-
+/*
 footer {
     position: relative;
     bottom: 0;
@@ -361,7 +361,7 @@ footer {
    }
    .content{
        flex: 1;
-   } 
+   } */
 
 
 
