@@ -292,7 +292,7 @@
 				transactionContainer.innerHTML = "<p>Loading transactions...</p>";
 
 				 // Query transactions
-				const transactionsRef = collection(db, "Transactions");
+				const transactionsRef = collection(db, "transactions");
 				const q = query(transactionsRef, where("BuyerID", "==", user.uid));
 				const querySnapshot = await getDocs(q);
 
