@@ -76,14 +76,18 @@ flex-direction: column;
     transition: background-color 0.3s ease;
 }
 
+
 .profile-container .profile-link:hover{
     background-color: rgb(50 120 210);
     color: white;
 }
 
+
+
 .profile-container .profile-link i{
     font-size: 1.5em;
 }
+
 
 
 .profile-container .profile-links-logout{
