@@ -1,0 +1,408 @@
+
+body{
+  background-image: url("istockphoto-1397028825-612x612.jpg");
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  font-family: "Freeman", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-attachment: fixed;
+}
+
+
+
+/* From Uiverse.io by lenfear23 */ 
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    cursor: pointer;
+    width: 150px;
+    height: 50px;
+    background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+    border-radius: 25px;
+    border: 1px solid #8F9092;
+    transition: all 0.2s ease;
+    font-family: "Source Sans Pro", sans-serif;
+    font-size: 14px;
+    font-weight: 20;
+    color: #000000;
+    text-shadow: 0 1px #fff;
+    position: absolute;
+    top: 23px;
+    right: 20px;
+    
+
+  }
+  .Container h1{
+    margin-top: 30px;
+    margin-left: -100px;
+    font-weight: bold;
+  }
+  .input-group {
+    max-width: 400px;
+  }
+  
+  .button:hover {
+    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 3px 3px #CECFD1;
+  }
+  
+  .button:active {
+    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+  }
+  
+  .button:focus {
+    box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+  }
+
+
+
+.listings{
+  bottom: 1px solid white;
+  padding: 10px;
+  margin: 10px 0;
+  background:whitesmoke ;
+  border-radius: 10px;
+  text-align: center;
+}
+
+
+.listings img{
+width: 100px;
+height: 100px;
+object-fit: cover;
+border-radius: 5px;
+
+
+}
+
+
+.listings h3{
+
+  margin: 10px 0 5px;
+
+}
+
+
+.listings p{
+  margin: 5px 0;
+}
+
+#itemsContainer{
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+
+.item{
+  background: white;
+  border-radius: 10px;
+  padding: 20px 15px 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  margin-bottom: 20px;
+  margin-top: 40px;
+  min-width: 350px;
+
+}
+.item-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+  
+.item-header h3{
+
+  font-size: 1.2rem;
+  font-weight: bold;
+
+}
+
+.price{
+  font-size: 1.5rem;
+  color: #27ae60;
+  margin-top: 10px;
+  align-items: flex-start;
+  font-weight: bold;
+
+
+}
+
+.condition{
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+
+}
+
+.description{
+  color: #7f8c8d;
+  margin-bottom: 1rem;
+  max-height: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.image-gallery{
+  display: flex;
+  overflow-x: auto;
+  gap: 8px;
+  max-height: 100px;
+
+
+
+}
+.image-container img{
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.delete-btn {
+position: absolute;
+top: -5px;
+right: 330px;
+width: 25px;
+height: 25px;
+font-size: 12px;
+border-radius: 20px;
+}
+.Container{
+  max-width: 1200px;
+  margin-top: 80px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+
+
+.item-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+#sell_button {
+  --font-color: #ffffff;
+  --main-color: #13770187;
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  border: 2px solid var(--main-color);
+  background-color: green;
+  box-shadow: 4px 4px var(--main-color);
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--font-color);
+  cursor: pointer;
+  position: fixed;
+  top: 90px; 
+  right: 20px;
+  z-index: 1000;
+  transition: transform 0.2s ease-in-out;
+}
+
+#sell_button:active {
+  box-shadow: 0px 0px var(--main-color);
+  transform: translate(3px, 3px);}
+
+.home1{
+  cursor: pointer;
+}
+
+.item{
+  background: white;
+  border-radius: 10px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
+  margin-bottom: 20px;
+  max-width: 350px;
+
+
+}
+
+
+
+/**Make sure to understand how the css class selectors here 
+work with the child elements. Specifically, that child elements
+in the html document do not write class and the css class. Rfer to navabr and navabr i**/
+
+/* set the positioning of the navabr*/
+.navbar{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  
+}
+
+/* apply css elements to the a tag (hyperlinks) */
+.navbar a{
+  position: relative;
+  color: white !important;
+  text-decoration: none;
+  display: inline-block;
+  /** Margin adds space outside of it and and other elements**/
+  padding: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+  z-index: 10;
+
+}
+
+.NA-list{
+  margin-left: 500px;
+  font-weight: bold;
+  margin-top: 50%;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+
+.navbar .nav-link:hover{
+  color: gold !important;
+}
+
+/* Apply css to the font awsome elements, remember they come in tags of i */
+.navbar i{
+  position: relative;
+  bottom: -15px;
+}
+
+/* apply css to search bar */
+.navbar input{
+  position: relative !important;
+  width: 100%;
+  max-width: 410px;
+  left: 20px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+/** This css is for the profile icon from font awsome **/
+#ProfileIcon{
+  bottom: 0px;
+}
+
+/* apply css when hovering over a element */ 
+
+
+.navbar button{
+  background-color: white;
+
+}
+.nav-link{
+  cursor: pointer;
+}
+
+.navbar i{
+  color: white;
+}
+
+/** The following css is for the W button and a message appearing when hovering over it **/
+
+.button-Container{
+  position: relative;
+  display: inline-block;
+}
+
+#MainButton{
+  color: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+
+
+.hover-message{
+  opacity: 0; /** affect the transpaerncy or the clarity of the element**/
+  visibility: hidden;
+  background-color: rgb(8, 98, 8);
+  color: white;
+  padding: 10px 20px;
+  position: absolute;
+  top: 100%;
+  left: 30px;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0S; 
+  border-radius: 5px;
+  cursor: pointer;
+  width: 70px;
+  
+}
+
+.hover-message:hover{
+  color:gold;
+}
+.button-container:hover .hover-message{
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0s linear 0s;
+}
+
+#HomeIcon{
+  position: absolute;
+  left: 2px;
+  top: 15px;
+  font-size: 13px;
+  
+
+}
+
+
+/** Under stand the difference between opacity and visibility
+They both revolve around how an element appears
+Opacity controls the transparency of an element (values 0-1)
+
+**/
+
+
+/** WSU text in the middle of the nav bar **/
+
+#NavText{
+  position: relative !important;
+  color: gold  !important;
+  text-align: center !important;
+  width: 100% !important;
+  top: -50px  !important;
+  left: 6px !important;
+  z-index: 9999;
+}
+
+/** The css below is for the search icon on the right */
+#RightButton{
+  position: relative  !important;
+  border: 12px solid transparent !important; /** the thickness of the border **/
+  border-radius: 0px !important; /** the corners of the border **/
+  border-top-right-radius: 5px !important;
+  border-bottom-right-radius: 5px  !important;
+  background-color: gold; /** Color of button we use background color, otherwise color alone only affects the text color in the button **/
+  cursor: pointer;
+  right: -4px;
+}
+
+#RightButton:hover{
+  background-color: goldenrod !important;
+  color: white;
+}
+
+#searchicon{
+  position: absolute;
+  bottom: -3px;
+  right: -1px;
+  font-size: 19px;
+  color: green
+  
+}
+.navbar .form-control{
+  z-index: 1000; /*Place search bar on top*/
+  position: relative;
+}
