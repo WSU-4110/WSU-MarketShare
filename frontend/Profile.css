@@ -309,7 +309,8 @@ Opacity controls the transparency of an element (values 0-1)
 /*iffat code end*/
 
 
-/* footer css */
+/* footer css */ 
+/*
 footer {
     position: relative;
     bottom: 0;
@@ -332,7 +333,7 @@ footer {
       flex: 1;
       padding: 15px;
       border-right: 2px solid #FFCC33;
-      width: 100%; /* Ensures it takes the full width */
+      width: 100%; 
       box-sizing: border-box;
   }
   .footer-section:last-child {
@@ -340,14 +341,14 @@ footer {
   }
   
   a1 {
-      color: white ; /* Default link color */
-      text-decoration: none ; /* Removes underline */
+      color: white ; 
+      text-decoration: none ; 
       transition: color 0.3s ease-in-out;
   }
   
   a1:hover {
-      color: #FFCC33 ; /* Color when hovered */
-      text-decoration: underline ; /* Adds underline on hover */
+      color: #FFCC33 ; 
+      text-decoration: underline ; 
   
   
   }
@@ -367,4 +368,4 @@ footer {
    }
    .content{
        flex: 1;
-   }
+   } */
