@@ -25,7 +25,7 @@
             >
               <div class="container-fluid">
                 <div class="button-container">
-                  <a href="#top">
+                  <a href="FrontPage.html">
                     <button id="MainButton">
                       <img
                         src="images/Warriors.png"
@@ -35,7 +35,7 @@
                         class="d-inline-block align-text-top"
                       />
                     </button>
-                    <div class="hover-message">Home<i class="fa-solid fa-house" id="HomeIcon"></i>
+                    <div class="hover-message"><a href="FrontPage.html"><i class="fa-solid fa-house" id="HomeIcon"></i></a>
                     </div>
                   </a>
                 </div>
@@ -148,121 +148,147 @@
             </div>
         </div>
 
-        <script>
-            const firebaseConfig = {
-            apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
-            authDomain: "sell-25f45.firebaseapp.com",
-            projectId: "sell-25f45",
-            storageBucket: "sell-25f45.firebasestorage.app",
-            messagingSenderId: "953873344669",
-            appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
-            measurementId: "G-9DB3NVDSQJ"
-        };
-        const app = firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        <script type="module">
+            import { getCurrentUserAsync, auth } from '../backend/auth.js';
 
+            const firebaseConfig = {
+                apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+                authDomain: "sell-25f45.firebaseapp.com",
+                projectId: "sell-25f45",
+                storageBucket: "sell-25f45.firebasestorage.app",
+                messagingSenderId: "953873344669",
+                appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+                measurementId: "G-9DB3NVDSQJ"
+            };
+            const app = firebase.initializeApp(firebaseConfig);
+            const db = firebase.firestore();
 
             class Cart {
-                constructor(){
+                constructor() {
                     this.items = [];
-                    /*this.loadCart();*/
-                    this.userId = "current_user"; 
-                    this.initEventListeners();
-                    this.updateSubtotal();
-                    this.initCart()                      /*adding codes Emadul gave me*/
-                    
-
+                    this.initCart();
                 }
-                /*function emadul gave me*/
-                initCart() {
-                this.setupFirebaseListener();
-                this.initEventListeners();
-             }
 
-        
-             setupFirebaseListener() {
-                db.collection("carts").doc(this.userId).onSnapshot((doc) => {
-                    if (doc.exists) {
-                        const cartData = doc.data();
-                        this.items = cartData.items || [];
-                        console.log("Cart updated:", this.items);
-                        this.renderCart();
-                        this.updateSubtotal();
-                    } else {
-                        this.items = [];
-                        this.renderCart();
-                        this.updateSubtotal();
+                async initCart() {
+                    const user = await getCurrentUserAsync();
+                    if (!user) {
+                        console.log('No user logged in');
+                        window.location.href = "login.html";
+                        return;
                     }
-                }, (error) => {
-                    console.error("Cart listener error:", error);
-                    this.items = [];
-                    this.renderCart();
-                    this.updateSubtotal();
-                });
-             }
+                    this.userId = user.uid;
+                    this.setupFirebaseListener();
+                    this.initEventListeners();
+                }
 
+                setupFirebaseListener() {
+                    db.collection("carts").doc(this.userId).onSnapshot((doc) => {
+                        if (doc.exists) {
+                            const cartData = doc.data();
+                            this.items = cartData.items || [];
+                            this.renderCart();
+                            this.updateSubtotal();
+                        } else {
+                            this.items = [];
+                            this.renderCart();
+                            this.updateSubtotal();
+                        }
+                    });
+                }
 
-               /* loadCart(){
-                    this.items = [{
-                id: 1,
-                name: "Product Name 1",
-                price: 20.99,
-                quantity: 1,
-                image: "https://via.placeholder.com/100"
-             }];
-                    this.renderCart();
-                }*/
+                async processCheckout() {
+                    try {
+                        const user = await getCurrentUserAsync();
+                        if (!user) {
+                            alert('Please log in to checkout');
+                            return false;
+                        }
+
+                        const batch = db.batch();
+                        const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
+                        for (const item of this.items) {
+                            const transactionRef = db.collection("transactions").doc();
+                            batch.set(transactionRef, {
+                                itemId: item.id,
+                                itemName: item.name,
+                                price: item.price,
+                                quantity: item.quantity,
+                                buyerId: user.uid,
+                                buyerEmail: user.email,
+                                sellerId: item.sellerId,
+                                sellerEmail: item.sellerEmail,
+                                createdAt: timestamp,
+                                status: 'completed'
+                            });
+                        }
+
+                        const cartRef = db.collection("carts").doc(this.userId);
+                        batch.update(cartRef, {
+                            items: [],
+                            updatedAt: timestamp
+                        });
+
+                        await batch.commit();
+                        return true;
+                    } catch (error) {
+                        console.error("Checkout error:", error);
+                        alert('Checkout failed. Please try again.');
+                        return false;
+                    }
+                }
 
                 renderCart() {
-                const cartItems = document.querySelector('.cart-items');
-                
-                if (this.items.length === 0) {
-                    cartItems.innerHTML = `
-                        <div class="empty-cart-message">
-                            <i class="fa-solid fa-cart-arrow-down"></i><br>
-                            Your cart is empty
+                    const cartItems = document.querySelector('.cart-items');
+                    
+                    if (this.items.length === 0) {
+                        cartItems.innerHTML = `
+                            <div class="empty-cart-message">
+                                <i class="fa-solid fa-cart-arrow-down"></i><br>
+                                Your cart is empty
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    cartItems.innerHTML = this.items.map(item => `
+                        <div class="cart-item" data-id="${item.id}">
+                            <img src="${item.image}" alt="${item.name}" class="item-image">
+                            <div class="item-details">
+                                <h2 class="item-name">${item.name}</h2>
+                                <p class="item-price">$${item.price.toFixed(2)}</p>
+                                <div class="quantity-controls">
+                                    <button class="quantity-btn minus">-</button>
+                                    <input type="number" class="quantity-input" value="${item.quantity}" min="1">
+                                    <button class="quantity-btn plus">+</button>
+                                </div>
+                            </div>
+                            <button class="remove-btn"><i class="fa-solid fa-trash"></i></button>
                         </div>
-                    `;
-                    return;
+                    `).join('');
                 }
 
-                cartItems.innerHTML = this.items.map(item => `
-                    <div class="cart-item" data-id="${item.id}">
-                        <img src="${item.image}" alt="${item.name}" class="item-image">
-                        <div class="item-details">
-                            <h2 class="item-name">${item.name}</h2>
-                            <p class="item-price">$${item.price.toFixed(2)}</p>
-                            <div class="quantity-controls">
-                                <button class="quantity-btn minus">-</button>
-                                <input type="number" class="quantity-input" value="${item.quantity}" min="1">
-                                <button class="quantity-btn plus">+</button>
-                            </div>
-                        </div>
-                        <button class="remove-btn"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                `).join(''); // code from html end
-                }
                 updateQuantity(itemId, newQuantity){
                     console.log('Update quantity of an item ${item.id} to ${newQuantity}');
                     db.runTransaction(async (transaction) => {
-                    const cartRef = db.collection("carts").doc(this.userId);
-                    const cartDoc = await transaction.get(cartRef);
-                    
-                    if (cartDoc.exists) {
-                        const cartData = cartDoc.data();
-                        const itemIndex = cartData.items.findIndex(item => item.id === itemId);
+                        const cartRef = db.collection("carts").doc(this.userId);
+                        const cartDoc = await transaction.get(cartRef);
                         
-                        if (itemIndex !== -1) {
-                            cartData.items[itemIndex].quantity = Math.max(1, newQuantity);
-                            transaction.update(cartRef, {
-                                items: cartData.items,
-                                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                            });
+                        if (cartDoc.exists) {
+                            const cartData = cartDoc.data();
+                            const itemIndex = cartData.items.findIndex(item => item.id === itemId);
+                            
+                            if (itemIndex !== -1) {
+                                cartData.items[itemIndex].quantity = Math.max(1, newQuantity);
+                                transaction.update(cartRef, {
+                                    items: cartData.items,
+                                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                                });
+                            }
                         }
-                    }
-                }).catch(error => {
-                    console.error("Transaction error:", error);
-                });
+                    }).catch(error => {
+                        console.error("Transaction error:", error);
+                    });
                 }
 
                 updateSubtotal(){
@@ -270,7 +296,7 @@
                     document.querySelector('.subtotal-text').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
                 }
 
-                initEventListeners() { //reverted to an older version of this function i had
+                initEventListeners() {
                     document.addEventListener('click', (e) => {
                         const cartItem = e.target.closest('.cart-item');
                         if (!cartItem) return;
@@ -281,7 +307,7 @@
                             this.updateQuantity(itemId, currentQty + 1);
                         }
                         else if (e.target.closest('.minus')) {
-                            const currentQty = parseInt(cartItem.querySelector('.quantity-input').value); //should implement plus and minus correctly
+                            const currentQty = parseInt(cartItem.querySelector('.quantity-input').value);
                             this.updateQuantity(itemId, currentQty - 1);
                         }
                         else if (e.target.closest('.remove-btn')) {
@@ -297,28 +323,29 @@
                         document.getElementById('checkoutModal').style.display = 'flex';
                     });
                 }
+
                 getItemQuantity(itemId) {
                     const item = this.items.find(i => i.id === itemId);
                     return item ? item.quantity : 1;
                 }
+
                 removeItem(itemId){
                     db.runTransaction(async (transaction) => {
-                    const cartRef = db.collection("carts").doc(this.userId);
-                    const cartDoc = await transaction.get(cartRef);
-                    
-                    if (cartDoc.exists) {
-                        const cartData = cartDoc.data();
-                        const updatedItems = cartData.items.filter(item => item.id !== itemId);
+                        const cartRef = db.collection("carts").doc(this.userId);
+                        const cartDoc = await transaction.get(cartRef);
                         
-                        transaction.update(cartRef, {
-                            items: updatedItems,
-                            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                        });
-                    }
-                }).catch(error => {
-                    console.error("Transaction error:", error);
-                });
-
+                        if (cartDoc.exists) {
+                            const cartData = cartDoc.data();
+                            const updatedItems = cartData.items.filter(item => item.id !== itemId);
+                            
+                            transaction.update(cartRef, {
+                                items: updatedItems,
+                                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        }
+                    }).catch(error => {
+                        console.error("Transaction error:", error);
+                    });
                 }
             }
 
@@ -327,103 +354,104 @@
                     this.modal = document.getElementById('checkoutModal');
                     this.initEventListeners();
                 }
+
                 initEventListeners() {
                     document.querySelector('.close-checkout').addEventListener('click', () => this.close());
                     window.addEventListener('click', (e) => {
                         if (e.target === this.modal) this.close();
                     });
 
-                        document.getElementById('paymentForm').addEventListener('submit', (e) => {
-                            e.preventDefault();
-                            if(this.validateForm()){
-                                this.saveOrderToFirebase(); //saved so we can send this to the orders page
-                                alert('Successful Purchase!');
-                                this.close();
-                            }
-                        });
-                        document.getElementById('cardNumber').addEventListener('input', this.formatCardNumber);
-                        document.getElementById('expDate').addEventListener('input', this.formatExpDate);
-
-
-                    }
-
-                    formatCardNumber(e){
-                        let value = e.target.value.replace(/\D/g, '');
-                        value = value.match(/.{1,4}/g)?.join(' ').substring(0, 19) || '';
-                        e.target.value= value;
-                    }
-
-                    formatExpDate(e){
-                        let value = e.target.value.replace(/\D/g, '');
-                        if(value.length >= 2){
-                            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    document.getElementById('paymentForm').addEventListener('submit', async (e) => {
+                        e.preventDefault();
+                        if (await this.validateForm()) {
+                            alert('Successful Purchase!');
+                            this.close();
                         }
-                        e.target.value = value.substring(0, 5);
-                    }
-
-                    validateForm(){
-                        const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
-                        const expDate = document.getElementById('expDate').value;
-                        const cvv = document.getElementById('cvv').value;
-                        const cardName = document.getElementById('cardName').value;
-
-                        if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)){
-                            alert('Enter a Valid Card Number');
-                            return false;
-                        }
-                        if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expDate)){
-                            alert('Enter a Valid month and date');
-                            return false;
-                        }
-                        if(!/^\d{3}$/.test(cvv)){
-                            alert('Enter security cvv code');
-                            return false;
-                        }
-                        if(cardName.trim() === ''){
-                            alert('Enter Cardholders Name');
-                            return false;
-
-                        }
-
-
-
-                        return true;
-                    }
-                    saveOrderToFirebase(){
-                        const userId = "current_user";
-                        const orderData = {
-                            items: cart.items, timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                        };
-                        db.collection("orders").doc(userId).collection("userOrders").add(orderData)
-                        .then(() =>{
-                            console.log("Order saved successfully");
-                        })
-                        .catch((error) =>{
-                            console.error("Error saving order: ", error);
-                        })
-                    }
-                    close(){
-                        this.modal.style.display = 'none';
-                    }
-                    
-
-                    
-
+                    });
+                    document.getElementById('cardNumber').addEventListener('input', this.formatCardNumber);
+                    document.getElementById('expDate').addEventListener('input', this.formatExpDate);
                 }
 
-            
+                formatCardNumber(e){
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.match(/.{1,4}/g)?.join(' ').substring(0, 19) || '';
+                    e.target.value= value;
+                }
+
+                formatExpDate(e){
+                    let value = e.target.value.replace(/\D/g, '');
+                    if(value.length >= 2){
+                        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+                    }
+                    e.target.value = value.substring(0, 5);
+                }
+
+                async validateForm(){
+                    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                    const expDate = document.getElementById('expDate').value;
+                    const cvv = document.getElementById('cvv').value;
+                    const cardName = document.getElementById('cardName').value;
+
+                    if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)){
+                        alert('Enter a Valid Card Number');
+                        return false;
+                    }
+                    if(!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expDate)){
+                        alert('Enter a Valid month and date');
+                        return false;
+                    }
+                    if(!/^\d{3}$/.test(cvv)){
+                        alert('Enter security cvv code');
+                        return false;
+                    }
+                    if(cardName.trim() === ''){
+                        alert('Enter Cardholders Name');
+                        return false;
+                    }
+
+                    if (this.validateCardDetails()) {
+                        const success = await cart.processCheckout();
+                        if (success) {
+                            alert('Thank you for your purchase!');
+                            this.close();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                validateCardDetails() {
+                    const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                    const expDate = document.getElementById('expDate').value;
+                    const cvv = document.getElementById('cvv').value;
+                    const cardName = document.getElementById('cardName').value;
+
+                    if (cardNumber.length !== 16 || !/^\d+$/.test(cardNumber)) {
+                        alert('Please enter a valid card number');
+                        return false;
+                    }
+                    if (!/^(0[1-9]|1[0-2])\/\d{2}$/.test(expDate)) {
+                        alert('Please enter a valid expiration date (MM/YY)');
+                        return false;
+                    }
+                    if (!/^\d{3}$/.test(cvv)) {
+                        alert('Please enter a valid CVV');
+                        return false;
+                    }
+                    if (cardName.trim() === '') {
+                        alert('Please enter the cardholder name');
+                        return false;
+                    }
+                    return true;
+                }
+
+                close(){
+                    this.modal.style.display = 'none';
+                }
+            }
 
             const cart = new Cart();
             const checkoutForm = new CheckoutForm();
-
-            
-        </script> <!-- just checking for pull-->
-
-
-
-
-        
+        </script>
     </body>
-
-    </html>
-    
+</html>
