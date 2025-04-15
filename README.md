@@ -17,6 +17,8 @@ CSS: styling the webpage
 
 Firebase: Store user data,accounts,listings,transactions etc.
 
+Emailjs: A library/email service that allows you to send emails directly from javascript.
+
 <h3>Programmers:</h3>
 
 Iffat: Backend/frontend programmed Navbar, report page, product GUI, FrontPage, uploaded data using Firestore.
