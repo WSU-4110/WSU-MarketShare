@@ -251,7 +251,7 @@ in the html document do not write class and the css class. Rfer to navabr and na
   padding: 10px;
   margin-right: 20px;
   cursor: pointer;
-  z-index: 10;
+  z-index: 100 !important;
 
 }
 
@@ -374,6 +374,7 @@ Opacity controls the transparency of an element (values 0-1)
   top: 18px;
   left: 0px;
   z-index: 9999;
+  pointer-events: none;
 }
 
 /** The css below is for the search icon on the right */
