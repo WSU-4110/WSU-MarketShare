@@ -371,10 +371,10 @@ Opacity controls the transparency of an element (values 0-1)
   position: relative !important;
   color: gold !important;
   text-align: center !important;
-  z-index: 9999 !important;
   width: 100% !important;
   top: -50px !important;
   left: 6px !important;
+  z-index: 9999;
 }
 
 /** The css below is for the search icon on the right */
