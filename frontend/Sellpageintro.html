@@ -45,16 +45,9 @@
             </li>
             <i class="fa-solid fa-cart-shopping" id = "i4"></i>
             <li class="nav-item">
-              <a class="nav-link" href="#">Cart</a>
+              <a class="nav-link" href="Cart.html">Cart</a>
             </li>
-            <i class="fa-solid fa-gear" id = "i5"></i>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Settings</a>
-            </li>
-            <i class="fa-solid fa-envelope" id = "i3"></i>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Messages</a>
-            </li>
+
           </ul>
           
           <form class="d-flex" role="search">
@@ -83,97 +76,119 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
 
-    <script>
+    <script type="module">
+    import { getCurrentUserAsync, auth } from '../backend/auth.js';
+
     const firebaseConfig = {
-    apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
-    authDomain: "sell-25f45.firebaseapp.com",
-    projectId: "sell-25f45",
-    storageBucket: "sell-25f45.firebasestorage.app",
-    messagingSenderId: "953873344669",
-    appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
-    measurementId: "G-9DB3NVDSQJ"
-  };
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+        apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+        authDomain: "sell-25f45.firebaseapp.com",
+        projectId: "sell-25f45",
+        storageBucket: "sell-25f45.firebasestorage.app",
+        messagingSenderId: "953873344669",
+        appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+        measurementId: "G-9DB3NVDSQJ"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-  document.addEventListener("DOMContentLoaded", function (){
-    const itemsContainer = document.getElementById("itemsContainer");
+    document.addEventListener("DOMContentLoaded", async function () {
+        try {
+            const user = await getCurrentUserAsync();
+            if (!user) {
+                alert('Please log in to view your listings');
+                window.location.href = "login.html";
+                return;
+            }
 
-    db.collection("items")
-    .orderBy("createdAt", "desc")
-    .onSnapshot((snapshot)=>{
-      itemsContainer.innerHTML="";
+            const itemsContainer = document.getElementById("itemsContainer");
 
-      if(snapshot.empty){
-        itemsContainer.innerHTML = "<p class='NA-list'> Empty</p>";
-        return;
-      }
-      
-      snapshot.forEach(doc =>{
-        const item = doc.data();
-        const itemId = doc.id;
+            // Updated query to filter by userId
+            db.collection("items")
+                .where("userId", "==", user.uid)
+                .orderBy("createdAt", "desc")
+                .onSnapshot((snapshot) => {
+                    itemsContainer.innerHTML = "";
 
-        const itemElement = document.createElement("div");
-        itemElement.classList.add("item");
-        
+                    if (snapshot.empty) {
+                        itemsContainer.innerHTML = "<p class='NA-list'>Empty</p>";
+                        return;
+                    }
 
-        const imagesHTML = item.images.map(img =>`
-        <div class = "image-container">
-          <img src = "${img}" alt = "Product Image" loading = "lazy">
-          </div>
-          `).join("");
+                    snapshot.forEach(doc => {
+                        const item = doc.data();
+                        const itemId = doc.id;
 
+                        const itemElement = document.createElement("div");
+                        itemElement.classList.add("item");
+                        
 
-
-          itemElement.innerHTML = `
-          <div class = "item-header">
-            <h3>${item.name}</h3>
-            <span class = "price">$${item.price.toFixed(2)}</span>
-            
-
-          </div>
-          <button class="delete-btn" data-id = "${itemId}">
-            <i class = "fa-solid fa-xmark"></i>
-            </button>
-            <p class="condition">${item.condition}</p>
-            <p class="description">${item.details}</p>
-            <div class="image-gallery">${imagesHTML}</div>
-            `;
-
-            itemsContainer.appendChild(itemElement);
-
-      });
+                        const imagesHTML = item.images.map(img =>`
+                        <div class = "image-container">
+                          <img src = "${img}" alt = "Product Image" loading = "lazy">
+                          </div>
+                          `).join("");
 
 
 
-      document.querySelectorAll('.delete-btn').forEach(button =>{
-        button.addEventListener('click', function(){
-          const itemId = this.dataset.id;
-          if(confirm("Delete listing?")){
-            db.collection("items").doc(itemId).delete()
-            .catch(error => {
-            console.error("error ",error);
-            alert("Could'nt remove listing");
-          });
+                          itemElement.innerHTML = `
+                          <div class = "item-header">
+                            <h3>${item.name}</h3>
+                            <span class = "price">$${item.price.toFixed(2)}</span>
+                            
+
+                          </div>
+                          <button class="delete-btn" data-id = "${itemId}">
+                            <i class = "fa-solid fa-xmark"></i>
+                            </button>
+                            <p class="condition">${item.condition}</p>
+                            <p class="description">${item.details}</p>
+                            <div class="image-gallery">${imagesHTML}</div>
+                            `;
+
+                            itemsContainer.appendChild(itemElement);
+
+                    });
+
+
+
+                    document.querySelectorAll('.delete-btn').forEach(button =>{
+                        button.addEventListener('click', function(){
+                          const itemId = this.dataset.id;
+                          if(confirm("Delete listing?")){
+                            db.collection("items").doc(itemId).delete()
+                            .catch(error => {
+                            console.error("error ",error);
+                            alert("Could'nt remove listing");
+                          });
+                        }
+
+                        });
+                      
+
+
+                      });
+
+                }, (error) => {
+                    if (error.code === 'failed-precondition') {
+                        console.error('This query requires an index. Creating index...');
+                        console.log(error.message);
+                    } else {
+                        console.error("Error in snapshot listener:", error);
+                    }
+                });
+
+        } catch (error) {
+            console.error("Auth check failed:", error);
+            window.location.href = "login.html";
         }
-
-        });
-      
-
-
-      });
-
     });
-  });
 
- 
-
-  //end of storage stuff//
-  document.getElementById("sell_button").addEventListener("click", function(){
-    window.location.href = "Sellpage.html";
-  });
+    document.getElementById("sell_button").addEventListener("click", function(){
+        window.location.href = "Sellpage.html";
+    });
 
 </script>
 

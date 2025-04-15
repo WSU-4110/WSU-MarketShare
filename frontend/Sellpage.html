@@ -55,40 +55,40 @@
 
         <label for="Product images">images(up to 4):</label>
         <div class="image-boxes">
-          <div class="imgbx" onclick="uploadImg(0)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 0)"
+              data-index="0"
             />
           </div>
-          <div class="imgbx" onclick="uploadImg(1)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 1)"
+              data-index="1"
             />
           </div>
-          <div class="imgbx" onclick="uploadImg(2)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 2)"
+              data-index="2"
             />
           </div>
-          <div class="imgbx" onclick="uploadImg(3)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 3)"
+              data-index="3"
             />
           </div>
         </div>
@@ -168,37 +168,48 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
 
-  <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
-    authDomain: "sell-25f45.firebaseapp.com",
-    projectId: "sell-25f45",
-    storageBucket: "sell-25f45.firebasestorage.app",
-    messagingSenderId: "953873344669",
-    appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
-    measurementId: "G-9DB3NVDSQJ"
-  };
-  const app = firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const storage = firebase.storage();
+  <script type="module">
+    import { getCurrentUserAsync, auth } from '../backend/auth.js';
 
-  document.querySelectorAll(".option, .option2").forEach(option => {
-        
-    option.addEventListener("click", function() {
-      selectedCategory = this.dataset.category;
-      document.getElementById("popup").style.display = "flex";
-      });
-  });
-  
+    const firebaseConfig = {
+      apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+      authDomain: "sell-25f45.firebaseapp.com",
+      projectId: "sell-25f45",
+      storageBucket: "sell-25f45.firebasestorage.app",
+      messagingSenderId: "953873344669",
+      appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+      measurementId: "G-9DB3NVDSQJ"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
 
-  let selectedCategory = '';
+    document.querySelectorAll(".option, .option2").forEach(option => {
+          
+      option.addEventListener("click", function() {
+        selectedCategory = this.dataset.category;
+        document.getElementById("popup").style.display = "flex";
+        });
+    });
+    
+
+    let selectedCategory = '';
 
 
-  document.querySelector(".home").addEventListener("click", function(){
-    window.location.href = "Sellpageintro.html";
-  });
-  document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector(".home").addEventListener("click", function(){
+      window.location.href = "Sellpageintro.html";
+    });
+    document.addEventListener("DOMContentLoaded", async function () {
+      try {
+        const user = await getCurrentUserAsync();
+        if (!user) {
+          alert('Please log in to sell items');
+          window.location.href = "login.html";
+          return;
+        }
+
         const popup = document.getElementById("popup");
         const closebutton = document.querySelector(".closebutton");
         const options = document.querySelectorAll(".option, .option2");
@@ -218,107 +229,142 @@
             popup.style.display = "none";
           }
         });
-      });
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        window.location.href = "login.html";
+      }
+    });
 
-      function uploadImg(index) {
-        const fileInput = document.querySelectorAll(".hidden-file-input")[index];
-        if(fileInput){
-          fileInput.click();
+    document.addEventListener("DOMContentLoaded", function() {
+        // Add click handlers for image boxes
+        document.querySelectorAll('.imgbx').forEach(box => {
+            box.addEventListener('click', function() {
+                const input = this.querySelector('.hidden-file-input');
+                if (input) {
+                    input.click();
+                }
+            });
+        });
 
-        }
-        else{
-          console.error("File not found ",index);
-        }
+        // Add change handlers for file inputs
+        document.querySelectorAll('.hidden-file-input').forEach(input => {
+            input.addEventListener('change', function(event) {
+                const index = this.dataset.index;
+                previewImage(event, parseInt(index));
+            });
+        });
+    });
+
+    function uploadImg(index) {
+      const fileInput = document.querySelectorAll(".hidden-file-input")[index];
+      if(fileInput){
+        fileInput.click();
 
       }
-
-      function previewImage(event, index) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            const imgBox = document.querySelectorAll(".imgbx")[index];
-
-            const plusIcon = imgBox.querySelector('i');
-            if(plusIcon){
-              plusIcon.remove();
-            }
-
-
-            const existingImg = imgBox.querySelector('img');
-            if(existingImg){
-              existingImg.remove();
-
-            }
-
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.alt = "Uploaded Image";
-            img.style.width = '100%'
-            img.style.height = '100%';
-            img.style.objectFit = 'cover';
-            imgBox.appendChild(img);
-          };
-          reader.readAsDataURL(file);
-        }
-        else{
-          console.error("No files are in ", index);
-        }
+      else{
+        console.error("File not found ",index);
       }
 
+    }
 
-      async function uploadImage(file){
-        console.log("Uploading file names: ", file.name);
-        const storageRef = storage.ref();
-        const fileRef = storageRef.child(`items/${Date.now()}_${file.name}`);
-        await fileRef.put(file);
-        const downloadURL = await fileRef.getDownloadURL();
-        console.log("File uploaded to here: ", downloadURL);
-        return downloadURL;
-      }
-      
-      document.getElementById("addItem").addEventListener("click", async function(){
+    function previewImage(event, index) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const imgBox = document.querySelectorAll(".imgbx")[index];
 
-        try{
-          const fileInputs = document.querySelectorAll(".hidden-file-input");
-          const files = Array.from(fileInputs).map(input => input.files[0]).filter(file => file);
-
-
-
-        if(files.length === 0){
-            alert('Need at least 1 image');
-            return;
+          const plusIcon = imgBox.querySelector('i');
+          if(plusIcon){
+            plusIcon.remove();
           }
 
-          const imageUrls = await Promise.all(files.map(file => uploadImage(file)));
 
-          const item = {
+          const existingImg = imgBox.querySelector('img');
+          if(existingImg){
+            existingImg.remove();
+
+          }
+
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = "Uploaded Image";
+          img.style.width = '100%'
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          imgBox.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+      else{
+        console.error("No files are in ", index);
+      }
+    }
+
+
+    async function uploadImage(file){
+      console.log("Uploading file names: ", file.name);
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(`items/${Date.now()}_${file.name}`);
+      await fileRef.put(file);
+      const downloadURL = await fileRef.getDownloadURL();
+      console.log("File uploaded to here: ", downloadURL);
+      return downloadURL;
+    }
+    
+    document.getElementById("addItem").addEventListener("click", async function(){
+
+      try{
+        const user = await getCurrentUserAsync();
+        if (!user) {
+          alert('Please log in to post items');
+          window.location.href = "login.html";
+          return;
+        }
+
+        const fileInputs = document.querySelectorAll(".hidden-file-input");
+        const files = Array.from(fileInputs).map(input => input.files[0]).filter(file => file);
+
+
+
+      if(files.length === 0){
+          alert('Need at least 1 image');
+          return;
+        }
+
+        const imageUrls = await Promise.all(files.map(file => uploadImage(file)));
+
+        const itemId = `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        const item = {
+            id: itemId,  // Add unique ID
             name: document.getElementById("productname").value,
             price: parseFloat(document.getElementById("productPrice").value),
             details: document.getElementById("productDetails").value,
             condition: document.querySelector('input[name= "tabs"]:checked').nextElementSibling.innerText,
-            
-
-
             images: imageUrls,
             category: selectedCategory,
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          };
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            userId: user.uid,
+            userEmail: user.email
+        };
 
-          await db.collection("items").add(item);
-          alert('Item has been posted');
-          window.location.href = "Sellpageintro.html";
-          
-        }
-        catch(error){
-          console.error("Unable to add item ", error);
-          alert('Try again...');
-        }
+        // Use the itemId as the document ID in Firestore
+        await db.collection("items").doc(itemId).set(item);
+        console.log('Item added with ID:', itemId);
+        alert('Item has been posted');
+        window.location.href = "Sellpageintro.html";
+        
+      }
+      catch(error){
+        console.error("Unable to add item ", error);
+        alert('Try again...');
+      }
 
-      });
+    });
 
 
-    </script>
+  </script>
 
   </body>
 </html>
