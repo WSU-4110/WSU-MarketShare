@@ -293,7 +293,9 @@
 
 				 // Query transactions
 				const transactionsRef = collection(db, "transactions");
-				const q = query(transactionsRef, where("BuyerID", "==", user.uid));
+
+				const q = query(transactionsRef, where("buyerId", "==", user.uid));
+
 				const querySnapshot = await getDocs(q);
 
 				console.log('Found transactions:', querySnapshot.size);
@@ -308,12 +310,11 @@
 					let transaction = doc.data();
 					console.log('Transaction data:', transaction);
 
-					// Update to use the correct collection and field names
-					const itemsRef = collection(db, "items"); // Changed to "items"
-					const itemQuery = query(itemsRef, where("id", "==", transaction.ProductID)); // Changed to match your schema
+					const itemsRef = collection(db, "items");
+					const itemQuery = query(itemsRef, where("id", "==", transaction.itemId));
 					const itemSnapshot = await getDocs(itemQuery);
 
-					console.log('Item query:', transaction.ProductID);
+					console.log('Item query:', transaction.itemId);
 					console.log('Found items:', itemSnapshot.size);
 
 					if (!itemSnapshot.empty) {
@@ -323,20 +324,19 @@
 						let transactionElement = document.createElement("div");
 						transactionElement.classList.add("product");
 
-						// Updated field names to match your schema
 						transactionElement.innerHTML = `
 							<img src="${itemData.images?.[0] || 'default-image.jpg'}" alt="${itemData.name}">
 							<h4>${itemData.name}</h4>
 							<p>Category: ${itemData.category}</p>
-							<p>Price: $${parseFloat(transaction.Price || itemData.price).toFixed(2)}</p>
+							<p>Price: $${parseFloat(transaction.price || itemData.price).toFixed(2)}</p>
 							<p>Seller: ${itemData.userEmail || 'Unknown Seller'}</p>
-							<p>Purchase Date: ${transaction.PurchaseDate ? new Date(transaction.PurchaseDate.seconds * 1000).toLocaleDateString() : 'N/A'}</p>
-							<p>Quantity: ${transaction.Quantity || 1}</p>
+							<p>Purchase Date: ${transaction.createdAt ? new Date(transaction.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</p>
+							<p>Quantity: ${transaction.quantity || 1}</p>
 						`;
 
 						transactionContainer.appendChild(transactionElement);
 					} else {
-						console.log('No item found for ProductID:', transaction.ProductID);
+						console.log('No item found for itemId:', transaction.itemId);
 					}
 				}
 			} catch (error) {
