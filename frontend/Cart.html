@@ -364,7 +364,7 @@
                     document.getElementById('paymentForm').addEventListener('submit', async (e) => {
                         e.preventDefault();
                         if (await this.validateForm()) {
-                            this.saveOrderToFirebase(); //saved so we can send this to the orders page
+                
                             alert('Successful Purchase!');
                             this.close();
                         }
@@ -445,20 +445,7 @@
                     }
                     return true;
                 }
-                //some parts copied from older versions of tausif's branch code
-                saveOrderToFirebase(){
-                    const userId = this.userId;
-                    const orderData = {
-                        items: cart.items, timestamp: firebase.firestore.FieldValue.serverTimestamp() 
-                    };
-                    db.collection("orders").doc(userId).collection("userOrders").add(orderData)
-                        .then(() =>{
-                            console.log("Order saved successfully");
-                        })
-                        .catch((error) =>{
-                            console.error("Error saving order: ", error);
-                        })
-                }
+                
 
                 close(){
                     this.modal.style.display = 'none';
@@ -468,7 +455,7 @@
             const cart = new Cart();
             const checkoutForm = new CheckoutForm();
         </script>
-        
+
     </body>
 
 </html>
