@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+/>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Freeman&display=swap"
+  rel="stylesheet"
+/>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="Sellpage.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <title>WSU Marketplace Sell page</title>
+  </head>
+  <body>
+    <div style="text-align: center">
+      <h1>Select an item to sell</h1>
+    </div>
+
+    <div class="home">
+      <i class="fa-solid fa-arrow-left"></i>
+    </div>
+
+
+
+
+
+    <div class="items">
+      <div class="option" data-category="Calculators">
+        <i class="fa-solid fa-calculator"></i>Calculators
+      </div>
+      <div class="option" data-category="Textbooks">
+        <i class="fa-solid fa-book"></i>Textbooks
+      </div>
+    </div>
+    <div class="items2">
+      <div class="option2" data-category="Tablets">
+        <i class="fa-solid fa-tablet-screen-button"></i>Tablet
+      </div>
+      <div class="option2" data-category="Laptops">
+        <i class="fa-solid fa-laptop"></i>Laptop
+      </div>
+    </div>
+
+
+
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span class="closebutton">&times;</span>
+        <h2>Enter details</h2>
+
+        <label for="Product images">images(up to 4):</label>
+        <div class="image-boxes">
+          <div class="imgbx">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              data-index="0"
+            />
+          </div>
+          <div class="imgbx">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              data-index="1"
+            />
+          </div>
+          <div class="imgbx">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              data-index="2"
+            />
+          </div>
+          <div class="imgbx">
+            <i class="fa-solid fa-plus"></i>
+            <input
+              type="file"
+              accept="image/*"
+              class="hidden-file-input"
+              data-index="3"
+            />
+          </div>
+        </div>
+
+        <div class="info">
+          <label for="name">Name:</label>
+          <input placeholder="" id="productname" name="productname" type="text" />
+        </div>
+
+        
+        <!-- From Uiverse.io by ozgeozkaraa01 -->
+        <label for="cond">Condition:</label>
+        <div class="container">
+          <div class="custom-radio">
+            <input type="radio" id="radio-1" name="tabs" checked="" />
+            <label class="radio-label" for="radio-1">
+              <div class="radio-circle"></div>
+              <span class="radio-text">Excellent(No signs of use)</span>
+            </label>
+            <input type="radio" id="radio-2" name="tabs" />
+            <label class="radio-label" for="radio-2">
+              <div class="radio-circle"></div>
+              <span class="radio-text">Good(Minor signs of use)</span>
+            </label>
+            <input type="radio" id="radio-3" name="tabs" />
+            <label class="radio-label" for="radio-3">
+              <div class="radio-circle"></div>
+              <span class="radio-text">Fair(Major signs of use)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="info2">
+          <label for="productPrice">Price ($):</label>
+          <input
+            type="number"
+            id="productPrice"
+            placeholder="Enter price..."
+            min="0"
+            step="0.01"
+          />
+        </div>
+
+        <div class="info3">
+          <label for="productdetails">Description: </label>
+          <textarea
+            id="productDetails"
+            rows="3"
+            placeholder="Enter product details..."
+          ></textarea>
+        </div>
+
+        <button type="button" class="button" id="addItem">
+          <span class="button__text">Add Item</span>
+          <span class="button__icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              viewBox="0 0 24 24"
+              stroke-width="2"
+              stroke-linejoin="round"
+              stroke-linecap="round"
+              stroke="currentColor"
+              height="24"
+              fill="none"
+              class="svg"
+            >
+              <line y2="19" y1="5" x2="12" x1="12"></line>
+              <line y2="12" y1="12" x2="19" x1="5"></line>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!--Firebase stuff deals with adding the listing ans storing it into Sellpageintro.html-->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+
+  <script type="module">
+    import { getCurrentUserAsync, auth } from '../backend/auth.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+      authDomain: "sell-25f45.firebaseapp.com",
+      projectId: "sell-25f45",
+      storageBucket: "sell-25f45.firebasestorage.app",
+      messagingSenderId: "953873344669",
+      appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+      measurementId: "G-9DB3NVDSQJ"
+    };
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    document.querySelectorAll(".option, .option2").forEach(option => {
+          
+      option.addEventListener("click", function() {
+        selectedCategory = this.dataset.category;
+        document.getElementById("popup").style.display = "flex";
+        });
+    });
+    
+
+    let selectedCategory = '';
+
+
+    document.querySelector(".home").addEventListener("click", function(){
+      window.location.href = "Sellpageintro.html";
+    });
+    document.addEventListener("DOMContentLoaded", async function () {
+      try {
+        const user = await getCurrentUserAsync();
+        if (!user) {
+          alert('Please log in to sell items');
+          window.location.href = "login.html";
+          return;
+        }
+
+        const popup = document.getElementById("popup");
+        const closebutton = document.querySelector(".closebutton");
+        const options = document.querySelectorAll(".option, .option2");
+
+        options.forEach((option) => {
+          option.addEventListener("click", function () {
+            popup.style.display = "flex";
+          });
+        });
+
+        closebutton.addEventListener("click", function () {
+          popup.style.display = "none";
+        });
+
+        window.addEventListener("click", function (e) {
+          if (e.target === popup) {
+            popup.style.display = "none";
+          }
+        });
+      } catch (error) {
+        console.error("Auth check failed:", error);
+        window.location.href = "login.html";
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Add click handlers for image boxes
+        document.querySelectorAll('.imgbx').forEach(box => {
+            box.addEventListener('click', function() {
+                const input = this.querySelector('.hidden-file-input');
+                if (input) {
+                    input.click();
+                }
+            });
+        });
+
+        // Add change handlers for file inputs
+        document.querySelectorAll('.hidden-file-input').forEach(input => {
+            input.addEventListener('change', function(event) {
+                const index = this.dataset.index;
+                previewImage(event, parseInt(index));
+            });
+        });
+    });
+
+    function uploadImg(index) {
+      const fileInput = document.querySelectorAll(".hidden-file-input")[index];
+      if(fileInput){
+        fileInput.click();
+
+      }
+      else{
+        console.error("File not found ",index);
+      }
+
+    }
+
+    function previewImage(event, index) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const imgBox = document.querySelectorAll(".imgbx")[index];
+
+          const plusIcon = imgBox.querySelector('i');
+          if(plusIcon){
+            plusIcon.remove();
+          }
+
+
+          const existingImg = imgBox.querySelector('img');
+          if(existingImg){
+            existingImg.remove();
+
+          }
+
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.alt = "Uploaded Image";
+          img.style.width = '100%'
+          img.style.height = '100%';
+          img.style.objectFit = 'cover';
+          imgBox.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+      else{
+        console.error("No files are in ", index);
+      }
+    }
+
+
+    async function uploadImage(file){
+      console.log("Uploading file names: ", file.name);
+      const storageRef = storage.ref();
+      const fileRef = storageRef.child(`items/${Date.now()}_${file.name}`);
+      await fileRef.put(file);
+      const downloadURL = await fileRef.getDownloadURL();
+      console.log("File uploaded to here: ", downloadURL);
+      return downloadURL;
+    }
+    
+    document.getElementById("addItem").addEventListener("click", async function(){
+
+      try{
+        const user = await getCurrentUserAsync();
+        if (!user) {
+          alert('Please log in to post items');
+          window.location.href = "login.html";
+          return;
+        }
+
+        const fileInputs = document.querySelectorAll(".hidden-file-input");
+        const files = Array.from(fileInputs).map(input => input.files[0]).filter(file => file);
+
+
+
+      if(files.length === 0){
+          alert('Need at least 1 image');
+          return;
+        }
+
+        const imageUrls = await Promise.all(files.map(file => uploadImage(file)));
+
+        const itemId = `item_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        const item = {
+            id: itemId,  // Add unique ID
+            name: document.getElementById("productname").value,
+            price: parseFloat(document.getElementById("productPrice").value),
+            details: document.getElementById("productDetails").value,
+            condition: document.querySelector('input[name= "tabs"]:checked').nextElementSibling.innerText,
+            images: imageUrls,
+            category: selectedCategory,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+            userId: user.uid,
+            userEmail: user.email
+        };
+
+        // Use the itemId as the document ID in Firestore
+        await db.collection("items").doc(itemId).set(item);
+        console.log('Item added with ID:', itemId);
+        alert('Item has been posted');
+        window.location.href = "Sellpageintro.html";
+        
+      }
+      catch(error){
+        console.error("Unable to add item ", error);
+        alert('Try again...');
+      }
+
+    });
+
+
+  </script>
+
+  </body>
+</html>

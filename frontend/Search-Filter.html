@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+	<meta charset="utf-8">
+   	<meta name="viewport" content="width=device-width, initial-scale=1">
+   	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+   	<link rel="stylesheet" href="footer.css">
+	<style>
+	body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f1f1f1;
+        }
+	.product {
+			border: 1px solid #ccc;
+			padding: 10px;
+			margin: 10px;
+			width: 200px;
+			display: inline-block;
+		}
+	.container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+	#filterInput {
+            margin-bottom: 20px;
+            padding: 10px;
+            width: calc(100% - 20px);
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .listItem {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .listItem:hover {
+            background-color: #e9e9e9;
+        }
+
+        .hidden {
+            display: none;
+        }
+	</style>
+	<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+	<script type = "module">
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+ 	 	import { getFirestore, collection, query, where, getDocs,  } from 					"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+	const firebaseConfig = {
+  		apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
+  		authDomain: "wsu-market-share.firebaseapp.com",
+  		databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
+  		projectId: "wsu-market-share",
+  		storageBucket: "wsu-market-share.firebasestorage.app",
+  		messagingSenderId: "176228593560",
+  		appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
+  		measurementId: "G-HZ3VRX4MK1"
+	};
+
+	// Initialize Firebase
+	const app = initializeApp(firebaseConfig);
+	const db = getFirestore(app);
+
+	console.log("Firebase initialized.");
+
+	// Fetch and display products
+        const productList = document.getElementById('productList');
+        const searchInput = document.getElementById('searchInput');
+
+        // Function to fetch and display products
+async function fetchAndDisplayProducts() {
+    try {
+        // ❌ Old syntax (incorrect for Firebase v9+)
+        // const querySnapshot = await db.collection('Products').get();
+
+        // ✅ Correct syntax for Firebase v9+
+        const querySnapshot = await getDocs(collection(db, "Products"));
+
+        // Clear the product list
+        productList.innerHTML = '';
+
+        querySnapshot.forEach((doc) => {
+            const product = doc.data();
+
+            // Create a product card
+            const productElement = document.createElement('div');
+            productElement.className = 'product';
+            productElement.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>${product.description}</p>
+                <p><strong>Price:</strong> $${product.price}</p>
+                <p><strong>Category:</strong> ${product.category}</p>
+            `;
+
+            // Append the product card to the product list
+            productList.appendChild(productElement);
+        });
+
+    } catch (error) {
+        console.error("Error fetching products: ", error);
+    }
+}
+        // Fetch and display products when the page loads
+        fetchAndDisplayProducts();
+window.applyFilter = async function () {
+  let category = document.getElementById("categoryFilter").value;
+    let productList = document.getElementById("productList"); // Main product list div
+    productList.innerHTML = "<p>Loading...</p>"; // Show loading message
+
+    try {
+        let q = collection(db, "Products");
+
+        if (category) {
+            q = query(q,  where("category", "==", category));
+        }
+
+        const snapshot = await getDocs(q);
+        productList.innerHTML = ""; // Clear previous products
+
+        if (snapshot.empty) {
+            productList.innerHTML = "<p>No products found.</p>";
+        } else {
+            snapshot.forEach((doc) => {
+                let product = doc.data();
+
+                // Create a product card with the same styles
+                let productElement = document.createElement("div");
+                productElement.classList.add("product"); // Ensure it keeps the styling
+                productElement.innerHTML = `
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p><strong>Price:</strong> $${product.price}</p>
+                    <p><strong>Category:</strong> ${product.category}</p>
+                `;
+
+                // Append product to the productList
+                productList.appendChild(productElement);
+            });
+        }
+    } catch (error) {
+        console.error("❌ Error fetching documents:", error);
+        productList.innerHTML = "<p>Error loading data.</p>";
+    }
+};
+function handleSearch(event) {
+    let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
+    let productElements = document.querySelectorAll('.product'); // Get all product cards
+
+    productElements.forEach((productElement) => {
+        let productName = productElement.querySelector('h3').textContent.toLowerCase(); // Get product name
+        if (productName.includes(searchQuery)) {
+            productElement.style.display = 'block'; // Show the product if it matches the search
+        } else {
+            productElement.style.display = 'none'; // Hide the product if it doesn't match
+        }
+    });
+}
+
+// Event listener for search input
+document.getElementById('searchInput').addEventListener('keyup', handleSearch);
+</script>
+</head>
+<title>Search Results</title>
+<body>
+	<input type="text" id="searchInput" placeholder="Search products...">
+    	<h1>Products</h1>
+	<div id="productList">
+	<!-- Products to be inserted here -->
+	</div>
+
+
+		<select id="categoryFilter" >
+    		<option value="">All</option>
+   		<option value="Electronics">Electronics</option>
+    		<option value="Clothing">Clothing</option>
+	</select>
+<button onclick="applyFilter()">Filter</button>
+
+<ul id="itemsList"></ul>
+
+</body>
+<footer>
+          <div class="footer-section">
+            <img src="images/Wayne_State_Warriors_primary_logo.svg.png" height="85" alt=""
+                 loading="lazy" />
+          <p >WSU MarketShare</p>
+        </div>
+        
+
+          <div class="footer-section">
+            <li>
+              <a href="https://wayne.edu">Wayne State University</a></li>
+ 	    <li>
+              <a href="https://www.google.com/maps/place/Welcome+Center,+42+W+Warren+Ave,+Detroit,+MI+48202/@42.3569923,-83.0677759,17z/data=!3m1!4b1!4m6!3m5!1s0x8824d2bc65c97381:0x6907f5eb914af2de!8m2!3d42.3569923!4d-83.065201!16s%2Fg%2F1tm8l666?entry=ttu&g_ep=EgoyMDI1MDIwMi4wIKXMDSoASAFQAw%3D%3D">42 W. Warren Avenue, Detroit, MI 48201</a></li>
+	    <li>
+              <a href="#!">313-577-2424</a></li>
+            <li>Made with 💚 in Detroit</li>				
+            </li>
+        </div>
+        <!--Grid column-->
+          <div class="footer-section">
+            <li>
+              <a href="FrontPage.html">Home</a></li>
+ 	    <li>
+              <a href="Sellpage.html">Sell Page</a></li>
+	    <li>
+              <a href="#!">Account</a></li>				
+            </li>
+        </div>
+     <!--Grid column-->
+          <div class="footer-section">
+            <li>
+              <a href="#!">FAQ</a></li>
+ 	    <li>
+              <a href="#!">Support</a></li>
+	    <li>
+              <a href="#!">Report</a></li>				
+            </li>
+        </div>      
+  </footer>
+</div>
+</body>
+</html>
