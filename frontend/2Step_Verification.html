@@ -1,89 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- The code up here is used on almost every HTML file -->
-        <title>WSU-Marketshare Two-Step Verification</title>
-        <link rel="stylesheet" href="2stepStyle.css">       <!-- This code connects my cascade style sheets to the webpage -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  <title>WSU-Marketshare Two-Step Verification</title>
+  <link rel="stylesheet" href="2stepStyle.css" />
 
-        <script src="firebase-config.js"></script>
+  <!-- EmailJS -->
+  <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+  <script>
+    (function () {
+      emailjs.init("rlnDd5iIwFwRjzmAp"); 
+    })();
+  </script>
 
-        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- this is for the symbols from the websitte fontawesome that i plan to use-->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-    </head>
+  <!-- Local JS file -->
+  <script defer src="2step_verification.js" type="module"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="mainBox">
+      <h1>Two-Step Verification</h1>
+      <p>Enter your email to receive a verification code.</p>
 
-    <body>
+      <!-- Email input -->
+      <div class="text_in_bar">
+        <input type="email" id="userEmail" placeholder="Enter your Wayne State email">
+      </div>
 
-        <div class="container">
-            <div class="mainBox">
+      <button id="sendCodeBtn">Send Code</button>
 
-                <h1>Two-Step Verification</h1>
-                <p>How would you like to verify yourself?</p>
-
-                <div class="text_in_bar">
-                    <input type="tel" id="phoneNumber" placeholder="Enter your phone number">
-                    <i class="fas fa-phone"></i>
-                </div>
-
-                <p class="or">OR</p>
-
-                <div class="text_in_bar">
-                    <input type="email" placeholder="Enter your Email">
-                    <i class="fa-regular fa-envelope"></i>
-
-
-                    
-                </div>
-
-
-                <!--From UIversere website opensource code-->
-                <div class="checkbox-wrapper">
-                    <input id="terms-checkbox-37" name="checkbox" type="checkbox">
-                    <label class="terms-label" for="terms-checkbox-37">
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 200 200" class="checkbox-svg">
-                        <mask fill="white" id="path-1-inside-1_476_5-37">
-                          <rect height="200" width="200"></rect>
-                        </mask>
-                        <rect mask="url(#path-1-inside-1_476_5-37)" stroke-width="40" class="checkbox-box" height="200" width="200"></rect>
-                        <path stroke-width="15" d="M52 111.018L76.9867 136L149 64" class="checkbox-tick"></path>
-                      </svg>
-                      <span class="label-text">Do not ask again for 90 days</span>
-                    </label>
-                  </div>
-
-
-
-                <button id="sendCodeBtn">Send Code</button>
-
-
-                
-                  
-                  
-
-            </div>
-
-
-
-
-        </div>
-
-        <script>
-          document.getElementById("sendCodeBtn").addEventListener("click", function(){
-            const phoneNumber = document.getElementById("phoneNumber").value;
-            if (phoneNumber) {
-              sendVerificationCode(phoneNumber);
-            }
-            else{
-              alert("Enter a Phone number.");
-            }
-          });
-        </script>
-
-
-
-
-
-
-
-    </body>
+      <p id="message"></p>
+    </div>
+  </div>
+</body>
 </html>

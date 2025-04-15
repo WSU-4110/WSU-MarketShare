@@ -1,0 +1,354 @@
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WSU Marketplace</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="Ribbon.css" />
+
+    <link rel="stylesheet" href="footer.css" />
+    <script type="module" src="ProductGUI.js"></script>
+    <style>
+      #searchicon {
+        bottom: 0px !important;
+      }
+      .product {
+		flex: 1 1 300px;
+        border: 3px solid darkgreen;
+        border-radius: 25px;
+        padding: 20px;
+        margin: 15px;
+        max-width: 300px;
+        display: inline-block;
+        vertical-align: top;
+        background-color: #f8f9fa;
+        cursor: pointer;
+        transition: transform 0.10s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+      .product img {
+        max-width: 250px;
+        max-height: 200px;
+        margin-bottom: 10px;
+        border-radius: 10px;
+      }
+      #categoryFilter {
+        margin: 15px;
+        padding: 8px;
+        border: 2px solid darkgreen;
+        border-radius: 5px;
+      }
+      #searchInput {
+        width: 300px;
+        margin: 15px;
+        padding: 8px;
+        border: 2px solid darkgreen;
+        border-radius: 20px;
+
+      }
+      .filter-section {
+        position: relative;
+        text-align: center;
+        margin: 20px 0;
+        top: -70px;
+        right: -500px;
+      }
+      .transaction-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: left; /* Centers items */
+          margin-bottom: 40px; /* Add space above footer */
+      }
+      #RightButton{
+        bottom: -17px !important
+      }
+      .navbar i{
+        bottom: -14px !important;
+      }
+      #profileIcon{
+        bottom: 0px !important;
+      }
+      body {
+          min-height: 100vh;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+      }
+
+      .navbar {
+          position: fixed;
+          top: 0;
+          width: 100%;
+          z-index: 1000;
+      }
+
+      .content-wrapper {
+          flex: 1;
+          padding: 20px;
+          margin-top: 80px; /* Add space below fixed navbar */
+          margin-bottom: 200px; /* Add space above footer */
+          min-height: calc(100vh - 280px); /* Adjust for navbar and footer height */
+      }
+
+      footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          background-color: rgb(8, 98, 8);
+          padding: 20px 0;
+          z-index: 999;
+      }
+
+      .transaction-list {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 20px;
+          justify-content: left;
+          padding: 20px;
+      }
+
+      .footer-section {
+          color: white;
+      }
+
+      .footer-section a {
+          color: white;
+          text-decoration: none;
+      }
+
+      .footer-section a:hover {
+          text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <!--Nav-bar-->
+  <body>
+    <nav
+      class="navbar navbar-expand-lg"
+      style="background-color: rgb(8, 98, 8) !important"
+    >
+      <div class="container-fluid">
+        <div class="button-container">
+          <a href="FrontPage.html">
+            <button id="MainButton">
+              <img
+                src="images/Warriors.png"
+                alt="Logo"
+                width="30"
+                height="24"
+                class="d-inline-block align-text-top"
+              />
+            </button>
+            <div class="hover-message">
+              Home
+              <i class="fa-solid fa-house" id="HomeIcon"></i>
+            </div>
+          </a>
+        </div>
+        <i class="fa-solid fa-user" id="ProfileIcon"></i>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="Profile.html"
+                >Profile</a
+              >
+            </li>
+            <i class="fa-solid fa-bell"></i>
+            <li class="nav-item">
+              <a class="nav-link" href="Sellpageintro.html">Sell</a>
+            </li>
+            <i class="fa-solid fa-cart-shopping" id="i4"></i>
+            <li class="nav-item">
+              <a class="nav-link" href="Cart.html">Cart</a>
+            </li>
+            <i class="fa-solid fa-gear" id="i5"></i>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Settings</a>
+            </li>
+            <i class="fa-solid fa-envelope" id="i3"></i>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Messages</a>
+            </li>
+          </ul>
+          <form class="d-flex w-50">
+            <input
+              class="form-control me-2"
+              type="search"
+              id="searchInput"
+              placeholder="Search products..."
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-outline-success"
+              id="RightButton"
+              type="button"
+            >
+              <i class="fa-solid fa-magnifying-glass" id="searchicon"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </nav>
+    
+    <div class="content-wrapper">
+        <h3 id="NavText">WSU Marketplace</h3>
+        <h2>Transaction History</h2>
+        <ul id="transaction-history"></ul>
+        <div id="transaction-container" class="transaction-list"></div>
+    </div>
+
+    <footer>
+      <div class="footer-section">
+        <img src="images/Warriors.png" height="85" alt="" loading="lazy" />
+        <p>WSU MarketShare</p>
+      </div>
+
+      <div class="footer-section">
+        <li><a href="https://wayne.edu">Wayne State University</a></li>
+        <li>
+          <a
+            href="https://www.google.com/maps/place/Welcome+Center,+42+W+Warren+Ave,+Detroit,+MI+48202/"
+            >42 W. Warren Avenue, Detroit, MI 48201</a
+          >
+        </li>
+        <li><a href="#!">313-577-2424</a></li>
+        <li>Made with 💚 in Detroit</li>
+      </div>
+
+      <div class="footer-section">
+        <li><a href="#top">Home</a></li>
+        <li><a href="Sellpageintro.html">Sell Page</a></li>
+        <li><a href="#!">Account</a></li>
+      </div>
+
+      <div class="footer-section">
+        <li><a href="#!">FAQ</a></li>
+        <li><a href="#!">Support</a></li>
+        <li><a href="ReportPage.html">Report</a></li>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="module">
+		import { getCurrentUserAsync, auth } from '../backend/auth.js';
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+		import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js";
+
+		const firebaseConfig = {
+			apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+			authDomain: "sell-25f45.firebaseapp.com",
+			databaseURL: "https://sell-25f45-default-rtdb.firebaseio.com",
+			projectId: "sell-25f45",
+			storageBucket: "sell-25f45.firebasestorage.app",
+			messagingSenderId: "953873344669",
+			appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+			measurementId: "G-9DB3NVDSQJ"
+		};
+
+		// Initialize Firebase
+		const app = initializeApp(firebaseConfig);
+		const db = getFirestore(app);
+
+		// Update fetchAndDisplayTransactionHistory function
+		async function fetchAndDisplayTransactionHistory() {
+			let transactionContainer = document.getElementById("transaction-container");
+			if (!transactionContainer) {
+				console.error("Error: Could not find 'transaction-container' div.");
+				return;
+			}
+
+			try {
+				const user = await getCurrentUserAsync();
+				if (!user) {
+					console.log('No user logged in');
+					transactionContainer.innerHTML = "<p>Please log in to view your transactions</p>";
+					setTimeout(() => {
+						window.location.href = "login.html";
+					}, 2000);
+					return;
+				}
+
+				console.log('Fetching transactions for user:', user.uid);
+				transactionContainer.innerHTML = "<p>Loading transactions...</p>";
+
+				 // Query transactions
+				const transactionsRef = collection(db, "transactions");
+
+				const q = query(transactionsRef, where("buyerId", "==", user.uid));
+
+				const querySnapshot = await getDocs(q);
+
+				console.log('Found transactions:', querySnapshot.size);
+				transactionContainer.innerHTML = ""; // Clear loading text
+
+				if (querySnapshot.empty) {
+					transactionContainer.innerHTML = "<p>No transactions found.</p>";
+					return;
+				}
+
+				for (const doc of querySnapshot.docs) {
+					let transaction = doc.data();
+					console.log('Transaction data:', transaction);
+
+					const itemsRef = collection(db, "items");
+					const itemQuery = query(itemsRef, where("id", "==", transaction.itemId));
+					const itemSnapshot = await getDocs(itemQuery);
+
+					console.log('Item query:', transaction.itemId);
+					console.log('Found items:', itemSnapshot.size);
+
+					if (!itemSnapshot.empty) {
+						const itemData = itemSnapshot.docs[0].data();
+						console.log('Item data:', itemData);
+
+						let transactionElement = document.createElement("div");
+						transactionElement.classList.add("product");
+
+						transactionElement.innerHTML = `
+							<img src="${itemData.images?.[0] || 'default-image.jpg'}" alt="${itemData.name}">
+							<h4>${itemData.name}</h4>
+							<p>Category: ${itemData.category}</p>
+							<p>Price: $${parseFloat(transaction.price || itemData.price).toFixed(2)}</p>
+							<p>Seller: ${itemData.userEmail || 'Unknown Seller'}</p>
+							<p>Purchase Date: ${transaction.createdAt ? new Date(transaction.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}</p>
+							<p>Quantity: ${transaction.quantity || 1}</p>
+						`;
+
+						transactionContainer.appendChild(transactionElement);
+					} else {
+						console.log('No item found for itemId:', transaction.itemId);
+					}
+				}
+			} catch (error) {
+				console.error("Error fetching transaction history:", error);
+				transactionContainer.innerHTML = "<p>Failed to load transactions.</p>";
+			}
+		}
+
+		// Initialize when DOM is ready
+		document.addEventListener('DOMContentLoaded', () => {
+			fetchAndDisplayTransactionHistory();
+		});
+	</script>
+  </body>
+</html>

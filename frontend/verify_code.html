@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Verify Your Code - WSU MarketShare</title>
+    <link rel="stylesheet" href="2stepStyle.css">  
+    <script type="module" src="verify_code.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="mainBox">
+            <h1>Enter Verification Code</h1>
+            <p>A verification code was sent to your email.</p>
+
+            <div class="text_in_bar">
+                <input type="text" id="verificationCode" placeholder="Enter 6-digit code">
+            </div>
+
+            <button id="verifyCodeBtn" onclick="verifyCode()">Verify & Continue</button>
+
+            <p id="message"></p>
+        </div>
+    </div>
+</body>
+</html>
