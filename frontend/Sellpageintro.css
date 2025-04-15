@@ -368,13 +368,13 @@ Opacity controls the transparency of an element (values 0-1)
 /** WSU text in the middle of the nav bar **/
 
 #NavText{
-  position: relative;
-  color: gold;
-  text-align: center;
-  z-index: 9999;
-  width: 100%;
-  top: -50px;
-  left: 6px;
+  position: relative !important;
+  color: gold !important;
+  text-align: center !important;
+  z-index: 9999 !important;
+  width: 100% !important;
+  top: -50px !important;
+  left: 6px !important;
 }
 
 /** The css below is for the search icon on the right */
