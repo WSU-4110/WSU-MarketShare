@@ -48,42 +48,39 @@ function loginUser() {
 
   signInWithEmailAndPassword(auth, email, password)
     .then(async () => {
-      console.log("✅ Login successful. Sending verification code...");
+      console.log("✅ Login successful. Preparing to send verification code...");
 
       const otp = Math.floor(100000 + Math.random() * 900000);
+      localStorage.setItem("userEmail", email);
 
       try {
-        // Store email & OTP
-        localStorage.setItem("userEmail", email);
+        // Save OTP in Firestore
         await setDoc(doc(db, "verifications", email), {
           code: otp,
           createdAt: new Date()
         });
 
-        // Send email via EmailJS
+        // Send code using your template + service
         await emailjs.send("service_n14ovds", "template_itcg04h", {
           to_email: email,
           code: otp
         });
 
-        console.log("📩 OTP sent:", otp);
-        emailjs.send("service_n14ovds", "template_itcg04h",otp);
+        console.log("📩 OTP sent to", email, "→ Code:", otp);
         messageBox.innerHTML = "✅ Login successful! Sending code...";
         messageBox.style.color = "green";
 
         setTimeout(() => {
           window.location.href = "verify_code.html";
         }, 1000);
-
       } catch (error) {
-        console.error("❌ Error sending verification code:", error);
+        console.error("❌ Error sending OTP:", error);
         messageBox.innerHTML = "❌ Login succeeded, but failed to send code.";
         messageBox.style.color = "red";
       }
     })
     .catch((error) => {
       console.error("Login failed:", error);
-
       if (error.code === "auth/wrong-password") {
         messageBox.innerHTML = "❌ Incorrect password.";
       } else if (error.code === "auth/user-not-found") {
@@ -93,7 +90,6 @@ function loginUser() {
       } else {
         messageBox.innerHTML = "❌ Login failed: " + error.message;
       }
-
       messageBox.style.color = "red";
     });
 }
