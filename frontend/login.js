@@ -17,6 +17,9 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+(function () {
+  emailjs.init("rlnDd5iIwFwRjzmAp"); // Replace with your EmailJS public key
+})();
 
 function togglePasswordVisibility() {
   const passwordField = document.getElementById("password");
