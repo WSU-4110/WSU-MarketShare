@@ -55,40 +55,40 @@
 
         <label for="Product images">images(up to 4):</label>
         <div class="image-boxes">
-          <div class="imgbx" onclick="uploadImg(0)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 0)"
+              data-index="0"
             />
           </div>
-          <div class="imgbx" onclick="uploadImg(1)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 1)"
+              data-index="1"
             />
           </div>
-          <div class="imgbx" onclick="uploadImg(2)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 2)"
+              data-index="2"
             />
           </div>
-          <div class="imgbx" onclick="uploadImg(3)">
+          <div class="imgbx">
             <i class="fa-solid fa-plus"></i>
             <input
               type="file"
               accept="image/*"
               class="hidden-file-input"
-              onchange="previewImage(event, 3)"
+              data-index="3"
             />
           </div>
         </div>
@@ -233,6 +233,26 @@
         console.error("Auth check failed:", error);
         window.location.href = "login.html";
       }
+    });
+
+    document.addEventListener("DOMContentLoaded", function() {
+        // Add click handlers for image boxes
+        document.querySelectorAll('.imgbx').forEach(box => {
+            box.addEventListener('click', function() {
+                const input = this.querySelector('.hidden-file-input');
+                if (input) {
+                    input.click();
+                }
+            });
+        });
+
+        // Add change handlers for file inputs
+        document.querySelectorAll('.hidden-file-input').forEach(input => {
+            input.addEventListener('change', function(event) {
+                const index = this.dataset.index;
+                previewImage(event, parseInt(index));
+            });
+        });
     });
 
     function uploadImg(index) {
