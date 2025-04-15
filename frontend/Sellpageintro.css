@@ -371,6 +371,7 @@ Opacity controls the transparency of an element (values 0-1)
   position: relative;
   color: gold;
   text-align: center;
+  z-index: 9999;
   width: 100%;
   top: -50px;
   left: 6px;
