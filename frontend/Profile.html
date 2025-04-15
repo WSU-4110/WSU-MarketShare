@@ -89,7 +89,7 @@
       <div class="profile-picture-container">
         <i class="fa-solid fa-circle-user profile-picture"></i>
         <input type="file" id="profilePictureInput" accept="image/*" style="display: none;">
-        <button id="uploadProfilePictureButton">upload picture dawg</button>
+      
       </div>
         <div class="user-info">
 
@@ -98,7 +98,7 @@
         </div>
     </div>
     <div class="profile-links">
-        <a href="#" class="profile-link"><i class="fa-solid fa-user-edit"></i>Edit Profile</a>
+        <a href="#" class="editProfileLink"><i class="fa-solid fa-user-edit"></i>Edit Profile</a>
         <a href="FAQ.html" class="profile-link"><i class="fa-solid fa-circle-info"></i>Help</a>
         <a href="TransactionTest.html" class="profile-link"><i class="fa-solid fa-clock-rotate-left"></i>Transaction History</a>
         
@@ -196,6 +196,30 @@
             alert('Error signing out: ' + error.message);
         }
     }
+
+    document.getElementById('editProfileLink').addEventListener('click', function(event){
+      event.preventDefault();
+      document.getElementById('profilePictureInput').click();
+    });
+
+      document.getElementById('profilePictureInput').addEventListener('change', function(event){
+        const file = event.target.files[0];
+        if (file){
+          const reader = new FileReader();
+          reader.onload = function(e){
+            const image = document.createElement('img');
+            img.src = e.target.result;
+            img.alt = "Profile Picture";
+
+            const profilePictureContainer = document.querySelector('.profile-picture-container');
+            profilePictureContainer.innerHTML = '';
+            profilePictureContainer.appendChild(img);
+            profilePictureContainer.appendChild(document.getElementById('profilePictureInput'));
+          };
+          reader.readAsDataURL(file);
+        }
+      
+    });
 </script>
     </body>
 
