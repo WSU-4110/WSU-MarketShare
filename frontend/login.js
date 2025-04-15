@@ -61,7 +61,7 @@ function loginUser() {
         });
 
         // Send email via EmailJS
-        await emailjs.send("service_n14ovds", "template_itcg04h") {
+        await emailjs.send("service_n14ovds", "template_itcg04h"), {
           to_email: email,
           code: otp
         });
