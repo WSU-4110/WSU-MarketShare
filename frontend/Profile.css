@@ -37,12 +37,22 @@ body{
 }
 
 .profile-picture{
-    font-size: 150px;
-    color: grey;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    padding: 20px;
-
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    background-color: #e0e0e0;
 }
+
+.profile-picture:hover {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
 .profile-container .user-info{
 display: flex;
 flex-direction: column;
