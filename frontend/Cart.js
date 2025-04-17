@@ -1,11 +1,11 @@
 class Cart {
     constructor(){
         this.items = [];
-        this.userID = null;
+        this.userId = null;
         this.initCart();
     }
     async initCart(){
-    const user = await this.getCurrenntUserAsync();
+    const user = await this.getCurrentUserAsync();
     if(!user){
         console.log('no user logged in');
         window.location.href = "login.html";
@@ -15,7 +15,7 @@ class Cart {
     this.setupFirebaseListener();
     this.initEventListeners();
     }
-    getCurrenntUserAsync(){
+    getCurrentUserAsync(){
         return new Promise((resolve) =>{
             resolve({ uid: 'test-user-id', email: 'test@example.com' });
 
