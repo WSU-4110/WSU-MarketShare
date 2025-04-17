@@ -69,4 +69,17 @@ class Cart {
             return false;
         }
         }
+        renderCart(){
+            const cartItems = document.querySelector('.cart-items');
+            if(this.items.length === 0){
+                cartItems.innerHTML =`
+                <div class="empty-cart-message">
+                    <i class="fa-solid fa-cart-arrow-down"></i><br>
+                    Your cart is empty
+                </div>
+            `;
+return;
+            }
+        }
+        
 }
