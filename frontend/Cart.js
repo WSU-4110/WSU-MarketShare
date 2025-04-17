@@ -80,6 +80,35 @@ class Cart {
             `;
 return;
             }
+            cartItems.innerHTML = this.items.map(item => `
+            <div class="cart-item" data-id="${item.id}">
+                <img src="${item.image}" alt="${item.name}" class="item-image">
+                <div class="item-details">
+                    <h2 class="item-name">${item.name}</h2>
+                    <p class="item-price">$${item.price.toFixed(2)}</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus">-</button>
+                        <input type="number" class="quantity-input" value="${item.quantity}" min="1">
+                        <button class="quantity-btn plus">+</button>
+                    </div>
+                </div>
+                <button class="remove-btn"><i class="fa-solid fa-trash"></i></button>
+            </div>
+        `).join('');
+        }
+
+
+        updateQuantity(itemId, newQuantity){
+            console.log('update amount of item ${itemId} to ${newQuantity}');
+            const itemIndex = this.items.findIndex(item => item.id === itemId);
+            if(itemIndex !== -1){
+                this.items[itemIndex].quantity = Math.max(1, newQuantity)
+                this.renderCart();
+                this.updateSubtotal();
+
+            }
+
         }
         
+
 }
