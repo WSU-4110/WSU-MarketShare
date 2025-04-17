@@ -1,0 +1,23 @@
+{
+  "name": "wsu-marketshare",
+  "version": "1.0.0",
+  "description": "A digital MarketPlace exclusively for WSU students",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WSU-4110/WSU-MarketShare.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WSU-4110/WSU-MarketShare/issues"
+  },
+  "homepage": "https://github.com/WSU-4110/WSU-MarketShare#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

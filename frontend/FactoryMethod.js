@@ -7,7 +7,7 @@ function CreateClass(Subject, Issue){
             return new Admin(Issue);
             break;
         case "System":
-            return new System(Issue);
+            return new System(Subject, Issue);
             break;
         default:
             console.log("Invalid Object, DNE");
@@ -19,7 +19,10 @@ class User{
     constructor(Subject, Issue){
         this.Subject = Subject;
         this.Issue = Issue; //we use the this keyword to differentiate betweem name of a variable in the class vs parameter and to make the variable global (accessible/in sync) across all methods wihtin a class
-        this.PriortyN = null;  
+        this.PriortyN = null; 
+       
+        
+        
     }
 
      Priorty() {
@@ -46,9 +49,13 @@ class User{
     }
 
     ticket(){
-        alert("Ticket#" + this.PriortyN + " - " + Subject.value + " - " + this.Issue);
+        alert("Ticket#" + this.PriortyN + " - " + this.Subject + " - " + this.Issue);
     }
+
+    
 }
+
+
 
 
 
@@ -58,6 +65,7 @@ class Admin{
         this.Subject = Subject;
         this.Issue = Issue; //we use the this keyword to differentiate betweem name of a variable in the class vs parameter
         this.PriortyN = null;
+    
        
     }
 
@@ -85,14 +93,14 @@ class Admin{
     }
 
     ticket(){
-        alert("Ticket#" + this.PriortyN + "-" + Subject.value + "-" + this.Issue);
+        alert("Ticket#" + this.PriortyN + "-" + this.Subject + "-" + this.Issue);
 
     }
 }
 
 class System{
     //in javascript we the this keyword all the time when referring to a data member in a class
-    constructor(Issue){
+    constructor(Subject,Issue){
         this.Subject = Subject;
         this.Issue = Issue; //we use the this keyword to differentiate betweem name of a variable in the class vs parameter
         this.PriortyN = null;
@@ -123,12 +131,17 @@ class System{
     }
 
     ticket(){
-        alert("Ticket#" + this.PriortyN + "-" + Subject.value + "-" + this.Issue);
+        alert("Ticket#" + this.PriortyN + "-" + this.Subject+ "-" + this.Issue);
         
         
     }
 }
 
+module.exports = { User, System}; //exporting the class to the test js file via commonJS
+/** I have to use commonJS inorder to export the class
+ * into the test js file. However, browser does not natively support 
+ * commonJS has 
+ */
 
 
 
