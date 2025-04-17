@@ -109,6 +109,46 @@ return;
             }
 
         }
-        
+        updateSubtotal() {
+            const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            document.querySelector('.subtotal-text').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+        }
+        initEventListeners() {
+            document.addEventListener('click', (e) => {
+                const cartItem = e.target.closest('.cart-item');
+                if (!cartItem) return;
+                const itemId = cartItem.dataset.id;
+    
+                if (e.target.closest('.plus')) {
+                    const currentQty = parseInt(cartItem.querySelector('.quantity-input').value);
+                    this.updateQuantity(itemId, currentQty + 1);
+                } else if (e.target.closest('.minus')) {
+                    const currentQty = parseInt(cartItem.querySelector('.quantity-input').value);
+                    this.updateQuantity(itemId, currentQty - 1);
+                } else if (e.target.closest('.remove-btn')) {
+                    this.removeItem(itemId);
+                }
+            });
+    
+            document.querySelector('.checkout-btn').addEventListener('click', () => {
+                if (this.items.length === 0) {
+                    alert("Your cart is empty!");
+                    return;
+                }
+                document.getElementById('checkoutModal').style.display = 'flex';
+            });
+        }
+
+        getItemQuantity(itemId){
+
+            const item = this.items.find(i => i.id === itemId);
+            return item ? item.quantity : 1;
+        }
+        removeItem(itemId){
+            this.items = this.items.filter(item => item.id !== itemId);
+            this.renderCart();
+            this.updateSubtotal();
+        }
+
 
 }
