@@ -2,18 +2,17 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">      <!-- The code up here is used on almost every HTML file -->
-        <title>WSU-Marketshare </title>
-        <link rel="stylesheet" href="Profile.css">       <!-- This code connects my cascade style sheets to the webpage -->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>WSU-Marketshare</title>
+        <link rel="stylesheet" href="Profile.css">
 
-        <link rel="preconnect" href="https://fonts.googleapis.com">   <!--for more graphocs and designs-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
-
         <link href="https://fonts.googleapis.com/css2?family=Freeman&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> <!--from teammates code for the header-->
         <style>
           .profile-name {
               font-size: 24px;
@@ -31,9 +30,8 @@
               color: red;
               font-style: italic;
           }
-      </style>
-      </head>
-    <body>
+        </style>
+    </head>
 
         <!--NavBar code from teammates start-->
         <body>
@@ -81,10 +79,9 @@
           
           <h3 id = "NavText">Wayne State University</h3>
 
-
-        <!--NavBar code ends-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!--Part of the NavBar code-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <div class="profile-container">
+
     <div class="profile-header">
 
         <i class="fa-solid fa-circle-user profile-picture"></i>
@@ -152,51 +149,101 @@
                 // Add event listener for sign out
                 signOutLink.addEventListener('click', handleSignOut);
 
-                if (!user) {
-                    userInfo.innerHTML = '<p>Please log in to view your profile</p>';
-                    setTimeout(() => {
-                        window.location.href = "login.html";
-                    }, 2000);
-                    return;
+
+        <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-auth-compat.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-storage-compat.js"></script>
+
+        <script type="module">
+            import { getCurrentUserAsync, auth } from '../backend/auth.js';
+
+            console.log('Script loaded');
+
+            const firebaseConfig = {
+                apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+                authDomain: "sell-25f45.firebaseapp.com",
+                projectId: "sell-25f45",
+                storageBucket: "sell-25f45.appspot.com",
+                messagingSenderId: "953873344669",
+                appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+                measurementId: "G-9DB3NVDSQJ"
+            };
+
+            // Initialize Firebase
+            const app = firebase.initializeApp(firebaseConfig);
+            console.log('Firebase initialized');
+
+            // Reference to Firebase Storage
+            const storage = firebase.storage();
+            const db = firebase.firestore();
+
+            async function updateProfile() {
+                console.log('UpdateProfile called');
+                try {
+                    const user = await getCurrentUserAsync();
+                    if (!user) {
+                        console.error('User not authenticated');
+                        return;
+                    }
+                    console.log('User data:', user);
+
+                    const userInfo = document.querySelector('.user-info');
+                    const profilePicture = document.getElementById('profile-picture');
+                    const profilePictureUpload = document.getElementById('profile-picture-upload');
+
+                    if (!userInfo || !profilePicture || !profilePictureUpload) {
+                        console.error('Required elements not found');
+                        return;
+                    }
+
+                    // Fetch user profile picture from Firestore
+                    const userDoc = await db.collection('Users').doc(user.uid).get();
+                    const userData = userDoc.data();
+                    if (userData && userData.profilePicture) {
+                        profilePicture.style.backgroundImage = `url(${userData.profilePicture})`;
+                    }
+
+                    userInfo.innerHTML = `<h2>${user.email}</h2>`;
+
+                    // Handle profile picture upload
+                    profilePictureUpload.addEventListener('change', async (e) => {
+                        const file = e.target.files[0];
+                        if (!file) return;
+
+                        try {
+                            // Simple upload without transaction
+                            const storageRef = storage.ref();
+                            const fileRef = storageRef.child(`profilePictures/${Date.now()}_${file.name}`);
+                            
+                            // Upload file
+                            await fileRef.put(file);
+                            const downloadURL = await fileRef.getDownloadURL();
+
+                            // Update Firestore directly
+                            await db.collection('Users').doc(user.uid).update({
+                                profilePicture: downloadURL
+                            });
+
+                            // Update UI
+                            profilePicture.style.backgroundImage = `url(${downloadURL})`;
+                            console.log('Profile picture updated successfully');
+
+                        } catch (error) {
+                            console.error("Error uploading profile picture:", error);
+                            alert('Error uploading profile picture. Please try again.');
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error updating profile:', error);
                 }
-
-                userInfo.innerHTML = `
-                    <h2>${user.email}</h2>
-                    
-                `;
-
-            } catch (error) {
-                console.error('Profile update error:', error);
-                alert('Error loading profile: ' + error.message);
             }
-        }
 
-        // Call updateProfile when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', updateProfile);
-        } else {
+            // Call updateProfile
             updateProfile();
-        }
-
-    } catch (error) {
-        console.error('Firebase initialization error:', error);
-        alert('Error initializing app: ' + error.message);
-    }
-
-    // Add this function to handle sign out
-    async function handleSignOut(e) {
-        e.preventDefault();
-        try {
-            await firebase.auth().signOut();
-            console.log('User signed out successfully');
-            window.location.href = "login.html";
-        } catch (error) {
-            console.error('Error signing out:', error);
-            alert('Error signing out: ' + error.message);
-        }
-    }
-</script>
+        </script>
     </body>
+
 
 
     <!--Adding dravens footer-->
