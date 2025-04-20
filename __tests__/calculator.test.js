@@ -1,4 +1,4 @@
-const Calculator = require('./Calculator');
+const Calculator = require('../frontend/Calculator');
 const calc = new Calculator();
 
 test('adds two numbers', () => {

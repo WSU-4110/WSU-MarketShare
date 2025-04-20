@@ -345,9 +345,10 @@
 
                     SelectedSubject2.addEventListener('change', function() {
                     //get the selected value from the attribute value for the element option (working with the second select element)
+		    let test = document.getElementById("Subject").value;
                     const SelectedSubject2Value = SelectedSubject2.value; //Issue
 
-                    var object = CreateClass(SelectedSubjectValue, SelectedSubject2Value); //the return type for this function is an instance of a class
+                    var object = CreateClass(test, SelectedSubject2Value); //the return type for this function is an instance of a class
 
                     //using the object.synatx notation, invoke the proper method
                     object.Priorty();
