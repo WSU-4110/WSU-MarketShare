@@ -1,17 +1,21 @@
 require('@testing-library/jest-dom');
 
-// Mock Firebase App
-jest.mock('firebase/app', () => ({
+const mockFirebase = {
   initializeApp: jest.fn(),
   getApps: jest.fn(() => []),
-  getApp: jest.fn(() => ({ name: 'mockApp' })), // Ensure getApp returns a mock app
-}));
+  getApp: jest.fn(() => ({ name: 'mockApp' }))
+};
 
-// Mock Firebase Firestore
-jest.mock('firebase/firestore', () => ({
-  getFirestore: jest.fn(() => ({})), // Provide a mock Firestore instance
+const mockFirestore = {
+  getFirestore: jest.fn(),
   collection: jest.fn(),
-  getDocs: jest.fn().mockResolvedValue({ docs: [] }), // Mock getDocs to return an empty array
+  getDocs: jest.fn(),
   query: jest.fn(),
-  where: jest.fn(),
-}));;
+  where: jest.fn()
+};
+
+jest.mock('firebase/app', () => mockFirebase);
+jest.mock('firebase/firestore', () => mockFirestore);
+
+global.mockFirebase = mockFirebase;
+global.mockFirestore = mockFirestore;

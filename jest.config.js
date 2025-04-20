@@ -6,5 +6,8 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironmentOptions: {
     url: 'http://localhost'
+  },
+  moduleNameMapper: {
+    '^firebase/(.*)$': '<rootDir>/node_modules/firebase/$1'
   }
 };
