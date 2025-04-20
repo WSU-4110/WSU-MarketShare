@@ -1,7 +1,25 @@
 const { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } = require('firebase/firestore');
 const { getCurrentUserAsync } = require('../backend/auth.js');
+const { initializeApp } = require('firebase/app');
 
-const db = getFirestore();
+// Firebase configurations
+const prodConfig = {
+    apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
+    authDomain: "wayne-state-marketshare.firebaseapp.com",
+    projectId: "wayne-state-marketshare",
+    
+};
+
+const testConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    
+};
+
+// Initialize Firebase based on environment
+const app = initializeApp(process.env.NODE_ENV === 'test' ? testConfig : prodConfig);
+const db = getFirestore(app);
 
 async function fetchAndDisplayTransactionHistory() {
     let transactionContainer = document.getElementById("transaction-container");
