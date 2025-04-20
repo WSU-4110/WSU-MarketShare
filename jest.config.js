@@ -8,6 +8,9 @@ module.exports = {
     url: 'http://localhost'
   },
   moduleNameMapper: {
-    '^firebase/(.*)$': '<rootDir>/node_modules/firebase/$1'
-  }
+    '^firebase/(.*)$': '<rootDir>/node_modules/firebase/$1',
+    '^@/(.*)$': '<rootDir>/$1'  // This allows imports from project root
+  },
+  rootDir: '.',  // Set the root directory for Jest
+  modulePaths: ['<rootDir>']  // Add root directory to module search paths
 };
