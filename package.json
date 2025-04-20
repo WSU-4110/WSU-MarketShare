@@ -1,0 +1,15 @@
+{
+  "name": "wsu-marketshare",
+  "version": "1.0.0",
+  "description": "WSU MarketShare web application",
+  "scripts": {
+    "test": "jest",
+    "build": "echo 'No build step required for static files'"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "@testing-library/jest-dom": "^6.1.0",
+    "@testing-library/dom": "^9.0.0"
+  }
+}
