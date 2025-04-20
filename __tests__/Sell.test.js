@@ -1,5 +1,5 @@
 
-const {uploadImage,ItemINFO,ImageCountANDPrice,GUI } = require("./Sell.js");
+const {uploadImage,ItemINFO,ImageCountANDPrice,GUI } = require("../frontend/Sell.js");
 
 
 //this checks the PhotosUpload//
