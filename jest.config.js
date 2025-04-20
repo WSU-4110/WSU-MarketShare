@@ -1,9 +1,7 @@
-export default {
+module.exports = {
   testEnvironment: 'jsdom',
   moduleFileExtensions: ['js', 'json'],
-  transform: {
-    '^.+\\.js$': 'babel-jest'
-  },
+  transform: {},
   testMatch: ['**/__tests__/**/*.js', '**/*.test.js'],
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testEnvironmentOptions: {
@@ -11,11 +9,8 @@ export default {
   },
   moduleNameMapper: {
     '^firebase/(.*)$': '<rootDir>/node_modules/firebase/$1',
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/(.*)$': '<rootDir>/$1'  // This allows imports from project root
   },
-  transformIgnorePatterns: [
-    '/node_modules/(?!(firebase|@firebase)/)'
-  ],
-  rootDir: '.',
-  modulePaths: ['<rootDir>']
+  rootDir: '.',  // Set the root directory for Jest
+  modulePaths: ['<rootDir>']  // Add root directory to module search paths
 };
