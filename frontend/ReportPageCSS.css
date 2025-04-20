@@ -32,22 +32,178 @@
     
 }
 
+.box1 hr{
+    position: relative;
+    top: -54px;
+    border: 5px solid green;
+    width: 791px;
+    left: -30px;
+}
+
 .box1 h6{
+    position: relative;
     padding-bottom: 15px;
+    top: -50px;
 }
 
-.PU{
-
+/**css used for the 1st select element **/
+#SubjectStyle{
+    position: relative;
+    font-weight: bold;
+    font-size: large;
+    top: -55px;
+}
+#Subject{
+    position: relative;
+    font-size: initial !important;
+    bottom: -26px;
+    left: -156px;
 }
 
+/** css used for the 2nd select element **/
+#UserSelect{
+    position: relative;
+    font-weight: bold;
+    font-size: large;
+    top: -15px;
+}
+#User{
+    position: relative;
+    bottom: -25px;
+    left: -215px;
+    font-size: initial !important ;
+}
+
+#AdvisorSelect{
+    position: relative;
+    font-weight: bold;
+    font-size: large;
+    top: -15px;
+}
+#Advisor{
+    position: relative;
+    bottom: -25px;
+    left: -240px;
+    font-size: initial !important ;
+}
+
+#SystemSelect{
+    position: relative;
+    font-weight: bold;
+    font-size: large;
+    top: -15px;
+}
+#System{
+    position: relative;
+    bottom: -25px;
+    left: -235px;
+    font-size: initial !important ;
+}
+
+
+
+
+/** Css below for button used for submission button, no need to use id = ButtonUpload to modify **/
 .box1 button{
     position: relative;
     border: 5px solid transparent;
-    background-color: red;
-    border-radius: 25px;
+    background-color:green;
+    border-radius: 25px !important;
     padding: 20px;
+    color: white;
+    bottom: -290px;
+    right: 5px;
+} 
+
+.box1 button:hover{
+    color: gold;
+}
+
+hr{
+    position: relative;
+    border: 20px solid black;
+    color: green;
+    top: -20px;
+
+}
+
+/** css for the user to describe their issue **/
+#IssueTF{
+    position: absolute;
+    bottom: 400px;
+    font-weight: bold;
+    font-size: large;
+    top: 295px;
+}
+#Issue{
+    position: absolute;
+    font-size: initial !important ;
+    width: 350px;
+    height: 100px;
+    bottom: -30px; 
+    left: 1px;
+    border: 5px double gray;
     
 }
+
+
+
+
+
+/** Image Upload **/
+#PhotoUpload{
+    position: relative;
+    font-weight: bold;
+    font-size: large;
+    bottom: -180px;
+}
+#StyleAll {
+    position: relative;
+    font-size: initial !important ;
+    width: auto;
+}
+
+
+
+
+/** Name User Input **/ 
+
+#NameField{
+    position: relative;
+    bottom: -190px;
+    font-weight: bold;
+    font-size: large;
+}
+#name{
+    position: inherit;
+    bottom: -27px;
+    left: -124px;
+    font-size: initial !important ;
+    width: auto;
+}
+
+
+/** Email User Input */
+
+#EmailField{ 
+    position: relative;
+    bottom: -240px;
+    font-weight: bold;
+    font-size: large;
+}
+#email{
+    position: inherit;
+    bottom: -27px;
+    left: -120px;
+    font-size: initial !important ;
+    width: auto;
+}
+
+
+
+
+
+
 
 
 

@@ -5,7 +5,7 @@
     <script src="https://kit.fontawesome.com/5999306913.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>ReportPage</title>
-    <link rel = "stylesheet" href = "Ribbon.css">
+    <link rel = "stylesheet" href = "ReportPageNavbar.css">
     <link rel = "stylesheet" href = "ProductThumbnail.css">
     <link rel = "stylesheet" href = "footer.css">
     <link rel = "stylesheet" href = "ReportPageCSS.css">
@@ -14,6 +14,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src = "FactoryMethod.js" defer></script>
+    <!-- As for our email service, we will use emailjs: which is a javascript library that allows us to send emails directly via javascript thanks to the SMTP server without needing any sort of backend deployement -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+         emailjs.init({
+           publicKey: "yD97zTvDp3x6tlHe4",
+         });
+      })();
+   </script>
+
     
 
 
@@ -72,174 +82,52 @@
         }
     </style>
 
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-	<script type = "module">
-		import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
- 	 	import { getFirestore, collection, query, where, getDocs,  } from 					"https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-	const firebaseConfig = {
-  		apiKey: "AIzaSyAvB5GMQoKYoVn_6nuzIzmU5cqBQCjYSXk",
-  		authDomain: "wsu-market-share.firebaseapp.com",
-  		databaseURL: "https://wsu-market-share-default-rtdb.firebaseio.com",
-  		projectId: "wsu-market-share",
-  		storageBucket: "wsu-market-share.firebasestorage.app",
-  		messagingSenderId: "176228593560",
-  		appId: "1:176228593560:web:bd04d85d9e5944d1b6c5ed",
-  		measurementId: "G-HZ3VRX4MK1"
-	};
+   
 
-	// Initialize Firebase
-	const app = initializeApp(firebaseConfig);
-	const db = getFirestore(app);
-
-	console.log("Firebase initialized.");
-
-	// Fetch and display products
-        const productList = document.getElementById('productList');
-        const searchInput = document.getElementById('searchInput');
-
-        // Function to fetch and display products
-async function fetchAndDisplayProducts() {
-    try {
-        // ❌ Old syntax (incorrect for Firebase v9+)
-        // const querySnapshot = await db.collection('Products').get();
-
-        // ✅ Correct syntax for Firebase v9+
-        const querySnapshot = await getDocs(collection(db, "Products"));
-
-        // Clear the product list
-        productList.innerHTML = '';
-
-        querySnapshot.forEach((doc) => {
-            const product = doc.data();
-
-            // Create a product card
-            const productElement = document.createElement('div');
-            productElement.className = 'product';
-            productElement.innerHTML = `
-                <h3>${product.name}</h3>
-                <p>${product.description}</p>
-                <p><strong>Price:</strong> $${product.price}</p>
-                <p><strong>Category:</strong> ${product.category}</p>
-            `;
-
-            // Append the product card to the product list
-            productList.appendChild(productElement);
-        });
-
-    } catch (error) {
-        console.error("Error fetching products: ", error);
-    }
-}
-        // Fetch and display products when the page loads
-        fetchAndDisplayProducts();
-window.applyFilter = async function () {
-  let category = document.getElementById("categoryFilter").value;
-    let productList = document.getElementById("productList"); // Main product list div
-    productList.innerHTML = "<p>Loading...</p>"; // Show loading message
-
-    try {
-        let q = collection(db, "Products");
-
-        if (category) {
-            q = query(q,  where("category", "==", category));
-        }
-
-        const snapshot = await getDocs(q);
-        productList.innerHTML = ""; // Clear previous products
-
-        if (snapshot.empty) {
-            productList.innerHTML = "<p>No products found.</p>";
-        } else {
-            snapshot.forEach((doc) => {
-                let product = doc.data();
-
-                // Create a product card with the same styles
-                let productElement = document.createElement("div");
-                productElement.classList.add("product"); // Ensure it keeps the styling
-                productElement.innerHTML = `
-                    <h3>${product.name}</h3>
-                    <p>${product.description}</p>
-                    <p><strong>Price:</strong> $${product.price}</p>
-                    <p><strong>Category:</strong> ${product.category}</p>
-                `;
-
-                // Append product to the productList
-                productList.appendChild(productElement);
-            });
-        }
-    } catch (error) {
-        console.error("❌ Error fetching documents:", error);
-        productList.innerHTML = "<p>Error loading data.</p>";
-    }
-};
-function handleSearch(event) {
-    let searchQuery = event.target.value.toLowerCase(); // Get the lowercase search query
-    let productElements = document.querySelectorAll('.product'); // Get all product cards
-
-    productElements.forEach((productElement) => {
-        let productName = productElement.querySelector('h3').textContent.toLowerCase(); // Get product name
-        if (productName.includes(searchQuery)) {
-            productElement.style.display = 'block'; // Show the product if it matches the search
-        } else {
-            productElement.style.display = 'none'; // Hide the product if it doesn't match
-        }
-    });
-}
-
-// Event listener for search input
-document.getElementById('searchInput').addEventListener('keyup', handleSearch);
-</script>
     
     
 </head><!--The head tag takes metadata tags that are related to the document. You can insert .css exteranl files-->
 
 <body>
-    <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important;">
-        <div class="container-fluid">
-          <div class = "button-container">
-          <a href = "FrontPage.html">
-          <button id = "MainButton"><img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></button>
-          <div class = "hover-message">Home
-          <i class="fa-solid fa-house" id = "HomeIcon"></i>
-          </div>
-          </a>
-          </div>
-          <i class="fa-solid fa-user" id = "ProfileIcon"></i>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Profile</a>
-              </li>
-              <i class="fa-solid fa-bell"></i>
-              <li class="nav-item">
+  <nav class="navbar navbar-expand-lg" style="background-color: rgb(8, 98, 8) !important;">
+    <div class="container-fluid">
+      <div class = "button-container">
+      <a href = "FrontPage.html">
+      <button id = "MainButton"><img src="images/Warriors.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top"></button>
+      <div class = "hover-message">Home
+      <i class="fa-solid fa-house" id = "HomeIcon"></i>
+      </div>
+      </a>
+      </div>
+      <i class="fa-solid fa-user" id = "ProfileIcon"></i>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="Profile.html">Profile</a>
+          </li>
+          <i class="fa-solid fa-bell"></i>
+          <li class="nav-item">
 
-                <a class="nav-link" href="Sellpageintro.html">Sell</a>
+            <a class="nav-link" href="Sellpageintro.html">Sell</a>
 
-              </li>
-              <i class="fa-solid fa-cart-shopping" id = "i4"></i>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Cart</a>
-              </li>
-              <i class="fa-solid fa-gear" id = "i5"></i>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Settings</a>
-              </li>
-              <i class="fa-solid fa-envelope" id = "i3"></i>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Messages</a>
-              </li>
-            </ul>
-            <form class="d-flex" role="search">
-              <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success" id = "RightButton" type="submit"><i class="fa-solid fa-magnifying-glass" id = "searchicon"></i></button>
-            </form>
-          </div>
-        </div>
-      </nav>
+          </li>
+          <i class="fa-solid fa-cart-shopping" id = "i4"></i>
+          <li class="nav-item">
+            <a class="nav-link" href="Cart.html">Cart</a>
+          </li>
+
+        </ul>
+        
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" id="searchInput" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success" id = "RightButton" type="submit"><i class="fa-solid fa-magnifying-glass" id = "searchicon"></i></button>
+        </form>
+      </div>
+    </div>
+  </nav>
     
      
       
@@ -249,22 +137,31 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
       <div class = box1>
         <i class="fa-solid fa-user-secret"></i>
         <h3>Report Malicious Activity</h3>
+        <hr>
 
         <h6>Fill out the appropriate details below. You will bre emailed a Report of your submission along with a case number. Keep this as a record as you see fit!</h6>
 
-        <form> <!-- The form element houses all elements related to as form. Drop down menus, buttons, etc-->
-            
-            <!-- drop down menu-->
-            <label for = "Subject">Who is at Fault?</label>
-            <select id = "Subject">
-                <option value = "">Select An Option</option>
-                <option value = "User">User</option>
-                <option value = "Advisor">Advisor</option>
-                <option value = "System">System</option>
-            </select>
+        <form id = "ReportForum"> <!-- The form element houses all elements related to as form. Drop down menus, buttons, etc-->
+        <!-- Also note that the value for the "for" attribute within the label element should match the value of the id attribute of the corresponding form element, only recommended-->   
+            <!-- 
+            1) drop down menu is created by the select element
+            2) The contents/elements that appears in the drop down menu is the text surroundend by the option element
+            3) the value for the value attribute in the option element is whats sent to the database/working with the js within the form.
+            It's preferable for 2 == 3, but they can differ
+             
+            -->
+            <div id = "SubjectStyle">
+                <label for = "Subject">1. Who is at Fault?</label>
+                <select id = "Subject">
+                    <option value = "">Select An Option</option>
+                    <option value = "User">User</option>
+                    <option value = "Advisor">Advisor</option>
+                    <option value = "System">System</option>
+                </select>
+            </div>
 
             <div id = "UserSelect" class = "hidden">
-                <label for = "User">What did the User do?</label>
+                <label for = "User">2. What did the User do?</label>
                 <select id = "User">
                     <option value = "Choose an option">Choose an option</option>
                     <option value = "Inappropriate Photo">Inappropriate Photo</option>
@@ -277,49 +174,68 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
             </div>
 
             <div id = "AdvisorSelect" class = "hidden">
-                <label for = "Advisor">What did the Advisor do?</label>
+                <label for = "Advisor">2. What did the Advisor do?</label>
                 <select id = "Advisor">
                     <option value = "Choose an option">Choose an option</option>
                     <option value = "Inappropriate Response">Inappropriate Photo</option>
                     <option value = "Spam">Spam</option>
                     <option value = "Scam Likely">Scam Likely</option>
                     <option value = "Hacked Account">Hacked Account</option>
-                    <option value = "Phising">Other</option>
-                    <option value = "Other">Inappropriate Photo</option>
+                    <option value = "Phising">Phising</option>
+                    <option value = "Other">Other</option>
                 </select>
             </div>
 
             
             <div id = "SystemSelect" class = "hidden">
-                <label for = "System">What did the System do?</label>
+                <label for = "System">2. What did the System do?</label>
                 <select id = "System">
                     <option value = "Choose an option">Choose an option</option>
                     <option value = "Hyperlink not working">Hyperlink not working</option>
                     <option value = "Button does not work">Button does not work</option>
                     <option value = "Product card glitchy">Product card glitchy</option>
                     <option value = "Profile editing issue">Profile editing issue</option>
-                    <option value = "Security risk">Secuirty Risk</option>
+                    <option value = "Security risk">Security Risk</option>
                     <option value = "Other">Other</option>
                 </select>
             </div>
 
             <div id = "IssueTF" class = "hidden">
-                <label for = "Issue">Describe your issue:</label>
-                <textarea id = "Issue" maxlength="200" placeholder="Max 200 chars"></textarea>            
+                <label for = "Issue">3. Describe your issue:</label>
+                <textarea id = "Issue" maxlength="200" placeholder="Max 200 chars" required></textarea>            
             </div>
 
             <div id = "PhotoUpload" class = "hidden">
-                <label for = "Photo">Upload a max of 4 Photos</label>
-                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
-                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
-                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
-                <input type = "file" id = "Photo PU" name = "Screenshot" accept = "image/*">
+                <label for = "Photo"> 4. Upload a max of 4 Photos:</label>
+                <div id = "StyleAll">
+                    <input type = "file" id = "PhotoPU1" name = "Screenshot" accept = "image/*">
+                    <input type = "file" id = "PhotoPU2" name = "Screenshot" accept = "image/*">
+                    <input type = "file" id = "PhotoPU3" name = "Screenshot" accept = "image/*">
+                    <input type = "file" id = "PhotoPU4" name = "Screenshot" accept = "image/*">
+                </div>
             </div>
+
+            <!-- The required attribute is a conditional that occurs if the user attempts to submit the form when the corresponding text field is empty, a msg will pop up on said text field, essenitally will only allow the forum to be subnmited once they're all valid values-->
+            <div id = "NameField" class =  "hidden">
+                <label for = "name"> 5. Your Name:</label>
+                <input type = "text" id = "name" required>
+            </div>
+
+
+            <div id = "EmailField" class =  "hidden">
+                <label for = "email"> 6. Your Email:</label>
+                <input type = "email" id = "email" required>
+            </div>
+
 
             <div id = "ButtonUpload" class = "hidden">
-                <button ></button>
-
+                <button type = "submit" >Submit</button>
             </div>
+
+      
+
+
+            
 
         </form>
         
@@ -333,7 +249,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
         //store the 'select' element's ID in a variable via the div
         const Subject = document.getElementById('Subject');
 
-        //Get the corresponding  select elemt's and their DIV ID and store it in a variable
+        //Get the corresponding   elemt's and their DIV ID and store it in a variable
         //We use the div ID because the div ID has the class css selector hidden, the select element doesn't
         const UserSelect = document.getElementById('UserSelect')
         const AdvisorSelect = document.getElementById('AdvisorSelect')
@@ -345,8 +261,17 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
         //input file type element
         const PhotoUpload = document.getElementById('PhotoUpload');
 
+        //input name type element
+        const NameField = document.getElementById('NameField');
+
+        //input email type element
+        const EmailField = document.getElementById('EmailField');
+
         //button element
         const ButtonUpload = document.getElementById('ButtonUpload');
+
+
+       
 
 
         //Even Listener function to "hear" what the user chooses from Subject Select
@@ -360,6 +285,12 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
 
             PhotoUpload.classList.add('hidden');
 
+            ButtonUpload.classList.add('hidden');
+
+            NameField.classList.add('hidden');
+
+            EmailField.classList.add('hidden');
+
 
             //Using the conditional statements below, determine which coresponding select/dropdown menu appears
             //we use the corresponding select element ID in the conditional statement
@@ -367,17 +298,26 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
                 UserSelect.classList.remove('hidden');
                 IssueTF.classList.remove('hidden');
                 PhotoUpload.classList.remove('hidden');
+                ButtonUpload.classList.remove('hidden');
+                NameField.classList.remove('hidden');
+                EmailField.classList.remove('hidden');
             }
             else if(Subject.value === 'Advisor'){
                 AdvisorSelect.classList.remove('hidden');
                 IssueTF.classList.remove('hidden');
                 PhotoUpload.classList.remove('hidden');
-
+                ButtonUpload.classList.remove('hidden');
+                NameField.classList.remove('hidden');
+                EmailField.classList.remove('hidden');
             }
             else if(Subject.value === 'System'){
                 SystemSelect.classList.remove('hidden');
                 IssueTF.classList.remove('hidden');
                 PhotoUpload.classList.remove('hidden');
+                ButtonUpload.classList.remove('hidden');
+                NameField.classList.remove('hidden');
+                EmailField.classList.remove('hidden');
+
 
             }
         });
@@ -397,7 +337,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
             SelectedSubject.addEventListener('change', function() {
 
                 //get the selected value from the attribute value for the element option (working with the first select element) 
-                const SelectedSubjectValue = SelectedSubject.value;
+                const SelectedSubjectValue = SelectedSubject.value;//Subject
 
                 
                 //Now create the variable that stores the id the chosen subject (working with the second select element)
@@ -405,19 +345,141 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
 
                     SelectedSubject2.addEventListener('change', function() {
                     //get the selected value from the attribute value for the element option (working with the second select element)
-                    const SelectedSubject2Value = SelectedSubject2.value;
+		    let test = document.getElementById("Subject").value;
+                    const SelectedSubject2Value = SelectedSubject2.value; //Issue
 
-                    var object = CreateClass(SelectedSubjectValue, SelectedSubject2Value); //the return type for this function is an instance of a class
+                    var object = CreateClass(test, SelectedSubject2Value); //the return type for this function is an instance of a class
 
                     //using the object.synatx notation, invoke the proper method
-                    object.Priorty(SelectedSubject2Value);
-                    object.ticket(SelectedSubject2Value);
+                    object.Priorty();
+                    //object.ticket(SelectedSubject2Value);
+                    object.ticket();
+
 
                     });
 
             });
         };
       </script>
+
+      <!-- This portion of javascript is used to upload the user data from the forum into our database (firebase) and send the user an email of the details they filled out -->
+<script type = "module">
+        // Import the functions you need from the SDKs you need, this is considered as ES6 synatx. In order to use it in a reg html script, you must declare the script as type module
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
+       //import { getAnalytics } from "firebase/analytics";
+        import {getFirestore, collection, addDoc} from "https://www.gstatic.com/firebasejs/10.6.0/firebase-firestore.js"; //getFireStire - intialize the firestore database, collection -create the collection, document - add a document to the collection, all of which comes from the same single firestore module
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = { //this simply tells firebase which project we belong to on their webpage, not the tools nesseary to use their libraries and APIs. that would be the SDK
+        apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
+        authDomain: "sell-25f45.firebaseapp.com",
+        databaseURL: "https://sell-25f45-default-rtdb.firebaseio.com",
+        projectId: "sell-25f45",
+        storageBucket: "sell-25f45.firebasestorage.app",
+        messagingSenderId: "953873344669",
+        appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
+        measurementId: "G-9DB3NVDSQJ"
+    };
+
+    // Initialize Firebase 
+    const app = initializeApp(firebaseConfig);
+    //const analytics = getAnalytics(app);
+    //Initilaize firestore
+    const db = getFirestore(app);
+
+    //initalize firestore - the specific part of where we upload our data to firebase
+    /**
+     * Firestore stores that data into collections (folders) <-- Category
+     * The different versions of said data is storted into documents (files)
+     * */
+     
+    
+
+
+    //Lines of code to upload the user data to our firebase
+    document.getElementById("ReportForum").addEventListener("submit", async function(event) { //this function wont execute unless submit button has actually "submitted" or been executed itself
+        event.preventDefault();
+
+        //get the actual user data from the correesponding forum elements and store it into a variable nvia the value of the id attribute
+        let subject = document.getElementById("Subject").value;
+        let reason = document.getElementById(subject).value;
+        //dont use the id value from the div element that houses the forum elements, instead use the value of the id that is an attribute directly for the forum element, as this is where the .value property works
+        let photo1 = document.getElementById("PhotoPU1").value;
+        let photo2 = document.getElementById("PhotoPU2").value;
+        let photo3 = document.getElementById("PhotoPU3").value;
+        let photo4 = document.getElementById("PhotoPU4").value;
+        let issue = document.getElementById("Issue").value;
+        let name = document.getElementById("name").value;
+        let email = document.getElementById("email").value;
+
+        //variables for the emailjs functionality 
+        const serviceID = "service_l4m21ml";
+        const templateID = "template_552xoyo";
+
+
+        //now upload the data into firestore by creating the collection and use exception handling - try and catch block
+        //try block contains lines of code to upload data to firestore and invokes the function to send an email 
+        try{//upload data to firestore
+            await addDoc(
+                collection(db, "Reports"),
+            {
+                subject,
+                reason,
+                photo1,
+                photo2,
+                photo3,
+                photo4,
+                issue,
+                name,
+                email,
+                timestamp: new Date().toISOString()
+            }
+        );
+        alert("The Report has been uploaded, an email will be sent soon");
+       // document.getElementById("ReportForum").reset();
+
+        //invoke function to send email after uploading data to firestore
+        SendEmail(subject, reason, photo1, photo2, photo3, photo4, issue, name, email, serviceID, templateID);
+
+        document.getElementById("ReportForum").reset();
+
+
+        }
+        catch(e){
+            console.error("error in uploading documents: ", e);
+        } //catch block must be right after try block
+        
+        function SendEmail(subject, reason, photo1, photo2, photo3, photo4, issue, name, email, serviceID, templateID){
+          var params = {
+            //name of variable template email: value that it's grabbing (I made everything for the sake of consistency)
+            subject:subject,
+            reason:reason,
+            photo1:photo1,
+            photo2: photo2,
+            photo3: photo3,
+            photo4: photo4,
+            issue: issue,
+            name: name,
+            email: email,
+          };
+          console.log("Sending email with the following params:", params);
+          emailjs.send(serviceID, templateID, params)
+
+        }
+
+      
+    
+     
+
+        
+    });
+
+</script>
+
+
 
 
 
@@ -433,7 +495,7 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
           <img src="images/Warriors.png
           " height="85" alt=""
                loading="lazy" />
-        <p >WSU MarketShare</p>
+        <p>WSU MarketShare</p>
       </div>
       
 
@@ -450,11 +512,11 @@ document.getElementById('searchInput').addEventListener('keyup', handleSearch);
       <!--Grid column-->
         <div class="footer-section">
           <li>
-            <a href="#top">Home</a></li>
+            <a href="FrontPage.html">Home</a></li>
        <li>
             <a href="Sellpageintro.html">Sell Page</a></li>
       <li>
-            <a href="#!">Account</a></li>				
+            <a href="Profile.html">Account</a></li>				
           </li>
       </div>
    <!--Grid column-->
