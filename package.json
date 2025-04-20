@@ -4,12 +4,13 @@
   "type": "module",
   "description": "WSU MarketShare web application",
   "scripts": {
-    "test": "jest",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "build": "echo 'No build step required for static files'"
   },
   "devDependencies": {
-    "@babel/core": "^7.26.10",
-    "@babel/preset-env": "^7.26.9",
+    "@babel/core": "^7.24.0",
+    "@babel/preset-env": "^7.24.0",
+    "@jest/globals": "^29.7.0",
     "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^6.1.0",
     "babel-jest": "^29.7.0",
