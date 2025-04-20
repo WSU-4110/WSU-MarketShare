@@ -1,21 +1,25 @@
 {
   "name": "wsu-marketshare",
   "version": "1.0.0",
+  "type": "module",
   "description": "WSU MarketShare web application",
   "scripts": {
     "test": "jest",
     "build": "echo 'No build step required for static files'"
   },
   "devDependencies": {
-    "jest": "^29.7.0",
-    "jest-environment-jsdom": "^29.7.0",
+    "@babel/core": "^7.26.10",
+    "@babel/preset-env": "^7.26.9",
+    "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^6.1.0",
-    "@testing-library/dom": "^9.0.0"
+    "babel-jest": "^29.7.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0"
   },
   "dependencies": {
-    "firebase": "^10.6.0",
     "@firebase/app": "^0.9.0",
+    "@firebase/auth": "^1.6.0",
     "@firebase/firestore": "^4.4.0",
-    "@firebase/auth": "^1.6.0"
+    "firebase": "^10.6.0"
   }
 }

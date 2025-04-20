@@ -1,4 +1,5 @@
-import { jest, describe, expect, test, beforeEach } from '@jest/globals';
+import { jest } from '@jest/globals';
+import { describe, expect, test, beforeEach } from '@jest/globals';
 
 // Mock Firebase Auth
 const mockAuth = {
