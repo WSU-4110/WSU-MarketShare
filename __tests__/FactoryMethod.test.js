@@ -18,7 +18,7 @@
 //const { beforeEach } = require('node:test');
 
 //let's test class User for the first test Suite
-const {User, System}  = require('./FactoryMethod');
+const {User, System}  = require('../frontend/FactoryMethod');
 
 
 
