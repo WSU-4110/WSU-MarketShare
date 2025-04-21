@@ -37,22 +37,12 @@ body{
 }
 
 .profile-picture{
-    width: 150px;
-    height: 150px;
+    font-size: 150px;
+    color: grey;
     border-radius: 50%;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    display: block;
-    margin: 0 auto;
-    background-color: #e0e0e0;
-}
+    padding: 20px;
 
-.profile-picture:hover {
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
 }
-
 .profile-container .user-info{
 display: flex;
 flex-direction: column;
@@ -372,7 +362,3 @@ footer {
    .content{
        flex: 1;
    } */
-
-
-
-
