@@ -119,6 +119,7 @@ module.exports = {
     getCurrentUserAsync, 
     getIdToken, 
     getAuthHeaders,
-    auth, // Export auth instance for testing
-    handleAuthStateChanged // Export for testing
+    auth,
+    signOut,
+    onAuthStateChanged
 };

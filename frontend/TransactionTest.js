@@ -1,5 +1,5 @@
 const { getFirestore, collection, addDoc, getDocs, query, where, serverTimestamp } = require('firebase/firestore');
-const { getCurrentUserAsync } = require('../backend/auth.js');
+const { getCurrentUserAsync, auth } = require('../backend/auth.js');
 const { initializeApp } = require('firebase/app');
 
 // Firebase configurations
@@ -18,7 +18,7 @@ const testConfig = {
 };
 
 // Initialize Firebase based on environment
-const app = initializeApp(process.env.NODE_ENV === 'test' ? testConfig : prodConfig);
+const app = process.env.NODE_ENV === 'test' ? initializeApp(testConfig) : initializeApp(prodConfig);
 const db = getFirestore(app);
 
 async function fetchAndDisplayTransactionHistory() {

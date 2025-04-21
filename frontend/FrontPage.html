@@ -174,9 +174,8 @@
       @media (max-width: 576px) {
           #productList {
               padding: 10px;
-          }
           
-          .product {
+              .product {
               min-height: 350px;
           }
       }
@@ -394,10 +393,9 @@
       });
     </script>
    
-    <script type="module">
-    // Update import path to match your project structure
-    import { getCurrentUserAsync, signOut, auth, onAuthStateChanged } from '../backend/auth.js';
-
+    <script>
+    const { getCurrentUserAsync, signOut, auth, onAuthStateChanged } = require('../backend/auth.js');
+    
     async function updateAuthUI() {
         const authContainer = document.getElementById('authContainer');
         

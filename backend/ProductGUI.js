@@ -1,3 +1,5 @@
+const { getCurrentUserAsync, auth, signOut, onAuthStateChanged } = require('../backend/auth.js');
+
 //this function is used to allow me to implement my css to the innnerHTML of the GUI
 function addCSS(){
     //add the GUICSS.css
