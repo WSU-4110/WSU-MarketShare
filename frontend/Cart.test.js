@@ -1,5 +1,5 @@
 import {jest} from '@jest/globals';
-import {Cart} from 'Cart';
+import {Cart} from './Cart';
 
 jest.mock('firebase/app', () => ({
     firestore: jest.fn(() => ({
@@ -124,6 +124,7 @@ test('getItemQuantity returns the correct quantity for an item', () => {
         doc: jest.fn(() => ({
           update: jest.fn(),
         })),
+
       })),
     };
     cart.db = dbMock;
