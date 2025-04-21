@@ -1,15 +1,4 @@
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
-    authDomain: "sell-25f45.firebaseapp.com",
-    projectId: "sell-25f45",
-    storageBucket: "sell-25f45.firebasestorage.app",
-    messagingSenderId: "953873344669",
-    appId: "1:953873344669:web:7b55ea629c5397a72a0c74",
-    measurementId: "G-9DB3NVDSQJ"
-};
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
 
 class Cart {
     constructor() {

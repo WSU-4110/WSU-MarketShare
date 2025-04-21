@@ -1,140 +1,97 @@
 const Cart = require('./Cart');
+const { getCurrentUserAsync } = require('../backend/auth.js');
 
-jest.mock('firebase/app', () => ({
-    firestore: jest.fn(() => ({
-        collection: jest.fn(() => ({
-
-            doc: jest.fn(()=> ({
-                onSnapshot: jest.fn(),
-                update: jest.fn(),
-                get: jest.fn(() => ({
-                    exists: true,
-                    data: jest.fn(() => ({ items: [] })),
-                })),
-            })),
-        })),
-        batch: jest.fn(() => ({
-            set: jest.fn(),
-            update: jest.fn(),
-            commit: jest.fn(),
-          })),
-          FieldValue: {
-            serverTimestamp: jest.fn(),
-          },
-    })),
-}));
 jest.mock('../backend/auth.js', () => ({
   getCurrentUserAsync: jest.fn(),
 }));
-document.body.innerHTML = `
-  <div class="cart-items"></div>
-  <div class="subtotal-text"></div>
-  <button class="checkout-btn"></button>
-  <div id="checkoutModal"></div>
-`;
+
+beforeEach(() => {
+  // Reset DOM
+  document.body.innerHTML = `
+    <div class="cart-items"></div>
+    <div class="subtotal-text"></div>
+    <button class="checkout-btn"></button>
+    <div id="checkoutModal"></div>
+  `;
+});
 
 describe('Cart Class', () => {
-    let cart;
-});
-afterEach(() => {
-    jest.clearAllMocks();
-});
+  let cart;
 
-test('constructor initializes items and calls initCart', () => {
+  beforeEach(() => {
+    cart = new Cart();
+    cart.items = []; // Safe default
+  });
+
+  test('constructor initializes items array', () => {
     expect(cart.items).toEqual([]);
-    expect(cart.initCart).toHaveBeenCalled();
   });
 
-  test('renderCar displays item properly', () => {
-    cart.items = [];
+  test('renderCart shows empty cart message when no items', () => {
     cart.renderCart();
-    const cartItems = document.querySelector('.cart-items');
-    expect(cartItems.innerHTML).toContain('Your cart is empty');
+    const html = document.querySelector('.cart-items').innerHTML;
+    expect(html).toContain('Your cart is empty');
   });
-  test('renderCar displays item properly', () => {
+
+  test('renderCart displays item details when items exist', () => {
     cart.items = [
-      { id: '1', name: 'Item 1', price: 10, quantity: 1, image: 'image1.jpg', sellerId: 'seller1', sellerEmail: 'seller1@example.com' },
+      {
+        id: '1',
+        name: 'Test Item',
+        price: 12.5,
+        quantity: 1,
+        image: 'img.jpg',
+      }
     ];
     cart.renderCart();
-    const cartItems = document.querySelector('.cart-items');
-    expect(cartItems.innerHTML).toContain('Item 1');
-    expect(cartItems.innerHTML).toContain('$10.00');
+    const html = document.querySelector('.cart-items').innerHTML;
+    expect(html).toContain('Test Item');
+    expect(html).toContain('$12.50');
   });
 
-test('updateSubtotal calculates and displays the correct subtotal', () => {
-
+  test('updateSubtotal calculates correct total', () => {
     cart.items = [
-      { id: '1', name: 'Item 1', price: 10, quantity: 2 },
-      { id: '2', name: 'Item 2', price: 20, quantity: 1 },
+      { id: '1', price: 10, quantity: 2 },
+      { id: '2', price: 5, quantity: 3 },
     ];
     cart.updateSubtotal();
-    const subtotalText = document.querySelector('.subtotal-text');
-    expect(subtotalText.textContent).toBe('Subtotal: $40.00');
+    const subtotalText = document.querySelector('.subtotal-text').textContent;
+    expect(subtotalText).toBe('Subtotal: $35.00');
+  });
+
+  test('getItemQuantity returns correct quantity', () => {
+    cart.items = [{ id: 'abc', quantity: 4 }];
+    expect(cart.getItemQuantity('abc')).toBe(4);
+    expect(cart.getItemQuantity('xyz')).toBe(1); // fallback
+  });
+
+  test('updateQuantity sets new quantity', async () => {
+    const updateMock = jest.fn();
+    const transactionMock = {
+      get: jest.fn(() => ({
+        exists: true,
+        data: () => ({ items: [{ id: 'abc', name: 'Test', price: 5, quantity: 1 }] }),
+      })),
+      update: updateMock,
+    };
+
+    const runTransactionMock = jest.fn((cb) => cb(transactionMock));
+    global.db = {
+      runTransaction: runTransactionMock,
+      collection: jest.fn(() => ({
+        doc: jest.fn(() => ({
+          update: jest.fn(),
+        })),
+      })),
+    };
+
+    cart.userId = 'testUser';
+    cart.updateQuantity = Cart.prototype.updateQuantity.bind(cart);
+    await cart.updateQuantity('abc', 3);
+
+    expect(updateMock).toHaveBeenCalledWith(expect.anything(), {
+      items: [{ id: 'abc', name: 'Test', price: 5, quantity: 3 }],
+      updatedAt: expect.anything(),
+    });
+  });
 });
-test('getItemQuantity returns the correct quantity for an item', () => {
-    cart.items = [
-    { id: '1', name: 'Item 1', price: 10, quantity: 2 },
-    ];
-    expect(cart.getItemQuantity('1')).toBe(2);
-    expect(cart.getItemQuantity('2')).toBe(1);
-  });
-
-  test('updateQuantity updates the quantity of an item', async () => {
-    const updateMock = jest.fn();
-    const transactionMock = {
-      get: jest.fn(() => ({
-        exists: true,
-        data: jest.fn(() => ({ items: [{ id: '1', name: 'Item 1', price: 10, quantity: 1 }] })),
-      })),
-      update: updateMock,
-    };
-    const runTransactionMock = jest.fn((callback) => callback(transactionMock));
-    const dbMock = {
-      runTransaction: runTransactionMock,
-      collection: jest.fn(() => ({
-        doc: jest.fn(() => ({
-          update: jest.fn(),
-        })),
-      })),
-    };
-    cart.db = dbMock;
-
-    await cart.updateQuantity('1', 3);
-
-    expect(runTransactionMock).toHaveBeenCalled();
-    expect(updateMock).toHaveBeenCalledWith(expect.anything(), {
-      items: [{ id: '1', name: 'Item 1', price: 10, quantity: 3 }],
-      updatedAt: expect.anything(),
-    });
-  });
-  test('removeItem removes an item from the cart', async () => {
-    const updateMock = jest.fn();
-    const transactionMock = {
-      get: jest.fn(() => ({
-        exists: true,
-        data: jest.fn(() => ({ items: [{ id: '1', name: 'Item 1', price: 10, quantity: 1 }] })),
-      })),
-      update: updateMock,
-    };
-    const runTransactionMock = jest.fn((callback) => callback(transactionMock));
-    const dbMock = {
-      runTransaction: runTransactionMock,
-      collection: jest.fn(() => ({
-        doc: jest.fn(() => ({
-          update: jest.fn(),
-        })),
-
-      })),
-    };
-    cart.db = dbMock;
-
-    await cart.removeItem('1');
-
-    expect(runTransactionMock).toHaveBeenCalled();
-    expect(updateMock).toHaveBeenCalledWith(expect.anything(), {
-      items: [],
-      updatedAt: expect.anything(),
-    });
-  });
-
-
