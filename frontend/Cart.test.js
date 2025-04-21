@@ -6,7 +6,7 @@ jest.mock('../backend/auth.js', () => ({
 }));
 
 beforeEach(() => {
-  // Reset DOM
+
   document.body.innerHTML = `
     <div class="cart-items"></div>
     <div class="subtotal-text"></div>
@@ -20,7 +20,7 @@ describe('Cart Class', () => {
 
   beforeEach(() => {
     cart = new Cart();
-    cart.items = []; // Safe default
+    cart.items = [];
   });
 
   test('constructor initializes items array', () => {
@@ -62,7 +62,7 @@ describe('Cart Class', () => {
   test('getItemQuantity returns correct quantity', () => {
     cart.items = [{ id: 'abc', quantity: 4 }];
     expect(cart.getItemQuantity('abc')).toBe(4);
-    expect(cart.getItemQuantity('xyz')).toBe(1); // fallback
+    expect(cart.getItemQuantity('xyz')).toBe(1);
   });
 
   test('updateQuantity sets new quantity', () => {
