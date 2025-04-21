@@ -62,7 +62,8 @@ test('constructor initializes items and calls initCart', () => {
     expect(cartItems.innerHTML).toContain('$10.00');
   });
 
-  test('updateSubtotal calculates and displays the correct subtotal', () => {
+test('updateSubtotal calculates and displays the correct subtotal', () => {
+
     cart.items = [
       { id: '1', name: 'Item 1', price: 10, quantity: 2 },
       { id: '2', name: 'Item 2', price: 20, quantity: 1 },
@@ -73,7 +74,7 @@ test('constructor initializes items and calls initCart', () => {
 });
 test('getItemQuantity returns the correct quantity for an item', () => {
     cart.items = [
-      { id: '1', name: 'Item 1', price: 10, quantity: 2 },
+    { id: '1', name: 'Item 1', price: 10, quantity: 2 },
     ];
     expect(cart.getItemQuantity('1')).toBe(2);
     expect(cart.getItemQuantity('2')).toBe(1);
@@ -107,4 +108,33 @@ test('getItemQuantity returns the correct quantity for an item', () => {
       updatedAt: expect.anything(),
     });
   });
+  test('removeItem removes an item from the cart', async () => {
+    const updateMock = jest.fn();
+    const transactionMock = {
+      get: jest.fn(() => ({
+        exists: true,
+        data: jest.fn(() => ({ items: [{ id: '1', name: 'Item 1', price: 10, quantity: 1 }] })),
+      })),
+      update: updateMock,
+    };
+    const runTransactionMock = jest.fn((callback) => callback(transactionMock));
+    const dbMock = {
+      runTransaction: runTransactionMock,
+      collection: jest.fn(() => ({
+        doc: jest.fn(() => ({
+          update: jest.fn(),
+        })),
+      })),
+    };
+    cart.db = dbMock;
+
+    await cart.removeItem('1');
+
+    expect(runTransactionMock).toHaveBeenCalled();
+    expect(updateMock).toHaveBeenCalledWith(expect.anything(), {
+      items: [],
+      updatedAt: expect.anything(),
+    });
+  });
+
 
