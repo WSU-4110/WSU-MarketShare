@@ -1,11 +1,15 @@
-const { initializeApp } = require('firebase/app');
-const { getAuth, onAuthStateChanged, signOut } = require('firebase/auth');
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signOut
+} from "https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCf0qCtrXWOB6zFe36qxrxiV30HA2kEJas",
   authDomain: "wayne-state-marketshare.firebaseapp.com",
   projectId: "wayne-state-marketshare",
-  storageBucket: "wayne-state-marketshare.appspot.com",
+  storageBucket: "wayne-state-marketshare.firebaseapp.com",
   messagingSenderId: "11946478991",
   appId: "1:11946478991:web:a2382361767bb0a5e54ffa",
   measurementId: "G-FCRMC500EK"
@@ -35,23 +39,20 @@ const handleAuthStateChanged = (user) => {
 const authListener = onAuthStateChanged(auth, handleAuthStateChanged);
 
 // Async user getter
-function getCurrentUserAsync() {
-    return new Promise((resolve) => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (unsubscribe) {
-                unsubscribe();
-            }
-            resolve(user);
-        });
+const getCurrentUserAsync = () => {
+  return new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      unsubscribe();
+      resolve(user);
     });
-}
+  });
+};
 
 // Token management
 const getIdToken = async () => {
-  const user = auth.currentUser;
-  if (!user) return null;
+  if (!currentUser) return null;
   try {
-    return await user.getIdToken();
+    return await currentUser.getIdToken();
   } catch (error) {
     console.error("Error getting token:", error);
     return null;
@@ -114,11 +115,13 @@ async function updateAuthUI() {
       console.error('Error updating auth UI:', error);
   }
 }
-
-module.exports = { 
-    getCurrentUserAsync, 
-    getIdToken, 
-    getAuthHeaders,
-    auth, // Export auth instance for testing
-    handleAuthStateChanged // Export for testing
+export {
+  auth,
+  currentUser,
+  signOut,
+  getCurrentUserAsync,
+  getIdToken,
+  getAuthHeaders,
+  authListener,
+  onAuthStateChanged
 };
