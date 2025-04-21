@@ -1,4 +1,4 @@
-const Cart = require('./Cart');
+const Cart = require('../frontend/Cart');
 const { getCurrentUserAsync } = require('../backend/auth.js');
 
 jest.mock('../backend/auth.js', () => ({
