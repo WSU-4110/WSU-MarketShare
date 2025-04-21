@@ -1,5 +1,4 @@
-import {jest} from '@jest/globals';
-import {Cart} from './Cart';
+const Cart = require('./Cart');
 
 jest.mock('firebase/app', () => ({
     firestore: jest.fn(() => ({

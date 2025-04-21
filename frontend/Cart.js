@@ -1,7 +1,3 @@
-import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, doc, onSnapshot, runTransaction, writeBatch, FieldValue } from 'firebase/firestore';
-
-import { getCurrentUserAsync, auth } from '../backend/auth.js';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDylHe_iXex8F3He6Ez4P49OmLPQMQ_J6k",
@@ -200,3 +196,5 @@ class Cart {
         });
     }
 }
+
+module.exports = Cart;
