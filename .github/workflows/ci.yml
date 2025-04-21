@@ -2,17 +2,13 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main_Assignment6 ]
   pull_request:
-    branches: [ main ]
+    branches: [ main_Assignment6 ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        firebase_api: [default, m]
 
     steps:
       - uses: actions/checkout@v2
@@ -25,18 +21,12 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          npm install -g firebase-tools
-          npm install --save-dev jest
-
-      - name: Set Firebase API key
-        run: |
-          if [ "${{ matrix.firebase_api }}" = "m" ]; then
-            echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY_M }}" >> $GITHUB_ENV
-          else
-            echo "FIREBASE_API_KEY=${{ secrets.FIREBASE_API_KEY }}" >> $GITHUB_ENV
-          fi
+          npm install --save-dev jest cross-env @babel/core @babel/preset-env babel-jest jest-environment-jsdom
 
       - name: Run tests
         run: npm test
         env:
-          FIREBASE_API_KEY: ${{ env.FIREBASE_API_KEY }}
+          FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          NODE_ENV: 'test'
