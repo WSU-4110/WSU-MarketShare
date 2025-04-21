@@ -1,78 +1,8 @@
-
-
 class Cart {
     constructor() {
         this.items = [];
-        this.initCart();
-    }
-
-    async initCart() {
-        const user = await getCurrentUserAsync();
-        if (!user) {
-            console.log('No user logged in');
-            window.location.href = "login.html";
-            return;
-        }
-        this.userId = user.uid;
-        this.setupFirebaseListener();
+        this.userId = null;
         this.initEventListeners();
-    }
-
-    setupFirebaseListener() {
-        db.collection("carts").doc(this.userId).onSnapshot((doc) => {
-            if (doc.exists) {
-                const cartData = doc.data();
-                this.items = cartData.items || [];
-                this.renderCart();
-                this.updateSubtotal();
-            } else {
-                this.items = [];
-                this.renderCart();
-                this.updateSubtotal();
-            }
-        });
-    }
-
-    async processCheckout() {
-        try {
-            const user = await getCurrentUserAsync();
-            if (!user) {
-                alert('Please log in to checkout');
-                return false;
-            }
-
-            const batch = db.batch();
-            const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-
-            for (const item of this.items) {
-                const transactionRef = db.collection("transactions").doc();
-                batch.set(transactionRef, {
-                    itemId: item.id,
-                    itemName: item.name,
-                    price: item.price,
-                    quantity: item.quantity,
-                    buyerId: user.uid,
-                    buyerEmail: user.email,
-                    sellerId: item.sellerId,
-                    sellerEmail: item.sellerEmail,
-                    createdAt: timestamp,
-                    status: 'completed'
-                });
-            }
-
-            const cartRef = db.collection("carts").doc(this.userId);
-            batch.update(cartRef, {
-                items: [],
-                updatedAt: timestamp
-            });
-
-            await batch.commit();
-            return true;
-        } catch (error) {
-            console.error("Checkout error:", error);
-            alert('Checkout failed. Please try again.');
-            return false;
-        }
     }
 
     renderCart() {
@@ -105,30 +35,16 @@ class Cart {
         `).join('');
     }
 
-    updateQuantity(itemId, newQuantity){
-        console.log('Update quantity of an item ${item.id} to ${newQuantity}');
-        db.runTransaction(async (transaction) => {
-            const cartRef = db.collection("carts").doc(this.userId);
-            const cartDoc = await transaction.get(cartRef);
-            
-            if (cartDoc.exists) {
-                const cartData = cartDoc.data();
-                const itemIndex = cartData.items.findIndex(item => item.id === itemId);
-                
-                if (itemIndex !== -1) {
-                    cartData.items[itemIndex].quantity = Math.max(1, newQuantity);
-                    transaction.update(cartRef, {
-                        items: cartData.items,
-                        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                    });
-                }
-            }
-        }).catch(error => {
-            console.error("Transaction error:", error);
-        });
+    async updateQuantity(itemId, newQuantity) {
+        if (!this.items) return;
+
+        const itemIndex = this.items.findIndex(item => item.id === itemId);
+        if (itemIndex !== -1) {
+            this.items[itemIndex].quantity = Math.max(1, newQuantity);
+        }
     }
 
-    updateSubtotal(){
+    updateSubtotal() {
         const subtotal = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
         document.querySelector('.subtotal-text').textContent = `Subtotal: $${subtotal.toFixed(2)}`;
     }
@@ -152,13 +68,16 @@ class Cart {
             }
         });
 
-        document.querySelector('.checkout-btn').addEventListener('click', () => {
-            if (this.items.length === 0) {
-                alert("Your cart is empty!");
-                return;
-            }
-            document.getElementById('checkoutModal').style.display = 'flex';
-        });
+        const checkoutBtn = document.querySelector('.checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                if (this.items.length === 0) {
+                    alert("Your cart is empty!");
+                    return;
+                }
+                document.getElementById('checkoutModal').style.display = 'flex';
+            });
+        }
     }
 
     getItemQuantity(itemId) {
@@ -166,23 +85,8 @@ class Cart {
         return item ? item.quantity : 1;
     }
 
-    removeItem(itemId){
-        db.runTransaction(async (transaction) => {
-            const cartRef = db.collection("carts").doc(this.userId);
-            const cartDoc = await transaction.get(cartRef);
-            
-            if (cartDoc.exists) {
-                const cartData = cartDoc.data();
-                const updatedItems = cartData.items.filter(item => item.id !== itemId);
-                
-                transaction.update(cartRef, {
-                    items: updatedItems,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-            }
-        }).catch(error => {
-            console.error("Transaction error:", error);
-        });
+    async removeItem(itemId) {
+        this.items = this.items.filter(item => item.id !== itemId);
     }
 }
 

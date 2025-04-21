@@ -65,33 +65,12 @@ describe('Cart Class', () => {
     expect(cart.getItemQuantity('xyz')).toBe(1); // fallback
   });
 
-  test('updateQuantity sets new quantity', async () => {
-    const updateMock = jest.fn();
-    const transactionMock = {
-      get: jest.fn(() => ({
-        exists: true,
-        data: () => ({ items: [{ id: 'abc', name: 'Test', price: 5, quantity: 1 }] }),
-      })),
-      update: updateMock,
-    };
-
-    const runTransactionMock = jest.fn((cb) => cb(transactionMock));
-    global.db = {
-      runTransaction: runTransactionMock,
-      collection: jest.fn(() => ({
-        doc: jest.fn(() => ({
-          update: jest.fn(),
-        })),
-      })),
-    };
-
-    cart.userId = 'testUser';
-    cart.updateQuantity = Cart.prototype.updateQuantity.bind(cart);
-    await cart.updateQuantity('abc', 3);
-
-    expect(updateMock).toHaveBeenCalledWith(expect.anything(), {
-      items: [{ id: 'abc', name: 'Test', price: 5, quantity: 3 }],
-      updatedAt: expect.anything(),
-    });
+  test('updateQuantity sets new quantity', () => {
+    const cart = new Cart();
+    cart.items = [{ id: 'abc', name: 'Test', price: 5, quantity: 1 }];
+  
+    cart.updateQuantity('abc', 3);
+  
+    expect(cart.items).toEqual([{ id: 'abc', name: 'Test', price: 5, quantity: 3 }]);
   });
 });
